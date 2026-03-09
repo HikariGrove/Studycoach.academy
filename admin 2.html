@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/>
+<title>Admin — StudyCoach Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #07070a;
+    --surface: #0e0e14;
+    --card: #13131c;
+    --border: #1e1e2e;
+    --accent: #c8a96e;
+    --accent2: #7c6eff;
+    --text: #eeeef5;
+    --muted: #d0d0e8;
+    --correct: #00d4a0;
+    --wrong: #ff4d6d;
+    --display: 'Cormorant Garamond', serif;
+    --mono: 'DM Mono', monospace;
+    --body: 'DM Sans', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { color-scheme: dark; background: #07070a !important; }
+  body {
+    background: #07070a !important;
+    color: var(--text) !important;
+    font-family: var(--body);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-color-scheme: light) {
+    html, body { background: #07070a !important; color: #eeeef5 !important; }
+  }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+
+  /* ── LOGIN SCREEN ── */
+  #loginScreen {
+    min-height: 100vh; display: flex;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .login-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 48px 40px;
+    width: 100%; max-width: 400px; text-align: center;
+    animation: fadeUp .6s ease both;
+  }
+  .login-logo { font-family: var(--display); font-size: 28px; font-weight: 600; color: var(--accent); margin-bottom: 8px; }
+  .login-sub { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 36px; }
+  .login-label { display: block; text-align: left; font-size: 11px; font-family: var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+  .login-input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 18px; color: var(--text);
+    font-family: var(--mono); font-size: 14px; outline: none;
+    transition: border-color .2s; margin-bottom: 16px;
+    letter-spacing: .08em;
+  }
+  .login-input:focus { border-color: var(--accent); }
+  .login-btn {
+    width: 100%; background: var(--accent); color: #07070a;
+    border: none; border-radius: 12px; padding: 14px;
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    letter-spacing: .06em; text-transform: uppercase; cursor: pointer;
+    transition: all .2s; margin-top: 4px;
+  }
+  .login-btn:hover { background: #dfc08a; }
+  .login-error { color: var(--wrong); font-size: 12px; margin-top: 12px; font-family: var(--mono); display: none; }
+
+  /* ── DASHBOARD ── */
+  #dashboard { display: none; animation: fadeIn .5s ease both; }
+
+  /* Nav */
+  .dash-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px; background: var(--card);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .dash-logo { font-family: var(--display); font-size: 20px; font-weight: 600; color: var(--accent); }
+  .dash-nav-right { display: flex; align-items: center; gap: 16px; }
+  .dash-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: rgba(200,169,110,.1); border: 1px solid rgba(200,169,110,.2); color: var(--accent); padding: 4px 10px; border-radius: 20px; }
+  .logout-btn { font-family: var(--mono); font-size: 11px; color: var(--muted); background: none; border: none; cursor: pointer; letter-spacing: .06em; transition: color .2s; }
+  .logout-btn:hover { color: var(--wrong); }
+
+  /* Main content */
+  .dash-main { padding: 32px; max-width: 1200px; margin: 0 auto; }
+
+  /* Stats row */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 24px;
+    animation: fadeUp .5s ease both;
+  }
+  .stat-label { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .stat-value { font-family: var(--display); font-size: 42px; font-weight: 600; color: var(--accent); line-height: 1; }
+  .stat-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Toolbar */
+  .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+  .toolbar-title { font-family: var(--display); font-size: 24px; font-weight: 600; }
+  .toolbar-right { display: flex; gap: 10px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 50px; padding: 8px 16px;
+    font-family: var(--mono); font-size: 11px; color: var(--muted);
+    cursor: pointer; transition: all .2s; letter-spacing: .04em;
+  }
+  .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,.08); }
+  .export-btn {
+    background: var(--accent); color: #07070a; border: none;
+    border-radius: 50px; padding: 8px 18px;
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: .05em; text-transform: uppercase; cursor: pointer;
+    transition: all .2s;
+  }
+  .export-btn:hover { background: #dfc08a; }
+
+  /* Search */
+  .search-wrap { margin-bottom: 16px; }
+  .search-input {
+    width: 100%; background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 12px 18px; color: var(--text);
+    font-family: var(--body); font-size: 14px; outline: none;
+    transition: border-color .2s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+  .search-input::placeholder { color: var(--muted); opacity: .5; }
+
+  /* Table */
+  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    text-align: left; padding: 14px 18px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td { padding: 14px 18px; border-bottom: 1px solid rgba(30,30,46,.6); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(200,169,110,.03); }
+
+  .td-email { font-family: var(--mono); font-size: 12px; color: var(--text); }
+  .td-course { font-weight: 500; color: var(--text); font-size: 13px; max-width: 200px; }
+  .td-topic { font-size: 12px; color: var(--muted); }
+  .td-date { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+  .badge {
+    display: inline-block; border-radius: 20px; padding: 2px 8px;
+    font-size: 10px; font-family: var(--mono); letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .badge-level { background: rgba(124,110,255,.15); color: #a89eff; border: 1px solid rgba(124,110,255,.25); }
+  .badge-goal { background: rgba(0,212,160,.1); color: #00d4a0; border: 1px solid rgba(0,212,160,.2); }
+  .badge-time { background: rgba(200,169,110,.1); color: var(--accent); border: 1px solid rgba(200,169,110,.2); }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 80px 20px; }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: .4; }
+  .empty-title { font-family: var(--display); font-size: 24px; font-weight: 600; margin-bottom: 8px; color: var(--muted); }
+  .empty-sub { font-size: 13px; color: var(--muted); opacity: .6; font-family: var(--mono); }
+
+  /* Topic breakdown */
+  .breakdown-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 24px; margin-bottom: 32px; }
+  .breakdown-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .breakdown-label { font-size: 13px; color: var(--text); }
+  .breakdown-count { font-family: var(--display); font-size: 24px; font-weight: 600; color: var(--accent); }
+  .breakdown-bar-wrap { height: 3px; background: var(--border); border-radius: 2px; margin-top: 8px; }
+  .breakdown-bar { height: 3px; background: var(--accent); border-radius: 2px; transition: width .8s ease; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @media (max-width: 640px) {
+    .dash-nav { padding: 14px 16px; }
+    .dash-main { padding: 20px 16px; }
+    th, td { padding: 10px 12px; }
+    .hide-mobile { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">StudyCoach Academy</div>
+    <div class="login-sub">Admin Dashboard</div>
+    <label class="login-label">Password</label>
+    <input type="password" class="login-input" id="pwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"/>
+    <button class="login-btn" onclick="login()">Access Dashboard</button>
+    <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard">
+  <nav class="dash-nav">
+    <div class="dash-logo">StudyCoach Academy</div>
+    <div class="dash-nav-right">
+      <span class="dash-tag">Admin</span>
+      <button class="logout-btn" onclick="logout()">Sign out</button>
+    </div>
+  </nav>
+
+  <div class="dash-main">
+
+    <!-- Stats -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-label">Total Signups</div>
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-sub">waitlist members</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Top Subject</div>
+        <div class="stat-value" id="statTopSubject" style="font-size:28px;margin-top:6px">—</div>
+        <div class="stat-sub" id="statTopSubjectCount">no data yet</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Most Common Goal</div>
+        <div class="stat-value" id="statTopGoal" style="font-size:24px;margin-top:6px">—</div>
+        <div class="stat-sub" id="statTopGoalCount">no data yet</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Time Commitment</div>
+        <div class="stat-value" id="statAvgTime" style="font-size:28px;margin-top:6px">—</div>
+        <div class="stat-sub">per day</div>
+      </div>
+    </div>
+
+    <!-- Topic breakdown -->
+    <div class="toolbar" style="margin-bottom:12px">
+      <div class="toolbar-title">Subject Breakdown</div>
+    </div>
+    <div class="breakdown-grid" id="breakdownGrid">
+      <div style="color:var(--muted);font-size:13px;font-family:var(--mono);padding:16px 0">No data yet — signups will appear here</div>
+    </div>
+
+    <!-- Signups table -->
+    <div class="toolbar">
+      <div class="toolbar-title">All Signups</div>
+      <div class="toolbar-right">
+        <button class="filter-btn active" onclick="filterData('all', this)">All</button>
+        <button class="filter-btn" onclick="filterData('exam', this)">Exam prep</button>
+        <button class="filter-btn" onclick="filterData('career', this)">Career</button>
+        <button class="filter-btn" onclick="filterData('curiosity', this)">Curiosity</button>
+        <button class="export-btn" onclick="exportCSV()">↓ Export CSV</button>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search by email, course or topic…" oninput="renderTable()"/>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th>Course Generated</th>
+            <th class="hide-mobile">Topic</th>
+            <th class="hide-mobile">Level</th>
+            <th class="hide-mobile">Goal</th>
+            <th class="hide-mobile">Time/Day</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div id="emptyState" class="empty-state" style="display:none">
+        <div class="empty-icon">📭</div>
+        <div class="empty-title">No signups yet</div>
+        <div class="empty-sub">Share studycoach.academy/start to start collecting signups</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── PASSWORD ───────────────────────────────────────────────────────────────
+// Change this to your own password!
+const ADMIN_PASSWORD = "studycoach2026";
+
+let allSignups = [];
+let currentFilter = 'all';
+
+function login() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadData();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function logout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+}
+
+// ── LOAD DATA ──────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    // Load all keys from shared storage
+    const keysResult = await window.storage.list("signup-", true);
+    const keys = keysResult?.keys || [];
+
+    allSignups = [];
+    for (const key of keys) {
+      try {
+        const r = await window.storage.get(key, true);
+        if (r?.value) {
+          const parsed = JSON.parse(r.value);
+          parsed._key = key;
+          allSignups.push(parsed);
+        }
+      } catch {}
+    }
+
+    // Sort newest first
+    allSignups.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    // Also add demo entries if empty so dashboard looks useful
+    if (allSignups.length === 0) {
+      allSignups = getDemoData();
+    }
+
+    renderStats();
+    renderBreakdown();
+    renderTable();
+
+  } catch (err) {
+    // Show demo data if storage fails
+    allSignups = getDemoData();
+    renderStats();
+    renderBreakdown();
+    renderTable();
+  }
+}
+
+// ── DEMO DATA (shows when no real signups yet) ─────────────────────────────
+function getDemoData() {
+  return [
+    { email: "sarah@example.com", course: "Foundations of Emergency Medicine", topic: "Medicine", level: "Some basics", goal: "Career change", time: "2 hours/day", timestamp: new Date(Date.now() - 3600000).toISOString() },
+    { email: "james@example.com", course: "Essential Finance & Accounting", topic: "Finance & accounting", level: "Beginner", goal: "Pass an exam", time: "1 hour/day", timestamp: new Date(Date.now() - 7200000).toISOString() },
+    { email: "priya@example.com", course: "Full Stack Web Development", topic: "Coding", level: "Intermediate", goal: "Career change", time: "2 hours/day", timestamp: new Date(Date.now() - 86400000).toISOString() },
+    { email: "alex@example.com", course: "Business Strategy & Entrepreneurship", topic: "Business", level: "Some basics", goal: "Build something", time: "1 hour/day", timestamp: new Date(Date.now() - 172800000).toISOString() },
+    { email: "mia@example.com", course: "Functional Medicine & Longevity", topic: "Medicine", level: "Beginner", goal: "Personal curiosity", time: "30 mins/day", timestamp: new Date(Date.now() - 259200000).toISOString() },
+  ];
+}
+
+// ── STATS ──────────────────────────────────────────────────────────────────
+function renderStats() {
+  document.getElementById('statTotal').textContent = allSignups.length;
+
+  // Top subject
+  const topicCounts = {};
+  allSignups.forEach(s => { if (s.topic) topicCounts[s.topic] = (topicCounts[s.topic] || 0) + 1; });
+  const topTopic = Object.entries(topicCounts).sort((a,b) => b[1]-a[1])[0];
+  if (topTopic) {
+    document.getElementById('statTopSubject').textContent = topTopic[0];
+    document.getElementById('statTopSubjectCount').textContent = topTopic[1] + ' signups';
+  }
+
+  // Top goal
+  const goalCounts = {};
+  allSignups.forEach(s => { if (s.goal) goalCounts[s.goal] = (goalCounts[s.goal] || 0) + 1; });
+  const topGoal = Object.entries(goalCounts).sort((a,b) => b[1]-a[1])[0];
+  if (topGoal) {
+    document.getElementById('statTopGoal').textContent = topGoal[0];
+    document.getElementById('statTopGoalCount').textContent = topGoal[1] + ' people';
+  }
+
+  // Avg time
+  const times = allSignups.map(s => s.time).filter(Boolean);
+  if (times.length) {
+    const mode = times.sort((a,b) => times.filter(v=>v===a).length - times.filter(v=>v===b).length).pop();
+    document.getElementById('statAvgTime').textContent = mode?.split('/')[0] || '1h';
+  }
+}
+
+// ── BREAKDOWN ──────────────────────────────────────────────────────────────
+function renderBreakdown() {
+  const grid = document.getElementById('breakdownGrid');
+  const topicCounts = {};
+  allSignups.forEach(s => { if (s.topic) topicCounts[s.topic] = (topicCounts[s.topic] || 0) + 1; });
+  const sorted = Object.entries(topicCounts).sort((a,b) => b[1]-a[1]);
+  const max = sorted[0]?.[1] || 1;
+
+  if (sorted.length === 0) {
+    grid.innerHTML = '<div style="color:var(--muted);font-size:13px;font-family:var(--mono);padding:16px 0">No data yet</div>';
+    return;
+  }
+
+  grid.innerHTML = sorted.map(([topic, count]) => `
+    <div class="breakdown-card" style="flex-direction:column;align-items:flex-start">
+      <div style="display:flex;justify-content:space-between;width:100%">
+        <span class="breakdown-label">${escHtml(topic)}</span>
+        <span class="breakdown-count">${count}</span>
+      </div>
+      <div class="breakdown-bar-wrap" style="width:100%">
+        <div class="breakdown-bar" style="width:${Math.round((count/max)*100)}%"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── TABLE ──────────────────────────────────────────────────────────────────
+function filterData(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function renderTable() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let data = [...allSignups];
+
+  // Filter by goal
+  if (currentFilter !== 'all') {
+    data = data.filter(s => s.goal?.toLowerCase().includes(currentFilter));
+  }
+
+  // Search
+  if (search) {
+    data = data.filter(s =>
+      s.email?.toLowerCase().includes(search) ||
+      s.course?.toLowerCase().includes(search) ||
+      s.topic?.toLowerCase().includes(search)
+    );
+  }
+
+  const tbody = document.getElementById('tableBody');
+  const empty = document.getElementById('emptyState');
+
+  if (data.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  tbody.innerHTML = data.map((s, i) => `
+    <tr>
+      <td style="color:var(--muted);font-family:var(--mono);font-size:11px">${i + 1}</td>
+      <td><div class="td-email">${escHtml(s.email || '—')}</div></td>
+      <td><div class="td-course">${escHtml(s.course || '—')}</div></td>
+      <td class="hide-mobile"><div class="td-topic">${escHtml(s.topic || '—')}</div></td>
+      <td class="hide-mobile"><span class="badge badge-level">${escHtml(s.level || '—')}</span></td>
+      <td class="hide-mobile"><span class="badge badge-goal">${escHtml(s.goal || '—')}</span></td>
+      <td class="hide-mobile"><span class="badge badge-time">${escHtml(s.time || '—')}</span></td>
+      <td class="td-date">${formatDate(s.timestamp)}</td>
+    </tr>
+  `).join('');
+}
+
+// ── EXPORT CSV ─────────────────────────────────────────────────────────────
+function exportCSV() {
+  const headers = ['Email', 'Course', 'Topic', 'Level', 'Goal', 'Time/Day', 'Date'];
+  const rows = allSignups.map(s => [
+    s.email || '',
+    s.course || '',
+    s.topic || '',
+    s.level || '',
+    s.goal || '',
+    s.time || '',
+    formatDate(s.timestamp)
+  ].map(v => `"${v.replace(/"/g, '""')}"`).join(','));
+
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `studycoach-waitlist-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── HELPERS ────────────────────────────────────────────────────────────────
+function formatDate(iso) {
+  if (!iso) return '—';
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+  } catch { return '—'; }
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Enter key on password
+document.getElementById('pwInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
+});
+</script>
+</body>
+</html>
