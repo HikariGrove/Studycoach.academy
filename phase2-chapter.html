@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/>
+<meta name="theme-color" content="#070709"/>
+<style>html,body{background:#070709 !important}</style>
+<title>Phase 2 — Fundamental & Technical Analysis · Investor's Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#070709;--surface:#0e0e12;--card:#13131a;--border:#1e1e2e;
+  --accent:#e8c97a;--accent2:#4f8cff;--accent3:#00d4a0;--danger:#ff4d6d;
+  --text:#e8e8f0;--muted:#b0b0c8;
+  --display:'Cormorant Garamond',serif;--mono:'DM Mono',monospace;--body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#070709 !important;color-scheme:dark}
+body{background:#070709 !important;color:#e8e8f0 !important;font-family:var(--body);font-size:15px;line-height:1.7;overflow-x:hidden}
+.app,.main,.sidebar,.lesson-panel{background:#070709}
+.sidebar{background:#0e0e12 !important}
+@media(prefers-color-scheme:light){
+  html,body{background:#070709 !important;color:#e8e8f0 !important}
+  .app,.main,.lesson-panel{background:#070709 !important}
+  .sidebar{background:#0e0e12 !important}
+}
+
+/* grain */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,201,122,.4)}50%{box-shadow:0 0 0 8px rgba(232,201,122,0)}}
+
+/* ── TICKER ── */
+.ticker-wrap{overflow:hidden;background:#060608;border-bottom:1px solid var(--border);padding:.38rem 0;position:sticky;top:60px;z-index:400}
+.ticker-track{display:flex;gap:2.5rem;width:max-content;animation:ticker 36s linear infinite;font-family:var(--mono);font-size:.73rem}
+.tick-item{white-space:nowrap;color:var(--muted)}
+.tick-up{color:var(--accent3)}.tick-dn{color:var(--danger)}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:500;background:rgba(7,7,9,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-left{display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.nav-back:hover{color:var(--accent)}
+.nav-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--accent)}
+.nav-progress{display:flex;align-items:center;gap:.75rem}
+.progress-bar{width:140px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),#7fb4ff);border-radius:2px;transition:width .5s ease}
+.progress-lbl{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+
+/* ── SIDEBAR ── */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:82px;height:calc(100vh - 82px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.4rem;margin-top:.5rem}
+.sb-item{display:flex;align-items:center;gap:.7rem;padding:.6rem 1.4rem;cursor:pointer;transition:all .2s;border-left:2px solid transparent;font-size:.86rem;color:var(--muted)}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sb-item.active{color:var(--accent2);border-left-color:var(--accent2);background:rgba(79,140,255,.06)}
+.sb-item.done{color:var(--accent3)}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.sb-item.active .sb-dot{background:var(--accent2);animation:pulse 2s infinite}
+.sb-item.done .sb-dot{background:var(--accent3)}
+
+/* ── MAIN ── */
+.main{padding:3rem 3rem 6rem;max-width:820px}
+
+/* ── LESSON HERO ── */
+.lesson-hero{margin-bottom:3rem;animation:fadeUp .6s ease both}
+.lesson-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:.6rem}
+.lesson-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.08;margin-bottom:1rem}
+.lesson-title em{font-style:italic;background:linear-gradient(135deg,var(--accent2) 0%,#a0c4ff 50%,var(--accent2) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+.lesson-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.lmeta{font-family:var(--mono);font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
+.lesson-intro{font-size:1.05rem;color:var(--muted);line-height:1.75;border-left:3px solid var(--accent2);padding-left:1.25rem}
+
+/* ── CONTENT ── */
+.lesson-section{margin:2.5rem 0}
+.ls-heading{font-family:var(--display);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--text)}
+.ls-body{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+
+/* ── DICTIONARY ── */
+.def{border-bottom:1px dashed var(--accent);color:var(--accent);cursor:pointer;transition:all .2s}
+.def:hover{background:rgba(232,201,122,.1);border-radius:2px}
+.dict-popup{position:fixed;z-index:8000;background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:1rem 1.2rem;max-width:310px;box-shadow:0 8px 40px rgba(0,0,0,.7);animation:popIn .2s ease both;pointer-events:none}
+.dict-popup.visible{pointer-events:auto}
+.dict-word{font-family:var(--mono);font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.dict-def{font-size:.84rem;color:var(--text);line-height:1.6}
+.dict-close{position:absolute;top:.5rem;right:.7rem;color:var(--muted);cursor:pointer;font-size:.9rem}
+.dict-close:hover{color:var(--text)}
+.dict-example{margin-top:.6rem;font-size:.78rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:.5rem}
+#dict-overlay{position:fixed;inset:0;z-index:7999;display:none}
+#dict-overlay.visible{display:block}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:10px;padding:1.1rem 1.3rem;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-title{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.callout.gold{background:rgba(232,201,122,.08);border:1px solid rgba(232,201,122,.2)}.callout.gold .callout-title{color:var(--accent)}
+.callout.blue{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)}.callout.blue .callout-title{color:var(--accent2)}
+.callout.green{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2)}.callout.green .callout-title{color:var(--accent3)}
+.callout.red{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2)}.callout.red .callout-title{color:var(--danger)}
+.callout p{color:var(--muted)}
+
+/* ── CASE STUDY ── */
+.case-study{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);border-radius:0 0 10px 10px;padding:1.5rem;margin:2rem 0}
+.cs-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.cs-icon{font-size:1.5rem}
+.cs-meta{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.cs-title{font-weight:600;font-size:1rem;margin-top:.15rem}
+.cs-body{font-size:.87rem;color:var(--muted);line-height:1.8}
+.cs-stat{display:inline-block;background:rgba(232,201,122,.1);border:1px solid rgba(232,201,122,.2);border-radius:6px;padding:.3rem .7rem;font-family:var(--mono);font-size:.78rem;color:var(--accent);margin:.2rem .2rem 0 0}
+
+/* ── CHARTS ── */
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.chart-title{font-family:var(--mono);font-size:.73rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1.25rem}
+.bar-chart{display:flex;flex-direction:column;gap:.7rem}
+.bar-row{display:grid;grid-template-columns:120px 1fr 80px;gap:.75rem;align-items:center;font-size:.82rem}
+.bar-label{color:var(--muted);text-align:right;font-size:.78rem}
+.bar-track{height:26px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.6rem;font-size:.72rem;font-family:var(--mono);color:rgba(0,0,0,.85);font-weight:600;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.bar-val{font-family:var(--mono);font-size:.78rem;color:var(--text);text-align:right}
+
+/* ── DATA TABLE ── */
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.data-table th{padding:.55rem .85rem;background:rgba(255,255,255,.04);border:1px solid var(--border);font-weight:500;color:var(--muted);font-family:var(--mono);font-size:.7rem;text-align:left;text-transform:uppercase;letter-spacing:.06em}
+.data-table td{padding:.6rem .85rem;border:1px solid rgba(255,255,255,.05);color:var(--muted);vertical-align:top}
+.data-table td:first-child{color:var(--text);font-weight:500}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table tr.hl td{color:var(--accent);background:rgba(232,201,122,.05)}
+.badge{display:inline-block;padding:.18rem .5rem;border-radius:4px;font-family:var(--mono);font-size:.67rem;text-transform:uppercase;letter-spacing:.04em}
+.badge.g{background:rgba(0,212,160,.15);color:var(--accent3)}
+.badge.b{background:rgba(79,140,255,.15);color:var(--accent2)}
+.badge.y{background:rgba(232,201,122,.15);color:var(--accent)}
+.badge.r{background:rgba(255,77,109,.15);color:var(--danger)}
+
+/* ── INCOME STATEMENT VISUAL ── */
+.is-flow{display:flex;flex-direction:column;gap:.4rem;margin-top:1rem}
+.is-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;border-radius:6px;font-size:.85rem}
+.is-row.rev{background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.2)}
+.is-row.cogs{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.15)}
+.is-row.gross{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)}
+.is-row.opex{background:rgba(255,77,109,.06);border:1px solid rgba(255,77,109,.1)}
+.is-row.ebit{background:rgba(232,201,122,.08);border:1px solid rgba(232,201,122,.2)}
+.is-row.net{background:rgba(0,212,160,.12);border:1px solid rgba(0,212,160,.3)}
+.is-label{font-weight:500;color:var(--text)}
+.is-val{font-family:var(--mono);font-size:.82rem}
+.is-val.pos{color:var(--accent3)}
+.is-val.neg{color:var(--danger)}
+.is-val.neu{color:var(--accent)}
+.is-arrow{color:var(--muted);font-size:.75rem;margin:.1rem 0;padding-left:1.5rem}
+
+/* ── MOAT GRID ── */
+.moat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.moat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem}
+.moat-card:hover{border-color:rgba(232,201,122,.3);transform:translateY(-2px);transition:all .25s}
+.moat-icon{font-size:1.4rem;margin-bottom:.5rem}
+.moat-name{font-weight:600;font-size:.9rem;margin-bottom:.3rem}
+.moat-desc{font-size:.8rem;color:var(--muted);line-height:1.6}
+.moat-eg{font-family:var(--mono);font-size:.72rem;color:var(--accent2);margin-top:.4rem}
+
+/* ── CYCLE DIAGRAM ── */
+.cycle-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.cycle-cell{border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center}
+.cycle-cell.boom{border-color:rgba(0,212,160,.3);background:rgba(0,212,160,.06)}
+.cycle-cell.peak{border-color:rgba(232,201,122,.3);background:rgba(232,201,122,.06)}
+.cycle-cell.bust{border-color:rgba(255,77,109,.3);background:rgba(255,77,109,.06)}
+.cycle-cell.recov{border-color:rgba(79,140,255,.3);background:rgba(79,140,255,.06)}
+.cycle-icon{font-size:1.5rem;margin-bottom:.4rem}
+.cycle-label{font-size:.82rem;font-weight:600;margin-bottom:.3rem}
+.cycle-sub{font-size:.74rem;color:var(--muted);line-height:1.5}
+
+/* ── PULL QUOTE ── */
+.pull-quote{border-left:3px solid var(--accent);padding:1rem 1.5rem;margin:2rem 0;font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--text);line-height:1.6}
+.pull-quote cite{display:block;margin-top:.5rem;font-family:var(--body);font-style:normal;font-size:.78rem;color:var(--muted)}
+
+/* ── TAKEAWAYS ── */
+.takeaways{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin:2rem 0}
+.takeaways-title{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent2);margin-bottom:.75rem}
+.takeaways ul{list-style:none}
+.takeaways ul li{padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.86rem;color:var(--muted);display:flex;gap:.6rem;align-items:flex-start}
+.takeaways ul li:last-child{border-bottom:none}
+.takeaways ul li::before{content:'→';color:var(--accent2);flex-shrink:0;margin-top:.05rem}
+
+/* ── KNOWLEDGE CHECK ── */
+.kcheck{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin:2.5rem 0}
+.kcheck-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.kcheck-icon{font-size:1.3rem}
+.kcheck-title{font-weight:600}
+.kcheck-sub{font-size:.8rem;color:var(--muted);margin-top:.1rem}
+.kq{margin-bottom:1.5rem}
+.kq-text{font-size:.9rem;font-weight:500;margin-bottom:.7rem}
+.kq-opts{display:flex;flex-direction:column;gap:.45rem}
+.kq-opt{padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.84rem;color:var(--muted);background:var(--card);transition:all .2s;text-align:left;width:100%}
+.kq-opt:hover:not(.locked){border-color:var(--accent2);color:var(--text)}
+.kq-opt.correct{border-color:var(--accent3);background:rgba(0,212,160,.1);color:var(--accent3)}
+.kq-opt.wrong{border-color:var(--danger);background:rgba(255,77,109,.1);color:var(--danger)}
+.kq-opt.locked{cursor:default}
+.kq-feedback{font-size:.82rem;margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;display:none}
+.kq-feedback.show{display:block}
+.kq-feedback.ok{background:rgba(0,212,160,.1);color:var(--accent3);border:1px solid rgba(0,212,160,.2)}
+.kq-feedback.bad{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.2)}
+.kcheck-result{display:none;margin-top:1rem;padding:.9rem 1rem;border-radius:8px;font-weight:600;text-align:center;font-size:.9rem}
+.kcheck-result.show{display:block}
+.kcheck-result.pass{background:rgba(0,212,160,.1);color:var(--accent3);border:1px solid rgba(0,212,160,.25)}
+.kcheck-result.fail{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.25)}
+
+/* ── LESSON NAV ── */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.btn-lnav{padding:.7rem 1.4rem;border-radius:6px;font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-prev{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-prev:hover{border-color:var(--accent2);color:var(--accent2)}
+.btn-next{background:var(--accent2);border:none;color:#fff;font-weight:600}.btn-next:hover{opacity:.88;transform:translateY(-1px)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.lnav-mid{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:center}
+
+/* ── LESSON PANELS ── */
+.lesson-panel{display:none;animation:fadeUp .5s ease both}
+.lesson-panel.active{display:block}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:1.5rem 1.2rem 5rem}
+  .nav-progress{display:none}
+  .moat-grid{grid-template-columns:1fr}
+  .cycle-wrap{grid-template-columns:1fr}
+  .bar-row{grid-template-columns:80px 1fr 60px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a class="nav-back" href="investing-course.html">← Course Home</a>
+    <div style="width:1px;height:20px;background:var(--border)"></div>
+    <div class="nav-title">Phase 2 — Analysis</div>
+  </div>
+  <div class="nav-progress">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:10%"></div></div>
+    <div class="progress-lbl" id="prog-lbl">1 / 10 lessons</div>
+  </div>
+</nav>
+
+<!-- TICKER — Phase 2 themed: valuation & analysis metrics -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="tick-item">AAPL P/E <span class="tick-up">28.4×</span></span>
+    <span class="tick-item">MSFT EV/EBITDA <span class="tick-up">24.1×</span></span>
+    <span class="tick-item">TSLA P/S <span class="tick-dn">6.2×</span></span>
+    <span class="tick-item">S&P 500 CAPE <span class="tick-up">31.2</span></span>
+    <span class="tick-item">US 10Y YIELD <span class="tick-up">4.45%</span></span>
+    <span class="tick-item">BUFFETT INDICATOR <span class="tick-dn">▼ 184%</span></span>
+    <span class="tick-item">NVDA FCF YIELD <span class="tick-up">2.8%</span></span>
+    <span class="tick-item">AMZN EV/EBITDA <span class="tick-up">18.3×</span></span>
+    <span class="tick-item">GOOG P/E <span class="tick-up">22.1×</span></span>
+    <span class="tick-item">META ROE <span class="tick-up">▲ 34%</span></span>
+    <span class="tick-item">BRKA P/B <span class="tick-up">1.6×</span></span>
+    <span class="tick-item">AAPL P/E <span class="tick-up">28.4×</span></span>
+    <span class="tick-item">MSFT EV/EBITDA <span class="tick-up">24.1×</span></span>
+    <span class="tick-item">TSLA P/S <span class="tick-dn">6.2×</span></span>
+    <span class="tick-item">S&P 500 CAPE <span class="tick-up">31.2</span></span>
+    <span class="tick-item">US 10Y YIELD <span class="tick-up">4.45%</span></span>
+    <span class="tick-item">BUFFETT INDICATOR <span class="tick-dn">▼ 184%</span></span>
+    <span class="tick-item">NVDA FCF YIELD <span class="tick-up">2.8%</span></span>
+  </div>
+</div>
+
+<!-- DICTIONARY -->
+<div id="dict-overlay"></div>
+<div class="dict-popup" id="dict-popup">
+  <div class="dict-close" id="dict-close">✕</div>
+  <div class="dict-word" id="dict-word"></div>
+  <div class="dict-def" id="dict-def"></div>
+  <div class="dict-example" id="dict-example"></div>
+</div>
+
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-label">Phase 2 Lessons</div>
+  <div class="sb-item active" onclick="goLesson(0)"><div class="sb-dot"></div>1. Reading Financial Statements</div>
+  <div class="sb-item" onclick="goLesson(1)"><div class="sb-dot"></div>2. Key Financial Ratios</div>
+  <div class="sb-item" onclick="goLesson(2)"><div class="sb-dot"></div>3. DCF Valuation</div>
+  <div class="sb-item" onclick="goLesson(3)"><div class="sb-dot"></div>4. Economic Moats</div>
+  <div class="sb-item" onclick="goLesson(4)"><div class="sb-dot"></div>5. Macro & Business Cycle</div>
+  <div class="sb-item" onclick="goLesson(5)"><div class="sb-dot"></div>6. Technical Analysis</div>
+  <div class="sb-item" onclick="goLesson(6)"><div class="sb-dot"></div>7. Industry Analysis</div>
+  <div class="sb-item" onclick="goLesson(7)"><div class="sb-dot"></div>8. Management Quality</div>
+  <div class="sb-item" onclick="goLesson(8)"><div class="sb-dot"></div>9. Short Selling & Fraud</div>
+  <div class="sb-item" onclick="goLesson(9)"><div class="sb-dot"></div>10. Special Situations</div>
+  <div class="sb-label" style="margin-top:1rem">All Phases</div>
+  <div class="sb-item" onclick="window.location='phase1-chapter.html'"><div class="sb-dot" style="background:var(--accent3)"></div>Phase 1 — Basics</div>
+  <div class="sb-item" style="color:var(--accent2);border-left:2px solid var(--accent2);background:rgba(79,140,255,.06)"><div class="sb-dot" style="background:var(--accent2)"></div>← Phase 2 (here)</div>
+  <div class="sb-item" onclick="window.location='phase3-chapter.html'"><div class="sb-dot" style="background:#00d4a0"></div>Phase 3 — Portfolios</div>
+  <div class="sb-item" onclick="window.location='phase4-chapter.html'"><div class="sb-dot" style="background:#a855f7"></div>Phase 4 — Hedge Funds</div>
+  <div class="sb-item" onclick="window.location='phase5-chapter.html'"><div class="sb-dot" style="background:#f59e0b"></div>Phase 5 — Launch a Fund</div>
+  <div class="sb-item" onclick="window.location='investing-course.html'"><div class="sb-dot" style="background:#555"></div>↩ Course Home</div>
+</aside>
+
+<main class="main" id="main-content">
+
+<!-- ═══════════════════════════════
+  LESSON 1 — FINANCIAL STATEMENTS
+═══════════════════════════════ -->
+<div class="lesson-panel active" id="lesson-0">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 1 of 10</div>
+    <h1 class="lesson-title">Reading Financial Statements <em>Like a Pro</em></h1>
+    <div class="lesson-meta">
+      <span class="lmeta">⏱ 16 min read</span>
+      <span class="lmeta">📊 3 visual diagrams</span>
+      <span class="lmeta">🧠 Knowledge check included</span>
+      <span class="lmeta">💡 Tap gold words for definitions</span>
+    </div>
+    <p class="lesson-intro">Every public company must publish three financial statements. Together they tell the complete story of a business — its profitability, financial health, and actual cash generation. Master these and you can analyse any company on earth.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Three Statements — and Why Each Matters</h2>
+    <p class="ls-body">The <span class="def" data-word="Income Statement" data-def="Also called the Profit & Loss (P&L). Shows a company's revenues, costs, and profit over a specific period (quarter or year). Answers: is the business profitable?" data-ex="Example: Apple's 2023 Income Statement shows Revenue of $383B, Cost of Goods Sold of $214B, and Net Income of $97B.">Income Statement</span> shows what a company earned and spent. The <span class="def" data-word="Balance Sheet" data-def="A snapshot of what a company owns (assets), owes (liabilities), and the residual value for shareholders (equity) at a single point in time. The fundamental equation: Assets = Liabilities + Equity." data-ex="Example: If Apple has $353B in assets and $290B in liabilities, shareholders' equity is $63B.">Balance Sheet</span> shows what it owns and owes. The <span class="def" data-word="Cash Flow Statement" data-def="Tracks the actual movement of cash in and out of a business across three activities: Operations, Investing, and Financing. The most honest of the three statements — cash is hard to fake." data-ex="Example: A company can show a £10M net profit on the income statement but negative operating cash flow if customers haven't paid yet.">Cash Flow Statement</span> shows actual cash movement. Together they form the complete financial picture. Most beginners only look at profit — professionals read all three.</p>
+
+    <div class="callout gold">
+      <div class="callout-title">💡 The Most Important Rule</div>
+      <p>Profits can be engineered. Cash cannot. A company can use aggressive accounting to inflate earnings. But the Cash Flow Statement shows whether real money actually arrived. Warren Buffett focuses heavily on <strong>free cash flow</strong> — the cash left after maintaining the business — as the ultimate measure of a company's health.</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Statement 1: The Income Statement</h2>
+    <p class="ls-body">The Income Statement flows from top to bottom — each line subtracts costs from the previous line until you reach net profit. Understanding this cascade is crucial. Here it is using Apple's 2023 numbers, simplified:</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📋 Income Statement — Apple Inc. (FY2023, Simplified)</div>
+      <div class="is-flow">
+        <div class="is-row rev"><span class="is-label">💰 Revenue (Net Sales)</span><span class="is-val pos">$383.3B</span></div>
+        <div class="is-arrow">↓ minus Cost of Goods Sold (manufacturing, components)</div>
+        <div class="is-row cogs"><span class="is-label">🏭 Cost of Goods Sold (COGS)</span><span class="is-val neg">−$214.1B</span></div>
+        <div class="is-arrow">↓ = Gross Profit (what's left after making the product)</div>
+        <div class="is-row gross"><span class="is-label">📦 Gross Profit</span><span class="is-val neu">$169.1B (44.1% margin)</span></div>
+        <div class="is-arrow">↓ minus Operating Expenses (R&D, sales, admin)</div>
+        <div class="is-row opex"><span class="is-label">⚙️ Operating Expenses (R&D + SG&A)</span><span class="is-val neg">−$54.8B</span></div>
+        <div class="is-arrow">↓ = Operating Income (EBIT)</div>
+        <div class="is-row ebit"><span class="is-label">📈 Operating Income (EBIT)</span><span class="is-val neu">$114.3B (29.8% margin)</span></div>
+        <div class="is-arrow">↓ minus Interest, Tax</div>
+        <div class="is-row net"><span class="is-label">✅ Net Income (Bottom Line)</span><span class="is-val pos">$97.0B (25.3% margin)</span></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.85rem">↑ Apple keeps 25.3 cents of every dollar it earns as net profit. That's exceptional. Most businesses keep 5–10 cents. This is the power of software + services layered on top of hardware.</p>
+    </div>
+
+    <p class="ls-body">Key ratios to extract from the Income Statement: <span class="def" data-word="Gross Margin" data-def="Gross Profit divided by Revenue. Measures how efficiently a company produces its goods or services after direct costs. Higher is better. Software companies often have 70%+ gross margins." data-ex="Example: Apple's gross margin of 44.1% means for every $100 of iPhone sold, $44.10 remains after manufacturing costs.">Gross Margin</span>, <span class="def" data-word="Operating Margin" data-def="Operating Income divided by Revenue. Shows profitability after all operating expenses but before interest and taxes. A key measure of business efficiency." data-ex="Example: Apple's 29.8% operating margin is exceptional. A typical retailer like Walmart operates at ~2-3% operating margin.">Operating Margin</span>, and <span class="def" data-word="Net Profit Margin" data-def="Net Income divided by Revenue. The ultimate profitability ratio — how many cents of profit a company makes for every pound/dollar of revenue." data-ex="Example: Apple's 25.3% net margin vs a bank at ~20% vs a grocery store at ~1-2%.">Net Profit Margin</span>. Watch these trends over 3–5 years — are margins expanding or contracting?</p>
+
+    <div class="callout red">
+      <div class="callout-title">⚠️ Red Flags on the Income Statement</div>
+      <p>Revenue growing faster than gross profit (margins shrinking). Operating expenses growing faster than revenue. Large "one-time" charges appearing every year (they're not one-time). Earnings Per Share growing while revenue is flat (usually from share buybacks masking stagnation, not real growth).</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Statement 2: The Balance Sheet</h2>
+    <p class="ls-body">The Balance Sheet always balances: <strong style="color:var(--text)">Assets = Liabilities + Shareholders' Equity.</strong> It's a snapshot on one specific date — think of it like a photograph of the company's financial position. Assets are what the company controls. Liabilities are what it owes. Equity is what's left for shareholders.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">⚖️ Balance Sheet — Key Components</div>
+      <table class="data-table">
+        <thead><tr><th>Category</th><th>Examples</th><th>What to Watch</th></tr></thead>
+        <tbody>
+          <tr><td>Current Assets</td><td>Cash, accounts receivable, inventory</td><td>Is cash growing? Are receivables growing faster than revenue? (red flag)</td></tr>
+          <tr><td>Long-term Assets</td><td>Property, equipment, intangibles, goodwill</td><td>Large goodwill from overpriced acquisitions? Depreciating assets?</td></tr>
+          <tr><td>Current Liabilities</td><td>Accounts payable, short-term debt</td><td>Can company pay bills due within 12 months? (Current Ratio)</td></tr>
+          <tr><td>Long-term Liabilities</td><td>Long-term debt, pension obligations</td><td>Is debt rising? Can EBIT cover interest payments? (Interest Coverage)</td></tr>
+          <tr class="hl"><td>Shareholders' Equity</td><td>Retained earnings, paid-in capital</td><td>Is equity growing over time? Return on Equity trend?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="ls-body">The most critical balance sheet metric for most investors is the <span class="def" data-word="Net Debt" data-def="Total debt minus cash and cash equivalents. Tells you the company's true debt burden after netting off the cash it holds. Negative net debt means more cash than debt — a very strong position." data-ex="Example: A company with $5B debt and $8B cash has Net Debt of −$3B (net cash). Apple had net cash of $50B+ for years, making it essentially unbreakable financially.">Net Debt</span> position. A company drowning in debt with falling revenue is a very different risk from a company with net cash and growing profits.</p>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏦</div><div><div class="cs-meta">Case Study · Enron Corp — Balance Sheet Fraud</div><div class="cs-title">When Statements Lie: The $63 Billion Collapse</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Enron was named America's most innovative company six years in a row before collapsing in 2001 in what was then the largest bankruptcy in US history. Their reported profits looked spectacular. But their balance sheet hid billions in debt using Special Purpose Entities (SPEs) — off-balance-sheet vehicles that kept liabilities invisible to investors.</p>
+        <p style="margin-bottom:.75rem">Warning signs that were there for anyone reading carefully: accounts receivable growing at twice the rate of revenue, massive unexplained "other assets," cash flow from operations consistently far below reported net income, and auditor (Arthur Andersen) also receiving consulting fees from Enron — a massive conflict of interest.</p>
+        <p>The lesson: always reconcile the income statement with the cash flow statement. If earnings are high but cash flow from operations is low, something is wrong.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Peak market cap: $70B</span><span class="cs-stat">Bankruptcy: Dec 2001</span><span class="cs-stat">Hidden debt: $30B+</span><span class="cs-stat">Shareholders lost: everything</span></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Statement 3: The Cash Flow Statement</h2>
+    <p class="ls-body">The Cash Flow Statement is divided into three sections. <span class="def" data-word="Operating Cash Flow" data-def="Cash generated by a company's core business operations. The most important section of the cash flow statement. Should be consistently positive and ideally growing." data-ex="Example: Apple's operating cash flow of $110B in 2023 tells you the actual cash its business machine generates every year, before any investment or financing decisions.">Operating Cash Flow</span> is cash from running the business. <span class="def" data-word="Investing Cash Flow" data-def="Cash used for or generated by investments — buying equipment, acquiring companies, or selling assets. Usually negative for growing businesses (they're spending on growth)." data-ex="Example: Amazon regularly shows large negative investing cash flows as it builds warehouses and data centres. This is healthy — it's investing in future growth.">Investing Cash Flow</span> is cash spent on growth investments. Financing Cash Flow is money raised or returned to shareholders.</p>
+    <p class="ls-body">The golden metric: <span class="def" data-word="Free Cash Flow (FCF)" data-def="Operating Cash Flow minus Capital Expenditure (CapEx). The actual cash a company generates that can be returned to shareholders, used for acquisitions, or reinvested. The purest measure of business quality." data-ex="Example: Apple FCF 2023: Operating Cash Flow $110B − CapEx $11B = FCF of $99B. This is the cash available to pay dividends, buy back shares, or make acquisitions.">Free Cash Flow</span> = Operating Cash Flow − Capital Expenditure. This is the number Buffett cares most about. A business that consistently generates strong FCF can survive almost anything.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">💵 Free Cash Flow — Why It Matters More Than Earnings</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Apple FCF</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent3)">$99B</div></div><div class="bar-val" style="color:var(--accent3)">$99B</div></div>
+        <div class="bar-row"><div class="bar-label">Microsoft FCF</div><div class="bar-track"><div class="bar-fill" style="width:72%;background:#5cb4ff">$71B</div></div><div class="bar-val">$71B</div></div>
+        <div class="bar-row"><div class="bar-label">Alphabet FCF</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:#7c9fff">$69B</div></div><div class="bar-val">$69B</div></div>
+        <div class="bar-row"><div class="bar-label">Meta FCF</div><div class="bar-track"><div class="bar-fill" style="width:44%;background:var(--accent)">$43B</div></div><div class="bar-val">$43B</div></div>
+        <div class="bar-row"><div class="bar-label">Amazon FCF</div><div class="bar-track"><div class="bar-fill" style="width:36%;background:#e0a030">$35B</div></div><div class="bar-val">$35B</div></div>
+        <div class="bar-row"><div class="bar-label">Tesla FCF</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--danger)">$1B</div></div><div class="bar-val" style="color:var(--danger)">$1B</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.85rem">↑ Notice Tesla's FCF is a fraction of Apple's despite massive media attention. FCF reveals why Apple and Microsoft are among the most powerful businesses ever created — they generate extraordinary cash with relatively modest capital requirements.</p>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 1</div>
+    <ul>
+      <li>The three financial statements are: Income Statement (profitability), Balance Sheet (financial position), Cash Flow Statement (actual cash).</li>
+      <li>Profits can be manipulated; cash flow is much harder to fake. Always reconcile both.</li>
+      <li>Read the Income Statement as a cascade: Revenue → Gross Profit → Operating Income → Net Income.</li>
+      <li>Key balance sheet warning: hidden debt, receivables growing faster than revenue, massive goodwill from acquisitions.</li>
+      <li>Free Cash Flow = Operating Cash Flow − CapEx. This is the most honest measure of business quality.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-0">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 1</div><div class="kcheck-sub">3 questions · answer all to unlock next lesson</div></div></div>
+    <div class="kq" id="kq-0-0">
+      <div class="kq-text">1. A company reports £50M net profit but only £5M of operating cash flow. What does this likely indicate?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,0,0,0)">A. The company is extremely efficient at converting profit to cash</button>
+        <button class="kq-opt" onclick="answerQ(0,0,1,1)">B. Potential accounting manipulation — profits may be overstated vs actual cash received</button>
+        <button class="kq-opt" onclick="answerQ(0,0,2,0)">C. The company is investing heavily in capital expenditure</button>
+        <button class="kq-opt" onclick="answerQ(0,0,3,0)">D. The balance sheet must have an error</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-0"></div>
+    </div>
+    <div class="kq" id="kq-0-1">
+      <div class="kq-text">2. What does Free Cash Flow represent?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,1,0,0)">A. Revenue minus all operating expenses</button>
+        <button class="kq-opt" onclick="answerQ(0,1,1,0)">B. Net income plus depreciation</button>
+        <button class="kq-opt" onclick="answerQ(0,1,2,1)">C. Operating cash flow minus capital expenditure — the actual cash available to shareholders</button>
+        <button class="kq-opt" onclick="answerQ(0,1,3,0)">D. Cash on the balance sheet</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-1"></div>
+    </div>
+    <div class="kq" id="kq-0-2">
+      <div class="kq-text">3. Which accounting equation must always be true on the Balance Sheet?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,2,0,0)">A. Revenue = Expenses + Profit</button>
+        <button class="kq-opt" onclick="answerQ(0,2,1,1)">B. Assets = Liabilities + Shareholders' Equity</button>
+        <button class="kq-opt" onclick="answerQ(0,2,2,0)">C. Cash Flow = Net Income + Depreciation</button>
+        <button class="kq-opt" onclick="answerQ(0,2,3,0)">D. Gross Profit = Revenue − Operating Expenses</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-0"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" disabled>← Previous</button>
+    <div class="lnav-mid" id="lnav-mid-0">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-0" disabled onclick="goLesson(1)">Lesson 2: Financial Ratios →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+  LESSON 2 — FINANCIAL RATIOS
+═══════════════════════════════ -->
+<div class="lesson-panel" id="lesson-1">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 2 of 10</div>
+    <h1 class="lesson-title">Key Financial Ratios: <em>The Investor's Toolkit</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min read</span><span class="lmeta">📊 2 comparison tables</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Ratios let you compare companies of wildly different sizes on equal footing. A £1 billion company and a £100 billion company are incomparable by raw numbers — but their P/E ratios can be compared directly. These are the ratios every professional analyst uses daily.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Valuation Ratios — What Are You Paying?</h2>
+    <p class="ls-body">Valuation ratios answer the fundamental question: relative to what the business earns, are you paying a fair price? A high ratio isn't automatically bad (great businesses deserve premiums) and a low ratio isn't automatically good (cheap stocks are often cheap for a reason).</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📐 Core Valuation Ratios — Formula, Meaning & Benchmarks</div>
+      <table class="data-table">
+        <thead><tr><th>Ratio</th><th>Formula</th><th>What It Measures</th><th>Typical Range</th></tr></thead>
+        <tbody>
+          <tr><td><span class="def" data-word="P/E Ratio" data-def="Price-to-Earnings. Share price divided by earnings per share. Tells you how many years of current earnings you're paying. The most widely used valuation metric." data-ex="Example: A stock at $100 with EPS of $5 has a P/E of 20. You're paying 20 years of earnings upfront.">P/E Ratio</span></td><td>Share Price ÷ EPS</td><td>Years of earnings you're paying</td><td>10–20× value; 20–40× growth</td></tr>
+          <tr><td><span class="def" data-word="EV/EBITDA" data-def="Enterprise Value divided by EBITDA. The most popular ratio for comparing businesses across different capital structures and tax regimes. Used in M&A." data-ex="Example: If Company A has EV of $100M and EBITDA of $10M, EV/EBITDA = 10×. Anything below 8× is generally considered cheap.">EV/EBITDA</span></td><td>Enterprise Value ÷ EBITDA</td><td>Overall business value vs earnings power</td><td>6–12× cheap; 15–25× expensive</td></tr>
+          <tr><td><span class="def" data-word="P/S Ratio" data-def="Price-to-Sales. Market cap divided by annual revenue. Used for unprofitable growth companies where P/E doesn't apply. The lower the better." data-ex="Example: A $1B company with $500M revenue has P/S of 2×. A SaaS company at P/S of 20× is pricing in enormous future growth.">P/S Ratio</span></td><td>Market Cap ÷ Revenue</td><td>Price relative to sales (useful for unprofitable companies)</td><td>1–3× cheap; 10×+ speculative</td></tr>
+          <tr><td><span class="def" data-word="PEG Ratio" data-def="Price/Earnings divided by Growth Rate. Adjusts P/E for the company's growth rate. A PEG of 1.0 is considered fairly valued. Below 1.0 suggests undervaluation." data-ex="Example: A company with P/E of 30 and earnings growth of 30% has PEG of 1.0 — fairly valued for its growth rate.">PEG Ratio</span></td><td>P/E ÷ Earnings Growth %</td><td>P/E adjusted for growth speed</td><td>Below 1.0 = potential value</td></tr>
+          <tr><td><span class="def" data-word="P/B Ratio" data-def="Price-to-Book. Market cap divided by the company's book value (net assets). Useful for banks and asset-heavy businesses. Less meaningful for intangible-heavy companies." data-ex="Example: A bank trading at 0.8× book is selling below the value of its assets — potentially cheap. A tech company at 50× book is valued almost entirely on future earnings, not assets.">P/B Ratio</span></td><td>Market Cap ÷ Book Value</td><td>Price vs accounting net asset value</td><td>Below 1× cheap (for banks); higher for tech</td></tr>
+          <tr class="hl"><td><span class="def" data-word="FCF Yield" data-def="Free Cash Flow divided by Market Cap. The inverse of a P/FCF ratio. Shows what percentage of the company's market value it generates in free cash annually. Higher = better value." data-ex="Example: A company with $10B FCF and $100B market cap has FCF Yield of 10% — like a 10% cash coupon. Excellent value.">FCF Yield</span></td><td>FCF ÷ Market Cap</td><td>Cash return relative to price paid</td><td>4%+ considered attractive</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading">Quality Ratios — How Good Is the Business?</h2>
+    <p class="ls-body">Valuation tells you the price. Quality ratios tell you what you're getting. The best investors combine both — seeking high-quality businesses at reasonable prices. Charlie Munger famously shifted Buffett's thinking from "buy fair businesses at wonderful prices" to "buy wonderful businesses at fair prices."</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🏆 Quality Ratios — The Hallmarks of a Great Business</div>
+      <table class="data-table">
+        <thead><tr><th>Ratio</th><th>Formula</th><th>What It Reveals</th><th>Good Benchmark</th></tr></thead>
+        <tbody>
+          <tr><td><span class="def" data-word="Return on Equity (ROE)" data-def="Net Income divided by Shareholders' Equity. Measures how efficiently a company uses shareholders' money to generate profit. The higher the better. Buffett looks for 15%+ consistently." data-ex="Example: If a company earns $20M net income on $100M equity, ROE = 20%. This means it generates 20 cents of profit for every dollar shareholders have invested.">Return on Equity (ROE)</span></td><td>Net Income ÷ Equity</td><td>Profit per £1 of shareholder capital</td><td>15%+ consistently</td></tr>
+          <tr><td><span class="def" data-word="Return on Invested Capital (ROIC)" data-def="Net Operating Profit After Tax divided by Invested Capital. The most comprehensive profitability ratio. Shows how well a company converts its total capital (debt + equity) into profits. Companies with ROIC above their cost of capital create value; below destroys it." data-ex="Example: A company with 20% ROIC and 8% cost of capital is creating 12% of value per year on invested capital — compounding for shareholders.">ROIC</span></td><td>NOPAT ÷ Invested Capital</td><td>Value creation vs cost of capital</td><td>Above WACC (ideally 15%+)</td></tr>
+          <tr><td><span class="def" data-word="Gross Margin" data-def="Gross Profit divided by Revenue. Measures pricing power and production efficiency. High gross margins signal competitive advantage." data-ex="Example: Software: 70-80% gross margin. Retailers: 20-30%. Restaurants: 60-70% on food, but after labour it drops. Apple: 44% despite being a hardware company — extraordinary.">Gross Margin</span></td><td>Gross Profit ÷ Revenue</td><td>Pricing power and efficiency</td><td>Depends heavily on sector</td></tr>
+          <tr><td><span class="def" data-word="Debt/EBITDA" data-def="Total Debt divided by EBITDA. Shows how many years of earnings it would take to pay off all debt. The primary leverage ratio used by banks and credit analysts." data-ex="Example: A company with $500M debt and $100M EBITDA has Debt/EBITDA of 5×. At 5× it takes 5 years of full earnings to repay debt — considered high leverage.">Debt/EBITDA</span></td><td>Net Debt ÷ EBITDA</td><td>Years of earnings to repay debt</td><td>Below 2× safe; 4×+ risky</td></tr>
+          <tr class="hl"><td><span class="def" data-word="Interest Coverage Ratio" data-def="EBIT divided by Interest Expense. How many times a company can cover its interest payments from operating profit. Below 2× is dangerous — any earnings dip could cause default." data-ex="Example: EBIT of $100M and interest expense of $20M gives coverage of 5×. The company earns 5× more than it needs to pay its interest — comfortable.">Interest Coverage</span></td><td>EBIT ÷ Interest Expense</td><td>Can they service their debt?</td><td>Above 3× comfortable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🔢</div><div><div class="cs-meta">Case Study · Ratio Analysis in Practice</div><div class="cs-title">Microsoft vs Meta — Same Sector, Very Different Profiles</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Two tech giants, side by side (approximate 2024 figures). Microsoft: P/E 35×, ROE 39%, Gross Margin 69%, Net Debt negative (net cash), FCF Yield 2.5%. Meta: P/E 24×, ROE 34%, Gross Margin 80%, Net Debt negative, FCF Yield 3.2%.</p>
+        <p style="margin-bottom:.75rem">On pure valuation, Meta looks cheaper (P/E 24× vs 35×). On quality, they're both exceptional — but Meta's 80% gross margin is extraordinary. Microsoft commands a premium for its cloud growth story (Azure) and diversified revenue streams. Meta's premium discount reflects concentration risk (Facebook/Instagram) and regulatory uncertainty.</p>
+        <p>Neither is wrong — they represent different risk/return trade-offs. This is why ratios must always be interpreted in context, never in isolation.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">MSFT P/E: 35×</span><span class="cs-stat">META P/E: 24×</span><span class="cs-stat">MSFT ROE: 39%</span><span class="cs-stat">META Gross Margin: 80%</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 2</div>
+    <ul>
+      <li>Valuation ratios (P/E, EV/EBITDA, P/S, PEG) tell you what price you're paying relative to earnings, sales, or growth.</li>
+      <li>Quality ratios (ROE, ROIC, Gross Margin) tell you how good the underlying business actually is.</li>
+      <li>A low P/E doesn't mean cheap — a business declining at 20%/year deserves a low multiple. Context is everything.</li>
+      <li>FCF Yield above 4% is generally attractive — think of it as the cash "coupon" the business pays you relative to price.</li>
+      <li>ROIC vs WACC is the most important long-term wealth creation metric — if ROIC exceeds cost of capital, value compounds.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-1">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 2</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-1-0">
+      <div class="kq-text">1. A company has a P/E of 40× but earnings growth of 40% per year. What is its PEG ratio, and what does it suggest?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,0,0,1)">A. PEG = 1.0 — fairly valued for its growth rate</button>
+        <button class="kq-opt" onclick="answerQ(1,0,1,0)">B. PEG = 40 — massively overvalued</button>
+        <button class="kq-opt" onclick="answerQ(1,0,2,0)">C. PEG = 0.4 — deeply undervalued</button>
+        <button class="kq-opt" onclick="answerQ(1,0,3,0)">D. PEG cannot be calculated without the P/S ratio</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-0"></div>
+    </div>
+    <div class="kq" id="kq-1-1">
+      <div class="kq-text">2. A company has ROIC of 8% and a WACC of 12%. What does this tell you?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,1,0,0)">A. The company is creating significant value for shareholders</button>
+        <button class="kq-opt" onclick="answerQ(1,1,1,1)">B. The company is destroying value — it earns less on capital than it costs to fund that capital</button>
+        <button class="kq-opt" onclick="answerQ(1,1,2,0)">C. The company has a strong competitive moat</button>
+        <button class="kq-opt" onclick="answerQ(1,1,3,0)">D. The debt levels are too high</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-1"></div>
+    </div>
+    <div class="kq" id="kq-1-2">
+      <div class="kq-text">3. A software company has an 80% gross margin. A supermarket has a 3% gross margin. What does this difference most likely reflect?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,2,0,0)">A. The supermarket is poorly managed</button>
+        <button class="kq-opt" onclick="answerQ(1,2,1,0)">B. The software company is charging too much</button>
+        <button class="kq-opt" onclick="answerQ(1,2,2,1)">C. Software has near-zero marginal cost to deliver; supermarkets have massive physical costs per item sold</button>
+        <button class="kq-opt" onclick="answerQ(1,2,3,0)">D. Gross margin is not meaningful for comparing different sectors</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-1"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(0)">← Lesson 1</button>
+    <div class="lnav-mid" id="lnav-mid-1">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-1" disabled onclick="goLesson(2)">Lesson 3: DCF Valuation →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+  LESSON 3 — DCF VALUATION
+═══════════════════════════════ -->
+<div class="lesson-panel" id="lesson-2">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 3 of 10</div>
+    <h1 class="lesson-title">DCF Valuation: <em>What Is a Business Worth?</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 18 min read</span><span class="lmeta">📊 Step-by-step model</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">The Discounted Cash Flow model is the foundation of all serious investment analysis. It answers the most important question in investing: what is this business actually worth today, based on all the cash it will ever generate?</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Core Idea: A Dollar Tomorrow is Worth Less Than a Dollar Today</h2>
+    <p class="ls-body">Why? Because a dollar today can be invested and earn returns. If you can earn 10% per year, £100 today becomes £110 in a year. Conversely, £110 promised in one year is only worth £100 today — you'd discount it back. This is the <span class="def" data-word="Time Value of Money" data-def="The principle that money available now is worth more than the same amount in the future, due to its potential earning capacity. The foundation of all financial valuation." data-ex="Example: At a 10% discount rate, £1,000 due in 5 years is worth only £621 today. Waiting costs you £379 in present value terms.">Time Value of Money</span> — the bedrock of the DCF model.</p>
+    <p class="ls-body">A DCF values a business by projecting its future <span class="def" data-word="Free Cash Flow" data-def="Operating Cash Flow minus Capital Expenditure. The cash a company generates that belongs to shareholders after maintaining and growing the business." data-ex="Apple's FCF of $99B in 2023 would be projected forward in a DCF model, with each future year's FCF discounted back to today's value.">Free Cash Flow</span> for 5–10 years, then discounting each year's projection back to today's value using the <span class="def" data-word="WACC (Weighted Average Cost of Capital)" data-def="The blended cost of a company's funding — a weighted average of the cost of equity and the cost of debt. Used as the discount rate in DCF models. Typically ranges from 8–12% for most companies." data-ex="Example: A company 70% equity-funded at 12% equity cost and 30% debt-funded at 5% debt cost: WACC = (0.7×12%) + (0.3×5%) = 8.4% + 1.5% = 9.9%.">WACC</span>. Finally, a <span class="def" data-word="Terminal Value" data-def="The value of all cash flows beyond the explicit forecast period (usually years 6–10+), assuming the business grows at a stable perpetual rate forever. Terminal value often represents 60-80% of a DCF's total value." data-ex="Example: If year 10 FCF is $10B and grows at 3% forever, discounted at 10% WACC: Terminal Value = $10B × 1.03 / (10%−3%) = $147B.">Terminal Value</span> captures everything beyond year 10.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🏗️ DCF Step-by-Step — Simplified Example (£1B Revenue Company)</div>
+      <table class="data-table">
+        <thead><tr><th>Step</th><th>Input / Assumption</th><th>Year 1</th><th>Year 3</th><th>Year 5</th></tr></thead>
+        <tbody>
+          <tr><td>1. FCF Projection</td><td>Grows 15%/yr from £100M base</td><td>£115M</td><td>£152M</td><td>£201M</td></tr>
+          <tr><td>2. Discount Factor</td><td>WACC = 10%</td><td>÷ 1.10¹</td><td>÷ 1.10³</td><td>÷ 1.10⁵</td></tr>
+          <tr><td>3. Present Value of FCF</td><td>Each year discounted back</td><td>£105M</td><td>£114M</td><td>£125M</td></tr>
+          <tr class="hl"><td>4. Sum of PV (5 years)</td><td>Add all discounted FCFs</td><td colspan="3" style="color:var(--accent)">£548M</td></tr>
+          <tr class="hl"><td>5. Terminal Value</td><td>Year 5 FCF × (1+3%) / (10%−3%)</td><td colspan="3" style="color:var(--accent)">£2,872M</td></tr>
+          <tr class="hl"><td>6. Intrinsic Value</td><td>Sum PV + PV of Terminal Value</td><td colspan="3" style="color:var(--accent3)">£2,333M total enterprise value</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout red">
+      <div class="callout-title">⚠️ The Achilles Heel of DCF: Garbage In, Garbage Out</div>
+      <p>Tiny changes in assumptions create enormous swings in value. Change the WACC from 10% to 8% and the value jumps 30%. Change the terminal growth rate from 3% to 4% and it jumps 20% more. This is why experienced analysts always build three scenarios (bull/base/bear) and use DCF alongside comparable company multiples. Never rely on a single DCF number.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📉</div><div><div class="cs-meta">Case Study · Why DCF Destroyed Growth Stock Investors in 2022</div><div class="cs-title">Interest Rates, WACC, and the Tech Selloff</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In 2021, Zoom Video traded at a P/E of 500×. Netflix at 60×. Peloton at 200×. The market was pricing in enormous future cash flows discounted at very low rates (WACC of ~5-6% because interest rates were near zero).</p>
+        <p style="margin-bottom:.75rem">Then the Fed raised rates from 0.25% to 5.25% between 2022 and 2023. This raised the discount rate in every DCF model. Future cash flows — worth a lot when discounted at 5% — became worth far less discounted at 10%. Growth stocks, whose value is concentrated in distant future cash flows, were mathematically obliterated.</p>
+        <p>Zoom fell 85% from peak. Peloton fell 97%. Netflix fell 75% before recovering. The DCF model explains exactly why: higher rates = higher discount rates = lower present value of future cash flows = lower stock prices. Understanding this relationship is essential for any serious investor.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Zoom: −85% from peak</span><span class="cs-stat">Peloton: −97%</span><span class="cs-stat">Fed Funds: 0.25% → 5.25%</span><span class="cs-stat">WACC impact: dramatic</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 3</div>
+    <ul>
+      <li>DCF values a business by projecting future free cash flows and discounting them back at the WACC.</li>
+      <li>Time Value of Money: a pound today is worth more than a pound tomorrow because it can be invested.</li>
+      <li>Terminal Value usually represents 60–80% of total DCF value — and it's the most sensitive assumption.</li>
+      <li>Small changes in WACC or terminal growth rate create massive valuation swings — always use scenarios.</li>
+      <li>Rising interest rates raise WACC, which hammers growth stock valuations — this is not opinion, it's mathematics.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-2">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 3</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-2-0">
+      <div class="kq-text">1. Why did rising interest rates in 2022 disproportionately hurt growth stocks vs value stocks?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,0,0,1)">A. Growth stocks have more value in distant future cash flows, which get discounted more heavily when rates rise</button>
+        <button class="kq-opt" onclick="answerQ(2,0,1,0)">B. Growth companies have more debt, so rising rates hurt their interest payments directly</button>
+        <button class="kq-opt" onclick="answerQ(2,0,2,0)">C. Value stocks are in sectors that benefit from higher rates</button>
+        <button class="kq-opt" onclick="answerQ(2,0,3,0)">D. Rising rates always hurt all stocks equally</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-0"></div>
+    </div>
+    <div class="kq" id="kq-2-1">
+      <div class="kq-text">2. In a DCF model, the Terminal Value typically represents what proportion of total value?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,1,0,0)">A. 10–20% — the explicit forecast period dominates</button>
+        <button class="kq-opt" onclick="answerQ(2,1,1,0)">B. 30–50% — roughly half of total value</button>
+        <button class="kq-opt" onclick="answerQ(2,1,2,1)">C. 60–80% — most of the value lies beyond the forecast period</button>
+        <button class="kq-opt" onclick="answerQ(2,1,3,0)">D. 100% — only terminal value matters</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-1"></div>
+    </div>
+    <div class="kq" id="kq-2-2">
+      <div class="kq-text">3. If a DCF model uses a WACC of 10% and you lower it to 7%, what happens to the calculated intrinsic value?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,2,0,0)">A. It stays the same — WACC only affects the terminal value</button>
+        <button class="kq-opt" onclick="answerQ(2,2,1,0)">B. It decreases — lower discount rate means less growth assumed</button>
+        <button class="kq-opt" onclick="answerQ(2,2,2,1)">C. It increases significantly — lower discount rate means future cash flows are worth more today</button>
+        <button class="kq-opt" onclick="answerQ(2,2,3,0)">D. It becomes negative</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-2"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(1)">← Lesson 2</button>
+    <div class="lnav-mid" id="lnav-mid-2">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-2" disabled onclick="goLesson(3)">Lesson 4: Economic Moats →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+  LESSON 4 — ECONOMIC MOATS
+═══════════════════════════════ -->
+<div class="lesson-panel" id="lesson-3">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 4 of 10</div>
+    <h1 class="lesson-title">Economic Moats: <em>What Buffett's Castle Really Means</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min read</span><span class="lmeta">📊 5 moat types illustrated</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Warren Buffett looks for businesses with wide, durable moats — competitive advantages so strong that rivals struggle to erode them even over decades. Finding a true moat is finding a licence to compound wealth indefinitely.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Five Types of Economic Moat</h2>
+    <p class="ls-body">Morningstar's moat framework, widely used by professional analysts, identifies five sources of durable competitive advantage. Real moats must be <em>sustainable</em> — temporary leads from better management or luck don't count. The test: can a well-funded competitor destroy this advantage in 5–10 years?</p>
+
+    <div class="moat-grid">
+      <div class="moat-card">
+        <div class="moat-icon">🌐</div>
+        <div class="moat-name">Network Effects</div>
+        <div class="moat-desc">The product becomes more valuable as more people use it. Each new user makes it better for all existing users — creating a self-reinforcing loop that makes switching almost impossible.</div>
+        <div class="moat-eg">→ Visa, Mastercard, Facebook, LinkedIn, Airbnb, eBay</div>
+      </div>
+      <div class="moat-card">
+        <div class="moat-icon">💸</div>
+        <div class="moat-name">Cost Advantages</div>
+        <div class="moat-desc">The ability to produce goods or services at structurally lower cost than competitors — through scale, proprietary processes, or unique resources. Enables either higher margins or lower prices.</div>
+        <div class="moat-eg">→ Costco, Amazon, Ryanair, BHP (mining scale)</div>
+      </div>
+      <div class="moat-card">
+        <div class="moat-icon">🔒</div>
+        <div class="moat-name">Switching Costs</div>
+        <div class="moat-desc">Customers face significant costs (time, money, risk, retraining) when switching to a competitor. High switching costs = pricing power + predictable recurring revenue.</div>
+        <div class="moat-eg">→ Salesforce, Oracle, SAP, Adobe, Epic Systems (hospitals)</div>
+      </div>
+      <div class="moat-card">
+        <div class="moat-icon">🏅</div>
+        <div class="moat-name">Intangible Assets</div>
+        <div class="moat-desc">Patents, brands, regulatory licences, or proprietary data that competitors cannot easily replicate. Brand allows premium pricing. Patents block competitors. Licences restrict new entrants.</div>
+        <div class="moat-eg">→ Coca-Cola (brand), Pfizer (patents), Moody's (licence), LEGO</div>
+      </div>
+      <div class="moat-card">
+        <div class="moat-icon">🏞️</div>
+        <div class="moat-name">Efficient Scale</div>
+        <div class="moat-desc">When a market is only large enough to support one or few players profitably, the incumbent dominates. New entrants would destroy industry economics for everyone — so rational competitors don't enter.</div>
+        <div class="moat-eg">→ Waste Management, water utilities, regional airports, pipelines</div>
+      </div>
+      <div class="moat-card" style="background:rgba(232,201,122,.05);border-color:rgba(232,201,122,.2)">
+        <div class="moat-icon">⚠️</div>
+        <div class="moat-name">NOT a Moat</div>
+        <div class="moat-desc">Great management, a hot product, first-mover advantage, or a currently high market share. These can evaporate. A real moat is structural — baked into the industry economics, not dependent on individuals.</div>
+        <div class="moat-eg">→ Nokia had market share, not a moat. Kodak had a brand, but no switching costs.</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">"The key to investing is not assessing how much an industry is going to affect society, or how much it will grow, but rather determining the competitive advantage of any given company and, above all, the durability of that advantage."<cite>— Warren Buffett</cite></div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">💳</div><div><div class="cs-meta">Case Study · Visa Inc — The Perfect Network Effect Moat</div><div class="cs-title">Why Nobody Can Build a Better Visa</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Visa processes over $14 trillion in payments annually across 4+ billion cards and 130 million merchants worldwide. Here's why its moat is essentially impregnable: merchants accept Visa because cardholders have it. Cardholders get Visa because merchants accept it. This two-sided network effect has taken 60+ years to build.</p>
+        <p style="margin-bottom:.75rem">Visa doesn't lend money (that's the banks' risk), doesn't hold inventory, and doesn't need physical infrastructure. It simply processes transactions and takes ~0.1% of each. With almost no capital required to operate, its ROIC exceeds 30% consistently, and it generates billions in FCF with minimal reinvestment needs.</p>
+        <p>Apple Pay, Google Pay, and crypto have all been predicted to destroy Visa. Instead, they all run on Visa's rails. That's what a real moat looks like.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">$14T+ annual payment volume</span><span class="cs-stat">ROIC: 30%+</span><span class="cs-stat">Net Margin: ~52%</span><span class="cs-stat">FCF Margin: ~50%</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 4</div>
+    <ul>
+      <li>The five moat types: Network Effects, Cost Advantages, Switching Costs, Intangible Assets, Efficient Scale.</li>
+      <li>A moat must be structural and durable — not dependent on management talent or temporary market position.</li>
+      <li>Network effects are the most powerful moat — the product improves with each new user, compounding the advantage.</li>
+      <li>Switching costs create pricing power and predictable revenue — customers stay even if a better alternative exists.</li>
+      <li>Visa's moat survived Apple Pay, Google Pay, and crypto — illustrating true moat durability vs marketing predictions.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-3">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 4</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-3-0">
+      <div class="kq-text">1. A hospital uses Epic Systems' software to manage patient records. Switching to a competitor would cost millions and take years of disruption. Which type of moat does Epic have?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,0,0,0)">A. Network Effects — more hospitals make Epic better for all</button>
+        <button class="kq-opt" onclick="answerQ(3,0,1,1)">B. Switching Costs — leaving Epic is so painful that hospitals stay even if alternatives exist</button>
+        <button class="kq-opt" onclick="answerQ(3,0,2,0)">C. Efficient Scale — the market can only support one software vendor</button>
+        <button class="kq-opt" onclick="answerQ(3,0,3,0)">D. Intangible Assets — Epic holds patents on hospital software</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-0"></div>
+    </div>
+    <div class="kq" id="kq-3-1">
+      <div class="kq-text">2. Nokia once had 40%+ global mobile phone market share. Why did this NOT constitute a durable economic moat?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,1,0,0)">A. Nokia's market share was too large to defend</button>
+        <button class="kq-opt" onclick="answerQ(3,1,1,1)">B. Market share is not a moat — it doesn't structurally prevent competitors from taking customers if they offer a better product</button>
+        <button class="kq-opt" onclick="answerQ(3,1,2,0)">C. Nokia had too much debt to maintain its position</button>
+        <button class="kq-opt" onclick="answerQ(3,1,3,0)">D. Mobile phones were not a growing market</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-1"></div>
+    </div>
+    <div class="kq" id="kq-3-2">
+      <div class="kq-text">3. Coca-Cola has sold virtually the same beverage for 130 years and still charges a premium over generic cola. Which moat type best explains this?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,2,0,0)">A. Efficient Scale — cola markets can only support one player</button>
+        <button class="kq-opt" onclick="answerQ(3,2,1,0)">B. Network Effects — more Coke drinkers make Coke better for everyone</button>
+        <button class="kq-opt" onclick="answerQ(3,2,2,1)">C. Intangible Assets — specifically its brand, which commands emotional loyalty and allows premium pricing</button>
+        <button class="kq-opt" onclick="answerQ(3,2,3,0)">D. Switching Costs — it's difficult to stop drinking Coke</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-3"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(2)">← Lesson 3</button>
+    <div class="lnav-mid" id="lnav-mid-3">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-3" disabled onclick="goLesson(4)">Lesson 5: Macro & Business Cycle →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+  LESSON 5 — MACRO & BUSINESS CYCLE
+═══════════════════════════════ -->
+<div class="lesson-panel" id="lesson-4">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 5 of 10</div>
+    <h1 class="lesson-title">Macro Analysis: <em>Reading the Economic Weather</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min read</span><span class="lmeta">📊 Business cycle diagram</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Even the best stock picks can be devastated by macroeconomic forces. Understanding interest rates, inflation, and the business cycle tells you which sectors to favour and which to avoid at each stage of the economic machine.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Business Cycle — Four Phases, Four Strategies</h2>
+    <p class="ls-body">Economies move in cycles — expansion, peak, contraction, and recovery. Each phase creates different winners and losers in equity markets. This is called <span class="def" data-word="Sector Rotation" data-def="The movement of investment capital from one industry sector to another as the economy cycles through different phases. Professional investors adjust their sector exposure based on where they believe the economy is in the cycle." data-ex="Example: In an expansion, consumer discretionary and tech outperform. In a recession, consumer staples and healthcare hold up best.">sector rotation</span> — rotating capital into the sectors that outperform each phase.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🔄 The Business Cycle — Which Sectors Win in Each Phase</div>
+      <div class="cycle-wrap">
+        <div class="cycle-cell boom">
+          <div class="cycle-icon">📈</div>
+          <div class="cycle-label" style="color:var(--accent3)">Expansion</div>
+          <div class="cycle-sub">GDP growing, employment rising, consumer spending up. <strong style="color:var(--text)">Winners:</strong> Technology, Consumer Discretionary, Industrials, Financials.</div>
+        </div>
+        <div class="cycle-cell peak">
+          <div class="cycle-icon">⚠️</div>
+          <div class="cycle-label" style="color:var(--accent)">Peak</div>
+          <div class="cycle-sub">Growth slowing, inflation high, central banks raising rates. <strong style="color:var(--text)">Winners:</strong> Energy, Materials, Real Estate, Commodities.</div>
+        </div>
+        <div class="cycle-cell bust">
+          <div class="cycle-icon">📉</div>
+          <div class="cycle-label" style="color:var(--danger)">Contraction / Recession</div>
+          <div class="cycle-sub">GDP falling, unemployment rising, credit tightening. <strong style="color:var(--text)">Winners:</strong> Consumer Staples, Healthcare, Utilities — defensive sectors with inelastic demand.</div>
+        </div>
+        <div class="cycle-cell recov">
+          <div class="cycle-icon">🌱</div>
+          <div class="cycle-label" style="color:var(--accent2)">Recovery</div>
+          <div class="cycle-sub">Growth resuming, rates being cut, credit loosening. <strong style="color:var(--text)">Winners:</strong> Financials, Consumer Discretionary, Small Caps — early-cycle leaders.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="ls-heading">The Yield Curve — The Most Reliable Recession Predictor</h2>
+    <p class="ls-body">The <span class="def" data-word="Yield Curve" data-def="A graph showing interest rates on government bonds across different maturities (3 months to 30 years). Normally upward sloping — longer maturities pay more. When it inverts (short rates above long rates), it has historically preceded every US recession with a 12–18 month lag." data-ex="Example: When the 2-year US Treasury yield exceeds the 10-year yield, the yield curve is 'inverted.' This happened in 2006 (before 2008 crisis), 2019 (before COVID crash), and 2022–2023.">yield curve</span> is the bond market's prediction of future economic conditions. When short-term rates exceed long-term rates (an inversion), it signals that investors expect the economy to weaken. Every US recession since 1955 has been preceded by a yield curve inversion — making it the single most reliable recession predictor available.</p>
+
+    <div class="callout blue">
+      <div class="callout-title">📐 How Central Banks Move Markets</div>
+      <p>When the Federal Reserve (US) or Bank of England raises interest rates: borrowing costs rise → business investment slows → consumer spending falls → economic growth cools → stocks often fall. When rates are cut: the opposite occurs. This is why every Fed meeting moves markets. Understanding this transmission mechanism is essential for macro-aware investing.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏦</div><div><div class="cs-meta">Case Study · 2022 — The Fastest Rate Hiking Cycle in 40 Years</div><div class="cs-title">How Macro Destroyed Portfolios — and Created Opportunities</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In 2022, the Fed raised rates from near-zero to 4.5% in under 12 months — the fastest hiking cycle since Paul Volcker in the 1980s. The response was textbook economic cycle mechanics: Growth stocks (high-duration assets) collapsed first and hardest. The ARK Innovation ETF fell 75%. Bitcoin fell 70%. Long-duration bonds fell 30%.</p>
+        <p style="margin-bottom:.75rem">Meanwhile, investors who rotated into energy (Exxon +80%), defence (Lockheed Martin +37%), and value financials had their best year in decades. The macro environment determined outcomes far more than individual stock selection.</p>
+        <p>The lesson: ignoring macro is like sailing without checking the weather. You might be right about the destination but the sea conditions can still sink you.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">ARK Innovation ETF: −75%</span><span class="cs-stat">Exxon: +80%</span><span class="cs-stat">Fed Funds: 0% → 4.5%</span><span class="cs-stat">Bloomberg Bond Index: −13%</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 5</div>
+    <ul>
+      <li>The economy moves through four phases: Expansion, Peak, Contraction, Recovery — each favouring different sectors.</li>
+      <li>Defensive sectors (staples, healthcare, utilities) protect capital in recessions. Cyclical sectors (tech, discretionary) outperform in expansions.</li>
+      <li>An inverted yield curve has preceded every US recession since 1955 — the bond market's most powerful signal.</li>
+      <li>Central bank rate decisions are the most important single macro variable — understand the transmission from rates to stocks.</li>
+      <li>In 2022, macro factors dominated returns far more than stock selection — ignoring the macro environment is always costly.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-4">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 5</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-4-0">
+      <div class="kq-text">1. The economy is entering a recession. Which sector would you expect to hold up best?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,0,0,0)">A. Technology — people still need their devices</button>
+        <button class="kq-opt" onclick="answerQ(4,0,1,0)">B. Consumer Discretionary — people treat themselves in tough times</button>
+        <button class="kq-opt" onclick="answerQ(4,0,2,1)">C. Consumer Staples — people always buy food, soap and medicine regardless of the economy</button>
+        <button class="kq-opt" onclick="answerQ(4,0,3,0)">D. Financials — higher rates benefit banks</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-0"></div>
+    </div>
+    <div class="kq" id="kq-4-1">
+      <div class="kq-text">2. The 2-year US Treasury yield exceeds the 10-year yield. What does this signal?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,1,0,0)">A. Inflation is well under control</button>
+        <button class="kq-opt" onclick="answerQ(4,1,1,1)">B. An inverted yield curve — historically a reliable indicator of recession within 12–18 months</button>
+        <button class="kq-opt" onclick="answerQ(4,1,2,0)">C. The economy is in strong expansion</button>
+        <button class="kq-opt" onclick="answerQ(4,1,3,0)">D. The Fed is about to raise short-term rates further</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-1"></div>
+    </div>
+    <div class="kq" id="kq-4-2">
+      <div class="kq-text">3. Why did growth stocks fall so dramatically in 2022 when the Fed raised rates?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,2,0,0)">A. Growth companies have more debt so their interest payments rose sharply</button>
+        <button class="kq-opt" onclick="answerQ(4,2,1,0)">B. Investors panicked irrationally — there was no fundamental reason</button>
+        <button class="kq-opt" onclick="answerQ(4,2,2,1)">C. Higher rates raise the discount rate in DCF models, which disproportionately reduces the value of far-future cash flows</button>
+        <button class="kq-opt" onclick="answerQ(4,2,3,0)">D. Growth companies are more affected by consumer spending slowdowns</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-4"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(3)">← Lesson 4</button>
+    <div class="lnav-mid" id="lnav-mid-4">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-4" disabled onclick="goLesson(5)">Lesson 6: Technical Analysis →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 6 — TECHNICAL ANALYSIS ═══ -->
+<div class="lesson-panel" id="lesson-5">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 6 of 10</div>
+    <h1 class="lesson-title">Technical Analysis: <em>Reading the Chart's Story</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min read</span><span class="lmeta">📊 Key signals explained</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Technical analysis studies price and volume patterns to predict future movement. Used alone it's unreliable — combined with fundamental analysis for entry and exit timing, it's a genuinely useful tool professionals use every day.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">What Technical Analysis Is (and Isn't)</h2>
+    <p class="ls-body"><span class="def" data-word="Technical Analysis" data-def="The study of past price and volume data to forecast future price movements. Based on the idea that market psychology creates repeating patterns in price charts. Most useful for timing entries and exits, not for picking what to buy." data-ex="Example: A fundamental analyst asks 'is Apple worth buying?' A technical analyst asks 'is now the right time to buy Apple, based on its price chart?'">Technical analysis</span> does not tell you whether a business is good. That's fundamental analysis. What it tells you is whether the market's current price action suggests buyers or sellers are in control — helping you time a better entry or exit into a fundamentally attractive stock. Used on its own it has a weak track record. Used to sharpen timing on high-conviction fundamental ideas, it adds genuine value.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Right Mental Model</div>
+      <p>Think of fundamental analysis as deciding <em>what</em> to buy and technical analysis as helping you decide <em>when</em> to buy it. Buying a great business at a technically terrible moment (e.g. right before a breakdown below major support) means enduring unnecessary pain. Good timing on good fundamentals is the combination professionals aim for.</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Core Concepts: Support, Resistance & Trend</h2>
+    <p class="ls-body"><span class="def" data-word="Support Level" data-def="A price level where a falling stock has historically found buying interest and bounced. Think of it as a floor — each time the price reaches this level, buyers step in. The more times support holds, the stronger it is." data-ex="Example: Apple's stock bounced from $150 three separate times in 2023 — that level became strong support. A break below it would be a significant bearish signal.">Support</span> is a price floor where buyers historically appear. <span class="def" data-word="Resistance Level" data-def="A price level where a rising stock has historically stalled and reversed. Think of it as a ceiling — sellers repeatedly emerge at this level. When resistance is finally broken, the old resistance often becomes new support." data-ex="Example: A stock that failed to break $200 four times over six months has strong resistance at $200. A decisive close above it on high volume is a bullish breakout signal.">Resistance</span> is a ceiling where sellers emerge. The trend is the direction prices have been moving — and the cardinal rule of technical analysis is: <em>the trend is your friend until it bends.</em></p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Key Technical Indicators — What They Measure & How to Use Them</div>
+      <table class="data-table">
+        <thead><tr><th>Indicator</th><th>What It Measures</th><th>Bullish Signal</th><th>Bearish Signal</th></tr></thead>
+        <tbody>
+          <tr><td><span class="def" data-word="50-Day Moving Average (MA)" data-def="The average closing price over the past 50 trading days. Smooths out day-to-day noise and shows the medium-term trend. Widely watched by institutional traders." data-ex="Example: A stock trading above its 50-day MA is in a medium-term uptrend. Falling below it with volume is often a sell signal.">50-Day MA</span></td><td>Medium-term price trend</td><td>Price crosses above from below</td><td>Price crosses below from above</td></tr>
+          <tr><td><span class="def" data-word="200-Day Moving Average (MA)" data-def="The average closing price over the past 200 trading days (~1 year). The most widely watched long-term trend indicator. Institutional investors and algorithms heavily reference this level." data-ex="Example: The S&P 500 being above its 200-day MA is generally considered a 'bull market.' Being below it signals a bear market environment.">200-Day MA</span></td><td>Long-term price trend</td><td>Price above 200-day MA (bull)</td><td>Price below 200-day MA (bear)</td></tr>
+          <tr><td><span class="def" data-word="Golden Cross" data-def="When the 50-day moving average crosses above the 200-day moving average. Considered a strong bullish signal that a new sustained uptrend may be beginning. Watched by millions of traders globally." data-ex="Example: In early 2023, the S&P 500 formed a Golden Cross — the 50-day MA rose above the 200-day MA — which preceded a strong year-long rally.">Golden Cross</span></td><td>50-day MA crosses above 200-day</td><td>Strong long-term buy signal</td><td>N/A (bullish by definition)</td></tr>
+          <tr><td><span class="def" data-word="Death Cross" data-def="When the 50-day moving average crosses below the 200-day moving average. The opposite of a Golden Cross — signals potential sustained downtrend beginning. Often triggers algorithmic selling." data-ex="Example: Bitcoin formed a Death Cross in June 2021 — the 50-day MA crossed below the 200-day — followed by a 70%+ decline over the next year.">Death Cross</span></td><td>50-day MA crosses below 200-day</td><td>N/A (bearish by definition)</td><td>Strong long-term sell signal</td></tr>
+          <tr><td><span class="def" data-word="RSI (Relative Strength Index)" data-def="A momentum oscillator measuring the speed and magnitude of recent price changes on a scale of 0–100. Above 70 = overbought (potential sell). Below 30 = oversold (potential buy). Best used to spot divergences — when price makes a new high but RSI doesn't, trend may be weakening." data-ex="Example: Tesla RSI hit 95 in January 2021 — deeply overbought. The stock then fell 35% over the next few months. RSI extremes are useful warning signals.">RSI</span></td><td>Momentum — overbought/oversold</td><td>RSI below 30 (oversold)</td><td>RSI above 70 (overbought)</td></tr>
+          <tr class="hl"><td><span class="def" data-word="Volume" data-def="The number of shares traded in a given period. Volume confirms price moves — a breakout above resistance on high volume is much more reliable than the same breakout on low volume. Low-volume moves are suspect." data-ex="Example: A stock breaks out above $100 resistance on 3× average daily volume — highly reliable signal. The same breakout on 0.5× volume is probably a false break.">Volume</span></td><td>Conviction behind price moves</td><td>High volume on up days</td><td>High volume on down days / low volume on rallies</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📈</div><div><div class="cs-meta">Case Study · How Technical Analysis Helped Time the 2020 Recovery</div><div class="cs-title">Golden Cross, Volume & the Signal That Confirmed the Bottom</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In late March 2020, while media headlines remained apocalyptic, two technical signals emerged for observant investors. First, the S&P 500 bounced on enormous volume — the highest single-day volume in years — at the 2,200 support level (a technical indication of capitulation buying). Second, the RSI hit 20 — deeply oversold, a level only reached a handful of times in market history.</p>
+        <p style="margin-bottom:.75rem">Then in July 2020, the S&P 500 formed a Golden Cross — the 50-day MA crossed back above the 200-day MA — confirming the trend had reversed from bear to bull. This technical confirmation came weeks before most media acknowledged the recovery.</p>
+        <p>Neither signal required predicting COVID outcomes. They simply read what the market was saying through price and volume — and what it was saying was: buyers are overwhelming sellers, a new uptrend is forming. The fundamentals said what to own; the technicals helped confirm when to act.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Bottom RSI: 20 (deeply oversold)</span><span class="cs-stat">Volume at low: highest in years</span><span class="cs-stat">Golden Cross: July 2020</span><span class="cs-stat">Recovery from low: +114%</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 6</div>
+    <ul>
+      <li>Technical analysis helps time entries and exits — it complements fundamentals, it doesn't replace them.</li>
+      <li>Support is a price floor; resistance is a ceiling. Breaks of these levels on high volume are the most reliable signals.</li>
+      <li>A Golden Cross (50-day MA above 200-day MA) signals a new long-term uptrend. A Death Cross signals the opposite.</li>
+      <li>RSI above 70 = overbought (caution). RSI below 30 = oversold (potential opportunity). Extreme readings are warning signals.</li>
+      <li>Volume is the lie detector of technical analysis — it confirms or denies the reliability of every price move.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-5">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 6</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-5-0">
+      <div class="kq-text">1. A stock breaks above a key resistance level but on volume that is 30% of the average daily volume. How should you interpret this?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,0,0,0)">A. A strong bullish breakout — price above resistance always signals upside</button>
+        <button class="kq-opt" onclick="answerQ(5,0,1,1)">B. A suspect, low-conviction breakout — low volume suggests insufficient buyer interest to sustain the move</button>
+        <button class="kq-opt" onclick="answerQ(5,0,2,0)">C. A bearish signal — any breakout on below-average volume should be sold</button>
+        <button class="kq-opt" onclick="answerQ(5,0,3,0)">D. Volume is irrelevant — only price matters in technical analysis</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-0"></div>
+    </div>
+    <div class="kq" id="kq-5-1">
+      <div class="kq-text">2. A stock's RSI reading is 78. What does this most likely indicate?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,1,0,0)">A. The stock is deeply undervalued and should be bought immediately</button>
+        <button class="kq-opt" onclick="answerQ(5,1,1,1)">B. The stock is overbought — momentum may be overstretched and a pullback or consolidation is possible</button>
+        <button class="kq-opt" onclick="answerQ(5,1,2,0)">C. The stock has 78% upside remaining</button>
+        <button class="kq-opt" onclick="answerQ(5,1,3,0)">D. RSI of 78 is a neutral reading — only extremes above 90 matter</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-1"></div>
+    </div>
+    <div class="kq" id="kq-5-2">
+      <div class="kq-text">3. What is a Golden Cross, and why do traders consider it significant?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,2,0,0)">A. When a stock reaches a new all-time high — signalling maximum bullish momentum</button>
+        <button class="kq-opt" onclick="answerQ(5,2,1,0)">B. When RSI crosses above 50 — indicating momentum has shifted positive</button>
+        <button class="kq-opt" onclick="answerQ(5,2,2,1)">C. When the 50-day moving average crosses above the 200-day moving average — widely seen as a long-term bullish trend confirmation</button>
+        <button class="kq-opt" onclick="answerQ(5,2,3,0)">D. When volume exceeds the 200-day average — confirming strong institutional buying</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-5"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(4)">← Lesson 5</button>
+    <div class="lnav-mid" id="lnav-mid-5">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-5" disabled onclick="goLesson(6)">Lesson 7: Industry Analysis →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 7 — INDUSTRY ANALYSIS ═══ -->
+<div class="lesson-panel" id="lesson-6">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 7 of 10</div>
+    <h1 class="lesson-title">Industry Analysis: <em>Porter's Five Forces for Investors</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min read</span><span class="lmeta">📊 Five Forces breakdown</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">A mediocre company in a structurally attractive industry can outperform a great company in a structurally terrible one. Before picking stocks, analyse the battlefield they're fighting in.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Porter's Five Forces — The Industry Attractiveness Framework</h2>
+    <p class="ls-body">Harvard professor Michael Porter's Five Forces framework, published in 1979, remains the gold standard for analysing how attractive an industry is for participants. The more competitive forces pressing down on an industry, the harder it is for companies in it to generate sustainable profits — regardless of how well-managed they are.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">⚔️ Porter's Five Forces — Applied to Investing</div>
+      <table class="data-table">
+        <thead><tr><th>Force</th><th>The Question It Answers</th><th>High Threat = Bad</th><th>Low Threat = Good (Example)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Competitive Rivalry</strong></td><td>How intensely do existing players compete?</td><td>Airlines: brutal price wars, no differentiation, commoditised seats</td><td>Visa/Mastercard: comfortable duopoly, no price war, stable</td></tr>
+          <tr><td><strong>2. Threat of New Entrants</strong></td><td>How easy is it for new competitors to enter?</td><td>Restaurants: anyone can open one; capital requirements low</td><td>Commercial aircraft: Boeing/Airbus duopoly, decades of R&D needed</td></tr>
+          <tr><td><strong>3. Supplier Power</strong></td><td>Can suppliers squeeze margins by raising prices?</td><td>Automakers: dependence on semiconductor suppliers (2021 shortage)</td><td>Supermarkets: thousands of food suppliers compete for shelf space</td></tr>
+          <tr><td><strong>4. Buyer Power</strong></td><td>Can customers demand lower prices or switch easily?</td><td>B2C commodity products: customers switch for a penny difference</td><td>Enterprise software: switching is costly, buyers accept price rises</td></tr>
+          <tr class="hl"><td><strong>5. Substitute Threat</strong></td><td>Can customers meet the same need differently?</td><td>Physical DVDs: substituted by Netflix/streaming almost overnight</td><td>Cement: no substitute for construction; demand is inelastic</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull-quote">"In business, I look for economic castles protected by unbreachable moats. The industry structure determines the castle; the moat is built within it."<cite>— Warren Buffett (paraphrased)</cite></div>
+
+    <h2 class="ls-heading">The Airlines Paradox — The Most Famous Bad Industry</h2>
+    <p class="ls-body">Warren Buffett once quipped that investors should have shot down the Wright Brothers' plane at Kitty Hawk — saving capitalism from decades of capital destruction. Airlines score catastrophically on all five forces: brutal competition (commoditised seats, price-matching), low barriers to entry (can lease planes), powerful suppliers (Boeing, Airbus, fuel companies), powerful buyers (customers switch for £5), and substitute threats (video conferencing, trains, cruise ships).</p>
+    <p class="ls-body">The result: the global airline industry has collectively destroyed more capital than it has created since commercial aviation began. Even well-run airlines like Southwest have only marginally outperformed over decades. The industry structure matters more than management quality.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🏭 Industry Attractiveness Score — Five Forces Analysis</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Payments (Visa)</div><div class="bar-track"><div class="bar-fill" style="width:92%;background:var(--accent3)">Highly Attractive</div></div><div class="bar-val" style="color:var(--accent3)">9.2/10</div></div>
+        <div class="bar-row"><div class="bar-label">Software (SaaS)</div><div class="bar-track"><div class="bar-fill" style="width:82%;background:#5cba90">Very Attractive</div></div><div class="bar-val">8.2/10</div></div>
+        <div class="bar-row"><div class="bar-label">Medical Devices</div><div class="bar-track"><div class="bar-fill" style="width:76%;background:var(--accent)">Attractive</div></div><div class="bar-val">7.6/10</div></div>
+        <div class="bar-row"><div class="bar-label">FMCG / Staples</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:#b09050">Moderate</div></div><div class="bar-val">6.5/10</div></div>
+        <div class="bar-row"><div class="bar-label">Retail (General)</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:#c07040">Poor</div></div><div class="bar-val">3.8/10</div></div>
+        <div class="bar-row"><div class="bar-label">Airlines</div><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--danger)">Terrible</div></div><div class="bar-val" style="color:var(--danger)">1.4/10</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Industry structure — not individual company management — is the primary determinant of long-run profitability and shareholder returns. Always run Five Forces before picking individual stocks.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📦</div><div><div class="cs-meta">Case Study · Amazon vs Traditional Retail — Industry Structure</div><div class="cs-title">Why Amazon Thrives Where Others Fail</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Traditional retail scores poorly on all five forces: low barriers, brutal competition, powerful suppliers, price-sensitive buyers, and constant substitution threats. Traditional retailers like Sears, Debenhams, and Toys R Us were all destroyed by Amazon — not because they were badly managed, but because the structure of retail creates a race to the bottom.</p>
+        <p style="margin-bottom:.75rem">Amazon survived and thrived by escaping the traditional retail Five Forces trap through vertical integration: building its own logistics (neutralising supplier power), creating AWS cloud (diversifying revenue entirely), building Prime subscription lock-in (reducing buyer switching), and using scale to deter new entrants.</p>
+        <p>Amazon is not a retailer that happens to have a cloud — it's a logistics and cloud company that happens to sell products. Industry analysis would have told you this structural escape was the key to its survival.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Traditional retail ROIC: 3–8%</span><span class="cs-stat">Amazon AWS ROIC: 30%+</span><span class="cs-stat">Sears: bankrupt 2018</span><span class="cs-stat">Amazon 20-yr return: +20,000%</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 7</div>
+    <ul>
+      <li>Porter's Five Forces assess industry attractiveness: rivalry, new entrants, supplier power, buyer power, substitutes.</li>
+      <li>Industry structure matters more than management — even great CEOs struggle in structurally terrible industries.</li>
+      <li>Airlines score poorly on all five forces — the industry has collectively destroyed capital for decades.</li>
+      <li>The best industries: high barriers to entry, low supplier and buyer power, no easy substitutes, rational competition.</li>
+      <li>Amazon escaped retail's bad Five Forces by building logistics, cloud, and subscription lock-in — changing its own industry structure.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-6">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 7</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-6-0">
+      <div class="kq-text">1. Why has the airline industry collectively destroyed capital for decades despite being run by competent managers?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,0,0,1)">A. The industry structure is fundamentally poor — all five forces work against profitability, making sustained returns nearly impossible</button>
+        <button class="kq-opt" onclick="answerQ(6,0,1,0)">B. Airlines are heavily regulated, preventing profit maximisation</button>
+        <button class="kq-opt" onclick="answerQ(6,0,2,0)">C. Fuel costs are too unpredictable for airlines to ever be profitable</button>
+        <button class="kq-opt" onclick="answerQ(6,0,3,0)">D. There are too many government-owned airlines distorting competition</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-0"></div>
+    </div>
+    <div class="kq" id="kq-6-1">
+      <div class="kq-text">2. High "buyer power" in Porter's framework is bad for industry participants. Which scenario represents high buyer power?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,1,0,0)">A. A hospital buying specialised surgical equipment with no alternative supplier</button>
+        <button class="kq-opt" onclick="answerQ(6,1,1,1)">B. A supermarket buyer negotiating with hundreds of competing food brands who all want shelf space</button>
+        <button class="kq-opt" onclick="answerQ(6,1,2,0)">C. A government purchasing military aircraft from Boeing or Airbus only</button>
+        <button class="kq-opt" onclick="answerQ(6,1,3,0)">D. An enterprise signing a 5-year software contract with switching costs of £10M</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-1"></div>
+    </div>
+    <div class="kq" id="kq-6-2">
+      <div class="kq-text">3. Amazon escaped traditional retail's poor industry structure primarily by:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,2,0,0)">A. Charging lower prices than every competitor permanently</button>
+        <button class="kq-opt" onclick="answerQ(6,2,1,0)">B. Hiring better managers than traditional retailers</button>
+        <button class="kq-opt" onclick="answerQ(6,2,2,1)">C. Building its own logistics, cloud services, and Prime subscription lock-in — changing the competitive forces it faced</button>
+        <button class="kq-opt" onclick="answerQ(6,2,3,0)">D. Focusing only on electronics where margins are higher</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-6"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(5)">← Lesson 6</button>
+    <div class="lnav-mid" id="lnav-mid-6">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-6" disabled onclick="goLesson(7)">Lesson 8: Management Quality →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 8 — MANAGEMENT QUALITY ═══ -->
+<div class="lesson-panel" id="lesson-7">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 8 of 10</div>
+    <h1 class="lesson-title">Management Quality: <em>Evaluating the People in Charge</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 12 min read</span><span class="lmeta">📊 Capital allocation framework</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Given two identical businesses, the one with the superior capital allocator at the helm will be worth dramatically more in 10 years. Management quality is the multiplier that turns a good business into an exceptional investment — or destroys it.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Capital Allocation — The CEO's Most Important Skill</h2>
+    <p class="ls-body">A CEO generating £1 billion of free cash flow each year has five choices for that money. The quality of those choices over a decade determines whether shareholders triple or lose half their money. <span class="def" data-word="Capital Allocation" data-def="How a company decides to deploy its free cash flow. The five options are: reinvest in the business, acquire other companies, pay dividends, buy back shares, or pay down debt. The sequence and balance of these decisions determines long-run shareholder value." data-ex="Example: Apple's capital allocation is considered exceptional — they reinvest in high-ROIC products/services, then return excess capital via buybacks and dividends, having reduced their share count by 40% over a decade.">Capital allocation</span> is the CEO's most important function — yet it receives almost no coverage in business media.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">💰 The Five Capital Allocation Choices — Good vs Bad Execution</div>
+      <table class="data-table">
+        <thead><tr><th>Use of FCF</th><th>When It Creates Value</th><th>When It Destroys Value</th><th>Best Example</th></tr></thead>
+        <tbody>
+          <tr><td>Reinvest in Business</td><td>ROIC on new investment > WACC; high-return organic growth</td><td>Forcing growth into low-ROIC projects just to show growth</td><td>Amazon AWS expansion</td></tr>
+          <tr><td>Acquisitions (M&A)</td><td>Cheap price, clear synergies, same industry, CEO discipline</td><td>Overpaying, empire-building, diversifying into unknown sectors</td><td>Berkshire Hathaway vs AOL/TimeWarner</td></tr>
+          <tr><td>Share Buybacks</td><td>Stock trading below intrinsic value — buying cheap creates value</td><td>Buying overvalued stock at peaks (IBM, GE bought high)</td><td>Apple ($650B in buybacks 2013–2023)</td></tr>
+          <tr><td>Dividends</td><td>Stable, predictable return of capital with no better use internally</td><td>Paying dividends while running up debt or missing growth CapEx</td><td>Johnson & Johnson (60yr dividend grower)</td></tr>
+          <tr class="hl"><td>Debt Repayment</td><td>High-leverage situations; interest rates rising; recession looming</td><td>Paying down cheap debt when ROIC far exceeds interest cost</td><td>Post-LBO turnarounds</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading">Three Signals of Management Quality</h2>
+    <p class="ls-body"><strong style="color:var(--text)">1. Insider Ownership.</strong> Managers who own significant equity in their companies have aligned incentives. They think like owners because they are owners. <span class="def" data-word="Insider Ownership" data-def="The percentage of a company's shares held by its executives and board members. High insider ownership (10%+) aligns management incentives with shareholders. Low ownership combined with high compensation is a warning sign." data-ex="Example: Jeff Bezos owned ~11% of Amazon throughout its growth years — his personal wealth rose and fell with shareholders. This alignment of interests drove exceptional long-run decision-making.">Insider ownership</span> above 10% is a strong positive signal. Executives selling shares aggressively while publicly expressing confidence is a red flag.</p>
+    <p class="ls-body"><strong style="color:var(--text)">2. Candour on Earnings Calls.</strong> Great management teams acknowledge mistakes, give clear guidance, and discuss failures honestly. Poor managers use jargon to obscure bad results, blame external factors for every miss, and change metrics when old ones look bad. Read earnings call transcripts — not just summaries — to hear the difference.</p>
+    <p class="ls-body"><strong style="color:var(--text)">3. Pay vs Performance Alignment.</strong> CEO compensation should track shareholder returns over long periods. If a CEO's pay rises 30% while shareholders are down 20% for three years, that's a structural conflict of interest baked into the governance. Look for compensation structures tied to ROIC, FCF per share, or total shareholder return over 5+ years.</p>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🚨</div><div><div class="cs-meta">Case Study · Wirecard AG — When Management Lies</div><div class="cs-title">The €1.9 Billion That Didn't Exist</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Wirecard was a German payment processing company that joined the prestigious DAX 30 index in 2018. CEO Markus Braun was celebrated as a visionary. By 2020, it had a market cap of €24 billion. In June 2020, it collapsed after admitting €1.9 billion of cash on its balance sheet — supposedly held in Philippine bank accounts — simply did not exist. The auditor (EY) had signed off on phantom cash for years.</p>
+        <p style="margin-bottom:.75rem">Warning signs were present for years: short seller Muddy Waters and journalist Dan McCrum at the FT published repeated detailed allegations. Management responded with legal threats and diversionary PR rather than transparent answers. The CFO went on the run. Braun was arrested. Shareholders lost everything in days.</p>
+        <p>The lesson: when management responds to serious allegations with aggression rather than transparency, treat it as a red flag, not noise. Legitimate businesses welcome scrutiny. Frauds attack the questioner.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Market cap peak: €24B</span><span class="cs-stat">Missing cash: €1.9B</span><span class="cs-stat">DAX 30 constituent</span><span class="cs-stat">Shareholder losses: ~100%</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 8</div>
+    <ul>
+      <li>Capital allocation — how management deploys FCF — is the CEO's single most important skill for shareholder value creation.</li>
+      <li>The five uses of FCF: reinvest, acquire, buy back shares, pay dividends, repay debt. Quality and sequencing matter enormously.</li>
+      <li>Share buybacks only create value when stock is below intrinsic value. Buying overvalued stock (IBM, GE) destroys value.</li>
+      <li>High insider ownership (10%+) aligns management with shareholders — they win and lose with you.</li>
+      <li>Wirecard: when management attacks questioners rather than answering them, treat it as a fraud signal, not noise.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-7">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 8</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-7-0">
+      <div class="kq-text">1. A company generates £500M FCF annually. The CEO uses it all to acquire companies in unrelated industries at high prices, with no clear strategic rationale. What does this signal?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,0,0,0)">A. Excellent capital allocation — diversification reduces risk</button>
+        <button class="kq-opt" onclick="answerQ(7,0,1,1)">B. Poor capital allocation — empire-building acquisitions at high prices typically destroy shareholder value</button>
+        <button class="kq-opt" onclick="answerQ(7,0,2,0)">C. Neutral — acquisitions always return fair value over time</button>
+        <button class="kq-opt" onclick="answerQ(7,0,3,0)">D. The CEO is simply responding to market opportunities</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-0"></div>
+    </div>
+    <div class="kq" id="kq-7-1">
+      <div class="kq-text">2. A company's stock has fallen 40% over 3 years. The CEO receives a 25% pay rise and is awarded a large bonus. What does this governance structure signal?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,1,0,0)">A. The CEO is being rewarded for managing well in a difficult market</button>
+        <button class="kq-opt" onclick="answerQ(7,1,1,1)">B. CEO compensation is not aligned with shareholder returns — a structural governance problem that often leads to continued underperformance</button>
+        <button class="kq-opt" onclick="answerQ(7,1,2,0)">C. The board is paying the CEO to retain talent during difficult times</button>
+        <button class="kq-opt" onclick="answerQ(7,1,3,0)">D. This is standard practice and does not signal any problem</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-1"></div>
+    </div>
+    <div class="kq" id="kq-7-2">
+      <div class="kq-text">3. What was the key early warning sign that Wirecard may have been fraudulent, years before its collapse?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,2,0,0)">A. Its stock price was falling consistently before the fraud was discovered</button>
+        <button class="kq-opt" onclick="answerQ(7,2,1,0)">B. Its revenue growth was too high to be sustainable</button>
+        <button class="kq-opt" onclick="answerQ(7,2,2,1)">C. Management responded to serious fraud allegations with legal threats and aggression rather than transparent answers</button>
+        <button class="kq-opt" onclick="answerQ(7,2,3,0)">D. Its auditor changed three times in two years</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-7"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(6)">← Lesson 7</button>
+    <div class="lnav-mid" id="lnav-mid-7">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-7" disabled onclick="goLesson(8)">Lesson 9: Fraud Detection →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 9 — SHORT SELLING & FRAUD ═══ -->
+<div class="lesson-panel" id="lesson-8">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 9 of 10</div>
+    <h1 class="lesson-title">Detecting Fraud: <em>Read the Numbers They Hope You Miss</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min read</span><span class="lmeta">📊 Beneish M-Score explained</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Every major accounting fraud contained detectable warning signs in the public financial statements — years before collapse. Learning to spot them protects your capital and, for short sellers, creates extraordinary opportunities.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Beneish M-Score — A Fraud Detection Formula</h2>
+    <p class="ls-body">Professor Messod Beneish developed the <span class="def" data-word="Beneish M-Score" data-def="A statistical model using 8 financial ratios to detect earnings manipulation. A score above −1.78 suggests the company may be manipulating earnings. It correctly identified Enron as a likely manipulator one year before its collapse." data-ex="Example: Enron's M-Score in 2000 was −1.89 — above the −2.22 threshold, suggesting earnings manipulation. An analyst using this tool would have been warned a full year before the December 2001 bankruptcy.">M-Score</span> using eight financial variables that collectively signal whether a company's reported earnings are likely to be manipulated. A score above −1.78 is a red flag. It identified Enron as a likely manipulator a full year before collapse — the formula was in plain sight.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🔍 Beneish M-Score — The 8 Variables (Simplified)</div>
+      <table class="data-table">
+        <thead><tr><th>Variable</th><th>What It Detects</th><th>Warning Signal</th></tr></thead>
+        <tbody>
+          <tr><td>Days Sales in Receivables Index</td><td>Receivables growing faster than revenue</td><td>Ratio rising — revenue may be fictitious or early-recognised</td></tr>
+          <tr><td>Gross Margin Index</td><td>Gross margin deteriorating</td><td>Falling margins signal competitive pressure being hidden</td></tr>
+          <tr><td>Asset Quality Index</td><td>Non-productive assets growing</td><td>Capitalising expenses to inflate assets</td></tr>
+          <tr><td>Revenue Growth Index</td><td>Revenue acceleration</td><td>Rapid growth often precedes manipulation pressure</td></tr>
+          <tr><td>Depreciation Index</td><td>Slower depreciation rate</td><td>Slowing depreciation boosts profits artificially</td></tr>
+          <tr><td>SG&A Index</td><td>Sales/admin cost control</td><td>Rising costs hidden by accounting adjustments</td></tr>
+          <tr><td>Leverage Index</td><td>Rising debt levels</td><td>Borrowing to fund operations that look profitable but aren't</td></tr>
+          <tr class="hl"><td>Total Accruals to Assets</td><td>Accruals vs cash flow gap</td><td>High accruals with low cash flow = earnings quality problem</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading">Five Red Flags in Any Financial Statement</h2>
+    <p class="ls-body">You don't need the full M-Score formula to spot danger. These five warning signs, all available from public filings, have appeared in virtually every major fraud:</p>
+    <div class="callout red">
+      <div class="callout-title">🚨 The Five Fraud Warning Signs</div>
+      <p><strong>1. Accounts receivable growing much faster than revenue.</strong> Customers aren't paying — or revenue is being booked before it's earned.<br>
+      <strong>2. Net income consistently far above operating cash flow.</strong> Profits are being manufactured; real cash isn't arriving.<br>
+      <strong>3. Frequent "one-time" charges that appear every year.</strong> They're not one-time. Management is hiding recurring problems.<br>
+      <strong>4. Auditor also receiving large consulting fees from the company.</strong> Independence is compromised (see: Arthur Andersen/Enron).<br>
+      <strong>5. Management attacking short sellers or journalists rather than answering their specific questions.</strong> Legitimate businesses answer questions. Frauds attack questioners.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">☕</div><div><div class="cs-meta">Case Study · Luckin Coffee — The $310M That Wasn't There</div><div class="cs-title">How a Chinese Coffee Chain Fooled Wall Street</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Luckin Coffee listed on NASDAQ in 2019 with a compelling story: China's answer to Starbucks, growing at extraordinary speed. By early 2020 it had a $12 billion market cap and 4,500+ stores. Analysts were bullish. Short seller Muddy Waters published a 89-page report alleging massive fraud. The company dismissed it as baseless.</p>
+        <p style="margin-bottom:.75rem">Warning signs were there: revenue growth that strained credulity (over 500% year-on-year), accounts receivable growing faster than revenue, and cash flows that never matched reported profits. In April 2020, Luckin admitted that its COO and other employees had fabricated ¥2.2 billion (~$310 million) in sales — approximately 40% of reported 2019 revenue.</p>
+        <p>The stock fell 80% in a single day. It was delisted from NASDAQ. The CEO and chairman were fired. The red flags — receivables vs revenue, cash vs profit gaps — were all in the public filings. The short sellers read them. Most analysts didn't.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Fabricated sales: ¥2.2B ($310M)</span><span class="cs-stat">% of revenue: ~40%</span><span class="cs-stat">Stock fell: −80% in one day</span><span class="cs-stat">Delisted from NASDAQ</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 9</div>
+    <ul>
+      <li>The Beneish M-Score uses 8 financial ratios to detect earnings manipulation — it flagged Enron a full year before collapse.</li>
+      <li>The #1 fraud signal: net income far above operating cash flow over multiple years. Real businesses convert profits to cash.</li>
+      <li>Accounts receivable growing faster than revenue signals either fictitious sales or premature revenue recognition.</li>
+      <li>Auditor conflicts of interest (consulting fees from audit clients) compromise independence — a critical governance check.</li>
+      <li>When management attacks short sellers instead of answering their specific claims with data, it's a fraud signal, not noise.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-8">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 9</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-8-0">
+      <div class="kq-text">1. A company reports £200M net profit for three consecutive years but operating cash flow of £20–30M each year. What does this strongly suggest?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(8,0,0,0)">A. The company is investing heavily in capital expenditure, reducing cash</button>
+        <button class="kq-opt" onclick="answerQ(8,0,1,1)">B. Earnings are likely manipulated — real profits of that magnitude would generate far more operating cash flow</button>
+        <button class="kq-opt" onclick="answerQ(8,0,2,0)">C. The company is paying large dividends that reduce cash flow</button>
+        <button class="kq-opt" onclick="answerQ(8,0,3,0)">D. This is normal for fast-growing companies — profits always outpace cash flow early on</button>
+      </div>
+      <div class="kq-feedback" id="kqf-8-0"></div>
+    </div>
+    <div class="kq" id="kq-8-1">
+      <div class="kq-text">2. In the Luckin Coffee case, what was the most visible red flag in the public financial statements before the fraud was admitted?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(8,1,0,0)">A. The company reported losses for three consecutive years</button>
+        <button class="kq-opt" onclick="answerQ(8,1,1,1)">B. Revenue growth was implausibly fast and cash flows never matched reported profits — classic earnings quality red flags</button>
+        <button class="kq-opt" onclick="answerQ(8,1,2,0)">C. The CEO was selling large amounts of personal stock</button>
+        <button class="kq-opt" onclick="answerQ(8,1,3,0)">D. The auditor had resigned before the fraud was disclosed</button>
+      </div>
+      <div class="kq-feedback" id="kqf-8-1"></div>
+    </div>
+    <div class="kq" id="kq-8-2">
+      <div class="kq-text">3. A short seller publishes a detailed 60-page report with specific accounting allegations against a company. The company's CEO responds by calling it "a malicious attack" and threatens legal action but does not address the specific claims. What should an investor conclude?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(8,2,0,0)">A. The short seller is wrong — legitimate companies don't need to answer every accusation</button>
+        <button class="kq-opt" onclick="answerQ(8,2,1,0)">B. The CEO is right to protect the company from unfair attacks</button>
+        <button class="kq-opt" onclick="answerQ(8,2,2,1)">C. This is a significant red flag — fraudulent companies attack questioners; legitimate ones answer the specific claims with data</button>
+        <button class="kq-opt" onclick="answerQ(8,2,3,0)">D. Short sellers are always wrong and motivated by profit — their reports should be dismissed</button>
+      </div>
+      <div class="kq-feedback" id="kqf-8-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-8"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(7)">← Lesson 8</button>
+    <div class="lnav-mid" id="lnav-mid-8">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-8" disabled onclick="goLesson(9)">Lesson 10: Special Situations →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 10 — SPECIAL SITUATIONS ═══ -->
+<div class="lesson-panel" id="lesson-9">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 2 · Lesson 10 of 10</div>
+    <h1 class="lesson-title">Special Situations: <em>Where the Real Edge Hides</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min read</span><span class="lmeta">📊 Spinoff return data</span><span class="lmeta">🧠 Final knowledge check</span></div>
+    <p class="lesson-intro">Spinoffs, mergers, post-bankruptcy equities, and rights offerings are situations where institutional constraints create mispricings that individual investors can exploit. This is where Joel Greenblatt says the <em>real edge</em> lives.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Spinoffs — The Most Reliable Source of Mispricing</h2>
+    <p class="ls-body">A <span class="def" data-word="Spinoff" data-def="When a parent company separates a division into an independent publicly traded company, distributing shares to existing shareholders. Spinoffs systematically outperform the market because institutional constraints force selling regardless of value." data-ex="Example: PayPal was spun off from eBay in 2015. eBay shareholders received PayPal shares they hadn't asked for. Many sold immediately. PayPal then rose 600%+ over the next six years.">spinoff</span> creates a predictable mispricing: institutional investors who hold the parent company receive shares in the new entity they never researched and don't want. Index funds dump them immediately because they're too small for the relevant index. This mechanical selling — unrelated to value — creates buying opportunities.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Spinoff Performance vs Market — Academic Research Data</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Spinoffs (Yr 1)</div><div class="bar-track"><div class="bar-fill" style="width:76%;background:var(--accent3)">+26% avg</div></div><div class="bar-val" style="color:var(--accent3)">+26%</div></div>
+        <div class="bar-row"><div class="bar-label">S&P 500 (Yr 1)</div><div class="bar-track"><div class="bar-fill" style="width:28%;background:var(--accent2)">+10% avg</div></div><div class="bar-val">+10%</div></div>
+        <div class="bar-row"><div class="bar-label">Spinoffs (3 Yr)</div><div class="bar-track"><div class="bar-fill" style="width:92%;background:var(--accent3)">+45% avg</div></div><div class="bar-val" style="color:var(--accent3)">+45%</div></div>
+        <div class="bar-row"><div class="bar-label">S&P 500 (3 Yr)</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--accent2)">+30% avg</div></div><div class="bar-val">+30%</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Data from multiple academic studies including Cusatis, Miles & Woolridge. Spinoffs outperform by ~16% per year on average — one of the most robust anomalies in financial research. The edge exists because of forced selling, not because the businesses are better.</p>
+    </div>
+
+    <h2 class="ls-heading">Why Spinoffs Outperform: The Greenblatt Framework</h2>
+    <p class="ls-body">Joel Greenblatt's book <em>You Can Be a Stock Market Genius</em> (1997) remains the bible of special situations investing. His key insight: institutional investors cannot buy spinoffs because they're too small for their mandates, too new to have an analyst track record, and often too ugly (a division being spun off is rarely the parent's crown jewel). This creates a structural vacuum that patient individual investors can fill.</p>
+    <p class="ls-body">The most powerful signal: <strong style="color:var(--text)">insider buying in a spinoff during the first 3–6 months.</strong> When the newly independent management team buys significant amounts of stock with their own money in the months after the spinoff, they are signalling that the price is far below what they know the business is worth. This is the clearest alignment signal in special situations investing.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🔄 Other Special Situations — Quick Reference</div>
+      <table class="data-table">
+        <thead><tr><th>Situation</th><th>Why Mispricing Occurs</th><th>Edge Available</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr><td><span class="def" data-word="Merger Arbitrage" data-def="Buying shares of an acquisition target after a deal is announced, at a slight discount to the offer price. If the deal closes, you capture the spread. If it breaks, you lose significantly." data-ex="Example: Company A announces acquiring Company B at $50/share. B trades at $48. Buying at $48 earns $2 (4%) when the deal closes in 3 months — ~16% annualised if it completes.">Merger Arbitrage</span></td><td>Shareholders sell immediately; arb funds buy the spread</td><td>4–8% annualised (deal close risk)</td><td>Deal break = large loss</td></tr>
+          <tr><td>Post-Bankruptcy Equities</td><td>Stigma; institutional mandates exclude them; complex</td><td>New balance sheet, cleaned-up debt, motivated management</td><td>Second bankruptcy possible</td></tr>
+          <tr><td>Rights Offerings</td><td>Dilution fear drives selling even at large discounts</td><td>Can buy new shares at 20–40% discount to market</td><td>Needs careful analysis of why capital being raised</td></tr>
+          <tr class="hl"><td>Stub Stocks</td><td>Complexity hides value — parent owns listed subsidiary worth more than parent's market cap</td><td>Risk-free spread (theoretically) between parent and subsidiary value</td><td>Discount can persist longer than expected</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">💳</div><div><div class="cs-meta">Case Study · PayPal Spinoff from eBay (2015)</div><div class="cs-title">The Textbook Spinoff That Rewarded Patient Investors</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In July 2015, eBay spun off PayPal into an independent company. eBay shareholders received one PayPal share for each eBay share they held. Immediately, institutional selling began — growth funds sold because PayPal was "too payments, not enough tech"; value funds sold because it had no track record as an independent company; index funds dumped it because it wasn't yet in the major indices.</p>
+        <p style="margin-bottom:.75rem">PayPal opened around $36 per share. Over the next six years, it reached $310 — a gain of ~760% against the S&P 500's ~120% over the same period. The business hadn't changed. The management team bought stock. Mobile payments were a clear secular growth trend that was simply obscured by the mechanical selling pressure of the spinoff.</p>
+        <p>Any investor who understood the spinoff mispricing framework, read Greenblatt, noticed management buying, and held patiently captured one of the best returns of the decade from a company that was already huge, publicly listed, and widely known.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Spinoff price: ~$36</span><span class="cs-stat">Peak 2021: $310</span><span class="cs-stat">Return: +760%</span><span class="cs-stat">S&P 500 same period: +120%</span></div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-title">🎓 Phase 2 Complete — What You Can Now Do</div>
+      <p>You can read all three financial statements, calculate and interpret every key ratio, build a DCF model, identify economic moats, read the business cycle, use technical analysis for timing, apply Porter's Five Forces, evaluate management quality, detect accounting fraud, and exploit special situation mispricings. You now think and analyse like a professional investor. <strong>Phase 3: Portfolio Management</strong> is where you assemble all of this into a coherent, risk-managed portfolio strategy.</p>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 10 & Phase 2 Complete</div>
+    <ul>
+      <li>Spinoffs systematically outperform because institutional constraints force mechanical selling unrelated to value.</li>
+      <li>The best spinoff signal: significant insider buying in the first 3–6 months after the spinoff occurs.</li>
+      <li>Greenblatt's framework: look where institutions cannot go — small, complex, unglamorous, newly created situations.</li>
+      <li>Merger arbitrage captures the spread between offer price and trading price, with deal-break as the primary risk.</li>
+      <li>PayPal's 760% return after the eBay spinoff is the canonical example of spinoff mispricing rewarding patient investors.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-9">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Final Knowledge Check — Lesson 10</div><div class="kcheck-sub">3 questions · Complete Phase 2</div></div></div>
+    <div class="kq" id="kq-9-0">
+      <div class="kq-text">1. Why do spinoffs systematically outperform the market in the years following their creation?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(9,0,0,0)">A. Spinoffs are always better businesses than their parent companies</button>
+        <button class="kq-opt" onclick="answerQ(9,0,1,1)">B. Institutional constraints force mechanical selling regardless of value — creating mispricings patient investors can exploit</button>
+        <button class="kq-opt" onclick="answerQ(9,0,2,0)">C. Spinoffs benefit from new management teams who are always better than the parent company's</button>
+        <button class="kq-opt" onclick="answerQ(9,0,3,0)">D. The market is generally inefficient, and spinoffs simply get lucky</button>
+      </div>
+      <div class="kq-feedback" id="kqf-9-0"></div>
+    </div>
+    <div class="kq" id="kq-9-1">
+      <div class="kq-text">2. In merger arbitrage, what is the primary risk that can turn a small expected gain into a large loss?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(9,1,0,0)">A. The target company's share price falls before the deal is announced</button>
+        <button class="kq-opt" onclick="answerQ(9,1,1,1)">B. The deal breaks or is blocked — the target's stock falls back to pre-deal prices, creating a large loss</button>
+        <button class="kq-opt" onclick="answerQ(9,1,2,0)">C. The acquirer overpays, reducing future returns for the combined entity</button>
+        <button class="kq-opt" onclick="answerQ(9,1,3,0)">D. Interest rates rise, making the arbitrage spread less attractive</button>
+      </div>
+      <div class="kq-feedback" id="kqf-9-1"></div>
+    </div>
+    <div class="kq" id="kq-9-2">
+      <div class="kq-text">3. PayPal was spun off from eBay in 2015 at ~$36. The most important signal that it was mispriced was:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(9,2,0,0)">A. The stock price was falling after the spinoff — indicating the market disagreed with the valuation</button>
+        <button class="kq-opt" onclick="answerQ(9,2,1,0)">B. eBay announced it regretted the spinoff decision</button>
+        <button class="kq-opt" onclick="answerQ(9,2,2,1)">C. Management was buying significant amounts of stock with their own money — a powerful signal they believed the price was far below intrinsic value</button>
+        <button class="kq-opt" onclick="answerQ(9,2,3,0)">D. PayPal's revenue was growing faster than eBay's — making it obviously more valuable</button>
+      </div>
+      <div class="kq-feedback" id="kqf-9-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-9"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(8)">← Lesson 9</button>
+    <div class="lnav-mid" id="lnav-mid-9">Complete the final check to finish Phase 2!</div>
+    <button class="btn-lnav btn-next" id="next-btn-9" disabled onclick="window.location='phase3-chapter.html'">🎓 Start Phase 3 →</button>
+  </div>
+</div>
+
+</main>
+</div><!-- /app -->
+
+<script>
+/* ── DICTIONARY ── */
+document.querySelectorAll('.def').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    document.getElementById('dict-word').textContent=el.dataset.word;
+    document.getElementById('dict-def').textContent=el.dataset.def;
+    document.getElementById('dict-example').textContent=el.dataset.ex||'';
+    const rect=el.getBoundingClientRect();
+    let top=rect.bottom+8+window.scrollY, left=rect.left;
+    if(left+320>window.innerWidth) left=window.innerWidth-325;
+    if(left<8) left=8;
+    const p=document.getElementById('dict-popup');
+    p.style.top=top+'px'; p.style.left=left+'px';
+    p.classList.add('visible');
+    document.getElementById('dict-overlay').classList.add('visible');
+  });
+});
+document.getElementById('dict-close').onclick=closeDict;
+document.getElementById('dict-overlay').onclick=closeDict;
+function closeDict(){
+  document.getElementById('dict-popup').classList.remove('visible');
+  document.getElementById('dict-overlay').classList.remove('visible');
+}
+
+/* ── QUIZ ── */
+const quizState={};
+const answers={
+  '0-0':{c:1,expl:{0:"Incorrect. This large gap between reported profit and actual cash collected is a classic red flag for earnings manipulation or aggressive revenue recognition.",1:"Correct! When net profit massively exceeds operating cash flow, it suggests earnings are being accrued on paper but not actually collected in cash. This was a central warning sign at Enron.",2:"CapEx comes from the investing section, not operating cash flow. This gap is in the operating section — it signals a revenue/collection problem, not a capex issue.",3:"The balance sheet is not necessarily wrong — but the cash flow divergence from income is a serious investigation trigger."}},
+  '0-1':{c:2,expl:{0:"That describes operating income or EBIT, not free cash flow.",1:"Adding back depreciation to net income gives approximated operating cash flow (the indirect method) — not free cash flow, which also requires subtracting CapEx.",2:"Correct! FCF = Operating Cash Flow − Capital Expenditure. It's the purest measure of how much cash a business actually generates for shareholders after investing in its own maintenance and growth.",3:"Cash on the balance sheet is a stock (a snapshot), not a flow. FCF measures what the business generates each period."}},
+  '0-2':{c:1,expl:{0:"That's the income statement equation, not the balance sheet.",1:"Correct! Assets = Liabilities + Shareholders' Equity is the foundational accounting identity that must always hold true. If it doesn't, there's an error — or fraud.",2:"That approximates operating cash flow using the indirect method — not the balance sheet equation.",3:"That's the formula for operating profit / EBIT — not the balance sheet equation."}},
+  '1-0':{c:0,expl:{0:"Correct! PEG = P/E ÷ Growth Rate = 40 ÷ 40 = 1.0. A PEG of 1.0 indicates the stock is fairly valued for its growth rate. Below 1.0 suggests undervaluation relative to growth; above 1.0 suggests overvaluation.",1:"PEG is not the P/E number itself. PEG = P/E ÷ Growth = 40÷40 = 1.0, not 40.",2:"PEG of 0.4 would mean P/E of 16 with 40% growth, or P/E of 40 with 100% growth — neither applies here.",3:"PEG only requires the P/E ratio and earnings growth rate — both of which are given."}},
+  '1-1':{c:1,expl:{0:"Incorrect. ROIC of 8% below WACC of 12% means the company earns less on capital than it costs to fund that capital — it is destroying value.",1:"Correct! When ROIC < WACC, every pound of capital deployed generates less return than the cost of obtaining that capital. This is value destruction — the opposite of what investors want.",2:"A moat would typically produce ROIC well above WACC. ROIC below WACC suggests no moat and potential capital misallocation.",3:"Debt levels are not directly what ROIC vs WACC measures — this is about return on total invested capital vs its funding cost."}},
+  '1-2':{c:2,expl:{0:"Supermarket margins are a structural industry characteristic, not a management failure — even the world's best-run supermarkets operate at 2-3% margins.",1:"Software pricing is market-determined. The margin difference reflects cost structure, not arbitrary pricing.",2:"Correct! Once software is built, delivering it to one more customer costs almost nothing (near-zero marginal cost). Supermarkets must physically stock, transport, and store every item — enormous physical costs per unit sold. This structural cost difference drives the margin gap.",3:"Gross margin is extremely meaningful for comparing businesses within and across sectors — it's one of the most important indicators of competitive advantage and business model quality."}},
+  '2-0':{c:0,expl:{0:"Correct! Growth stocks derive most of their value from cash flows far in the future. When the discount rate rises, those far-future cash flows are worth less in today's money — disproportionately hammering growth valuations vs value stocks, which have more near-term earnings.",1:"While some growth companies do have debt, the primary mechanism was DCF-driven: higher rates = higher WACC = lower present value of future cash flows.",2:"Some value sectors do benefit from higher rates (banks), but the main reason growth stocks fell more is DCF mathematics.",3:"Incorrect — rising rates had very different impacts across sectors. Financials actually benefited; growth stocks were devastated."}},
+  '2-1':{c:2,expl:{0:"The opposite is true. The explicit forecast period (years 1-10) typically contributes only 20-40% of total DCF value.",1:"Closer, but still low. Terminal value typically dominates significantly — which is why it's the most important and most dangerous assumption.",2:"Correct! Terminal value — representing all cash flows beyond year 10 in perpetuity — typically accounts for 60-80% of total DCF value. This is why small changes in terminal growth rate assumptions have such enormous impacts on the output.",3:"While terminal value dominates, the explicit forecast years still contribute meaningfully (20-40%) and help anchor the terminal value assumption."}},
+  '2-2':{c:2,expl:{0:"WACC affects every year's discount factor, including the terminal value — it's the most pervasive input in the entire model.",1:"Lower discount rate means future cash flows are worth MORE in present value terms, not less. Lower WACC → higher intrinsic value.",2:"Correct! A lower WACC means you discount future cash flows less aggressively — each future pound is worth more in today's terms. This increases the calculated intrinsic value significantly, especially for long-duration assets with large terminal values.",3:"A DCF can only produce a negative value if the business consistently destroys cash — simply lowering the discount rate cannot cause this."}},
+  '3-0':{c:1,expl:{0:"Network effects apply when more users make the product better for all users — Epic's moat is not dependent on the number of hospitals using it, but on the cost of leaving.",1:"Correct! Epic has a classic switching cost moat. The cost (financial, time, risk, retraining) of migrating years of patient data to a competitor is so high that hospitals stay even when alternatives exist and are potentially cheaper.",2:"Efficient scale applies to markets where the size is only sufficient for one player. Hospital software has many potential vendors — the moat is switching costs, not market size.",3:"While Epic may hold some patents, the primary and most powerful moat is unquestionably switching costs — the reason hospitals stay is the cost of leaving, not patent protection."}},
+  '3-1':{c:1,expl:{0:"Market share size is not a moat determinant. Small shares can have moats (niche businesses); large shares can evaporate overnight if the product stops being the best.",1:"Correct! Nokia's dominance was based on having the best hardware in a world where hardware was what mattered. When Apple changed the game to software/UX, customers had zero structural barriers to switching. There were no switching costs, no network effects, no cost advantages — just better product leading the pack temporarily.",2:"Nokia's financial position was not the primary issue. Their decline was purely competitive — Apple and Android offered something structurally superior with no barriers preventing customers from switching.",3:"Mobile phones were absolutely a growing market — Nokia just failed to adapt to the new terms of competition."}},
+  '3-2':{c:2,expl:{0:"Cola markets globally support multiple players (Pepsi, Coke, hundreds of local brands) — efficient scale does not apply.",1:"More Coke drinkers does not make Coke taste better for existing drinkers — this is not a network effect moat.",2:"Correct! Coca-Cola's moat is its brand — an intangible asset built over 130 years of advertising, emotional associations, and global distribution. The brand allows it to charge a premium over functionally identical products. Blind taste tests show many people prefer Pepsi — yet Coke outsells it because brand matters more than taste.",3:"While some people are habituated to Coke, the switching cost is essentially zero — you can buy Pepsi at the same store. The premium Coke charges comes from brand desirability, not switching friction."}},
+  '4-0':{c:2,expl:{0:"Technology spending falls in recessions — businesses and consumers cut discretionary tech purchases. Enterprise software is stickier, but hardware and consumer tech are quite cyclical.",1:"Consumer discretionary (restaurants, travel, luxury, entertainment) is highly cyclical and suffers badly in recessions as people cut non-essential spending.",2:"Correct! Consumer staples (food, household products, personal care) have inelastic demand — people buy soap, food, and medicine regardless of economic conditions. Companies like Procter & Gamble, Unilever, and Nestlé consistently outperform in downturns.",3:"Banks suffer badly in recessions due to rising loan defaults and falling demand for credit — they are cyclical, not defensive."}},
+  '4-1':{c:1,expl:{0:"An inverted yield curve actually signals inflation concern and economic slowdown risk — the opposite of controlled inflation.",1:"Correct! An inverted yield curve (short rates > long rates) has preceded every US recession since 1955. It signals that bond markets expect the economy to weaken — investors demand higher short-term rates (compensation for current risk) while accepting lower long-term rates (expecting rate cuts ahead as recession hits).",2:"An inverted yield curve is actually the opposite of economic expansion — it's a recession warning signal.",3:"The Fed controls short rates directly, but the yield curve inversion reflects market expectations of what rates will do over time — specifically, that current high short rates will need to be cut as the economy weakens."}},
+  '4-2':{c:2,expl:{0:"While true that higher rates increase borrowing costs, this alone doesn't explain the magnitude of growth stock declines. The primary mechanism is DCF-driven valuation compression.",1:"The declines were entirely rational and mathematically predicted by DCF models. Rising discount rates reduce the present value of future cash flows — especially those far in the future, where most growth stock value resides.",2:"Correct! Growth stocks have most of their value in cash flows 5-15+ years out. When WACC rises from 6% to 10%, those distant cash flows get discounted far more aggressively. A company with most value in year 10+ cash flows can lose 40-60% of its DCF value from a modest WACC increase — exactly what happened.",3:"Consumer spending is a real concern for consumer-facing companies, but the primary driver of growth stock underperformance was DCF valuation — not consumer spending patterns. Pure SaaS companies with locked-in B2B contracts still fell 70%+ purely due to WACC expansion."}},
+
+  '5-0':{c:1,expl:{0:"Price above resistance is a necessary condition for a breakout, but not sufficient. Volume confirms the conviction behind the move. A breakout on low volume is highly unreliable and often reverses — known as a 'false break.'",1:"Correct! Volume is the lie detector of technical analysis. A breakout on only 30% of average volume means very few participants are involved — the move lacks conviction and is likely to fail. Professional traders require above-average, ideally 2×+ average volume to trust a breakout.",2:"Low-volume breakouts are suspect but not automatically bearish. They're simply unreliable — they may or may not follow through. The correct interpretation is caution, not outright sell.",3:"Volume is one of the most important variables in technical analysis. Price alone tells you what happened; volume tells you how many participants were involved and how much conviction existed behind the move."}},
+  '5-1':{c:1,expl:{0:"An RSI of 78 is the opposite of undervalued in technical terms — it indicates overbought conditions. This doesn't mean the stock will fall immediately, but momentum is stretched and risk is elevated for new buyers.",1:"Correct! RSI above 70 indicates overbought conditions — the stock has risen rapidly and momentum may be overextended. It doesn't guarantee a reversal, but it signals caution. RSI of 78 is solidly in overbought territory and warrants careful attention to risk.",2:"RSI is a momentum oscillator on a 0–100 scale. It does not measure percentage upside remaining — it measures the speed and magnitude of recent price changes relative to the stock's own history.",3:"RSI above 70 is the standard overbought threshold. Values of 78 are clearly overbought. The 90+ threshold you suggest would leave investors ignoring many valid overbought warnings."}},
+  '5-2':{c:2,expl:{0:"A new all-time high is a price milestone, not the Golden Cross. The Golden Cross is specifically about the relationship between moving averages — it can happen at any price level.",1:"RSI crossing 50 is sometimes called a momentum signal, but it is not the Golden Cross. The Golden Cross involves moving averages, not RSI.",2:"Correct! The Golden Cross occurs when the 50-day moving average crosses above the 200-day moving average. It signals that medium-term momentum has shifted above long-term trend — widely interpreted as a bullish confirmation of a new sustained uptrend. Millions of traders and algorithms watch this signal.",3:"Volume exceeding the 200-day average is a useful signal of institutional participation, but it is not the Golden Cross. The Golden Cross is specifically defined by the relationship between the 50-day and 200-day moving averages."}},
+
+  '6-0':{c:0,expl:{0:"Correct! Porter's Five Forces work against airlines on every dimension: brutal price competition among carriers, low barriers to entry (planes can be leased), powerful suppliers (Boeing, Airbus, jet fuel), price-sensitive buyers who switch for minimal differences, and substitutes (video conferencing, rail, cruise). Even the best airline management cannot overcome this structural handicap — which is why the industry has collectively destroyed capital for a century of aviation.",1:"Regulation affects some aspects of airline operations but is not the primary cause of capital destruction. Many regulated industries (utilities, pharmaceuticals) are highly profitable. The problem is the Five Forces structure, not regulation per se.",2:"Fuel costs are a real risk, but airlines hedge fuel exposure, and the industry still destroys capital even in low-fuel-cost environments. The core issue is structural — competition, not cost volatility alone.",3:"Government-owned airlines do distort some markets, but the underlying structural problem (all five forces hostile) exists globally including in markets with no government airlines."}},
+  '6-1':{c:1,expl:{0:"This is actually low buyer power — the hospital has no alternative supplier and must accept the terms. Scarce, specialised products give suppliers power, not buyers.",1:"Correct! When a buyer faces many competing sellers who all want their business, the buyer holds all the power — they can demand lower prices, better terms, and premium placement. Supermarkets with thousands of competing food brands have enormous buyer power, squeezing supplier margins systematically.",2:"Government/military procurement of specialised defence equipment from only two viable suppliers (Boeing, Airbus) is actually high supplier power — the government has very limited alternatives.",3:"Enterprise software with high switching costs gives the software company (the supplier) the power, not the buyer. The buyer is locked in — exactly low buyer power."}},
+  '6-2':{c:2,expl:{0:"Charging low prices is a strategy, not a structural escape from Five Forces. Amazon's prices fluctuate — the key was building entirely new business lines that faced different competitive structures.",1:"Management quality helps at the margin but cannot overcome structural industry forces. The key was structural transformation, not better management than Sears or Borders.",2:"Correct! Amazon systematically changed its own competitive position by: building its own logistics (removing dependence on UPS/FedEx — supplier power reduced), creating AWS cloud (a completely different, high-margin business with different Five Forces), and building Prime subscription lock-in (reducing buyer switching — reducing buyer power). This structural escape is what separates Amazon from every other retailer that tried to compete with it.",3:"Amazon sells everything, including low-margin commodities. Electronics are not uniquely profitable. The edge comes from logistics, cloud, and subscription lock-in — not product selection."}},
+
+  '7-0':{c:1,expl:{0:"Diversification can reduce risk, but undisciplined acquisition sprees in unrelated industries almost always destroy value. Academic research consistently shows that diversifying acquisitions at premium prices underperform — CEOs who do this are building empires, not creating shareholder value.",1:"Correct! This is classic empire-building — using the company's FCF to expand management's domain and power at shareholders' expense. Studies consistently show that acquiring at high prices in unrelated industries destroys value. The correct use of FCF when reinvestment opportunities are scarce is to return capital to shareholders, not to make acquisitions for the sake of growth.",2:"Acquisitions do not automatically return fair value — the majority of large acquisitions (by value) destroy acquirer shareholder value, particularly when the deal rationale is unclear and the price is high.",3:"Responding to 'market opportunities' is exactly what good capital allocation does — but unrelated acquisitions at high prices are not opportunities, they're value destruction dressed as strategy."}},
+  '7-1':{c:1,expl:{0:"If the stock fell 40%, the CEO was not managing well by any shareholder metric. Blaming 'difficult markets' while receiving large pay increases is a governance failure, not reward for resilience.",1:"Correct! Pay should track performance — specifically shareholder returns over multi-year periods. When CEO pay rises 25% while shareholders lose 40% over three years, the compensation committee has failed at its primary job. This misalignment predicts continued underperformance: if management can extract wealth without creating it for shareholders, the incentive to do so is removed.",2:"Retaining talent during downturns is legitimate, but a 25% pay increase plus bonus for a CEO whose stock has fallen 40% is not retention — it's a structural governance failure. Retention bonuses, when justified, should be disclosed transparently and linked to future performance, not past failure.",3:"This is not standard practice at well-governed companies. Companies with strong governance structures (like Berkshire Hathaway) link CEO pay directly to long-term shareholder returns. It is, unfortunately, common at poorly governed companies — which is exactly why this signal predicts future underperformance."}},
+  '7-2':{c:2,expl:{0:"Wirecard's stock was rising strongly before the collapse — it was a DAX 30 constituent at its peak market cap. A falling stock is not the relevant red flag; the accounting anomalies were.",1:"Wirecard's revenue growth was indeed impressive — and suspiciously so, which was one of the concerns. But the key behavioural red flag was management's response to allegations: legal threats instead of data-driven refutations.",2:"Correct! This is the most reliable behavioural fraud signal. Muddy Waters, Dan McCrum at the FT, and other analysts published specific, data-driven allegations with named sources. Wirecard's response was consistently legal threats, denial, and counter-allegations — never a transparent, data-by-data refutation. Legitimate companies with false allegations against them publish the actual bank statements, contracts, and transaction records. Wirecard couldn't, because the records didn't exist.",3:"Wirecard's auditor EY did not resign before the fraud — they signed off on the phantom cash for years, which is itself a major governance failure. But the key early warning was management behaviour toward questioners, not auditor changes."}},
+
+  '8-0':{c:1,expl:{0:"CapEx would show up in the investing section of the cash flow statement as a separate line — it would reduce free cash flow but would not explain operating cash flow being only £20-30M when net income is £200M. The operating section gap is specifically about earnings quality.",1:"Correct! The operating cash flow section should convert net income to cash by adjusting for non-cash items. If net income is £200M but operating cash flow is only £20-30M, the company has enormous accruals — income being recognised on paper that hasn't been received as cash. This is the single most reliable indicator of earnings manipulation or aggressive accounting.",2:"Dividends are paid from the financing section of the cash flow statement, not the operating section. A company paying large dividends would show this separately and it would not cause operating cash flow to diverge from net income in this way.",3:"Fast-growing companies often have working capital needs that create some gap between profit and cash flow — but a gap this large (£200M profit, £20M cash) is not a growth phenomenon. It's a red flag in virtually every case."}},
+  '8-1':{c:1,expl:{0:"Luckin was not reporting losses — it was reporting spectacular profits and growth. The fraud was about fabricated revenue being reported as profit, not about loss-making.",1:"Correct! The two most visible red flags were: (1) revenue growth of 500%+ year-on-year — an implausible rate even for a hypergrowth company in a large market, and (2) the cash flow statements never showing the cash generation you would expect from that level of reported profitability. The gap between reported profits and actual cash flows was the classic earnings quality red flag that Muddy Waters identified in their report.",2:"CEO share selling was not the primary red flag in the Luckin case — the accounting anomalies in the public financial statements were the key signals.",3:"EY was Luckin's auditor and did not resign before the fraud was disclosed — this is factually incorrect. The fraud was admitted internally first, then disclosed publicly."}},
+  '8-2':{c:2,expl:{0:"Legitimate companies absolutely do answer specific, data-driven allegations — with data. Dismissing the obligation to respond is exactly what fraudulent companies want investors to believe. The response pattern matters enormously.",1:"Protecting a company from genuine unfair attacks is reasonable. But this is not what happened in the cases of Wirecard, Luckin, and Enron — in each case, the allegations were specific and data-driven, and management never produced the specific counter-evidence that would have definitively disproved them.",2:"Correct! This is the most important red flag in fraud detection. When a short seller publishes specific accounting allegations with page-references, named documents, and specific figures — a legitimate company refutes each specific claim with the actual underlying data. Fraudulent companies cannot do this (the data doesn't exist or contradicts the claims) so they resort to character attacks, legal threats, and vague denials. Wirecard, Luckin, and Enron all followed exactly this playbook.",3:"Short sellers have produced some of the most accurate and valuable investment research in history (Muddy Waters, Hindenburg, Kynikos). They have financial incentives to be correct — a wrong short report results in losses and reputational damage. Dismissing short research because of the profit motive ignores that long analysts also have profit motives."}},
+
+  '9-0':{c:1,expl:{0:"Spinoffs are not inherently better businesses — many are divisions the parent was happy to dispose of. The edge comes from structural mispricing caused by forced selling, not business quality.",1:"Correct! Academic research consistently shows spinoffs outperform due to a structural mechanic: index funds must sell them (too small or wrong category for their index), institutional investors don't want them (no research coverage, wrong mandate), and growth investors ignore them (recently created, no analyst following). This forced selling creates prices below intrinsic value that patient investors can exploit. The business itself hasn't changed — only the ownership structure.",2:"Newly independent management sometimes performs well because they have equity incentives for the first time, but this is secondary. The primary source of excess returns is the mispricing caused by forced institutional selling.",3:"Spinoffs outperforming is one of the most robust and academically documented market anomalies. It's not random luck — it's a structural and predictable mechanic repeated consistently across markets and decades."}},
+  '9-1':{c:1,expl:{0:"Merger arbitrage involves buying the target after the deal is announced — by definition, the deal has already been announced at this point. Pre-announcement price movements are a different strategy.",1:"Correct! In merger arbitrage, you buy the target company at a small discount to the announced deal price, expecting to capture the spread when the deal closes. If the deal breaks — due to regulatory blocking, financing failure, or acquirer withdrawal — the target's stock often falls 20-40%+ back to its pre-deal price. This is the asymmetric risk: small gain if successful, large loss if the deal fails. That's why deal analysis (regulatory risk, financing certainty, strategic rationale) is critical.",2:"The acquirer overpaying affects long-term combined entity returns — but in pure merger arbitrage you hold the target only until deal close. Acquirer returns are irrelevant to the arb strategy.",3:"Interest rate changes affect the opportunity cost of the spread (the return looks less attractive vs risk-free rates) but do not create the large losses that deal breaks cause. Deal break is the primary binary risk."}},
+  '9-2':{c:2,expl:{0:"PayPal's stock did fall somewhat from its initial trading levels as institutional selling continued — but falling price after a spinoff is expected and normal. It's not by itself an indication of value. The key signal was management behaviour.",1:"eBay did not announce regret about the spinoff — and management signals from the parent company are less relevant than signals from the newly independent management team.",2:"Correct! In spinoff analysis, insider buying by the newly independent management team is the single most powerful mispricing signal. When management buys significant amounts of stock with their own money shortly after a spinoff — knowing full well that the stock is being dumped by unwilling institutional sellers — they are telling you something critical: the price is far below what they know the business is worth. PayPal management buying in the low $30s turned out to be extraordinarily prescient.",3:"While PayPal's growth rate was evident, 'obviously more valuable' is not how markets work — eBay's stock was also performing well. The mispricing was caused by the spinoff mechanics, not an obvious revenue differential."}}
+
+};
+
+function answerQ(L,Q,opt,isC){
+  const qId=`kq-${L}-${Q}`,fbId=`kqf-${L}-${Q}`;
+  document.querySelectorAll(`#${qId} .kq-opt`).forEach((b,i)=>{
+    b.classList.add('locked'); b.onclick=null;
+    if(i===answers[`${L}-${Q}`].c) b.classList.add('correct');
+    else if(i===opt) b.classList.add('wrong');
+  });
+  const fb=document.getElementById(fbId);
+  fb.textContent=(answers[`${L}-${Q}`].expl||{})[opt]||(isC?'✓ Correct!':'✗ Incorrect.');
+  fb.className='kq-feedback show '+(isC?'ok':'bad');
+  if(!quizState[L]) quizState[L]={answered:0,correct:0,total:3};
+  if(!quizState[L][Q]){
+    quizState[L][Q]=true; quizState[L].answered++;
+    if(isC) quizState[L].correct++;
+    checkDone(L);
+  }
+}
+
+function checkDone(L){
+  const s=quizState[L];
+  if(s.answered<s.total) return;
+  const pass=s.correct>=2;
+  const r=document.getElementById(`kcheck-result-${L}`);
+  r.textContent=pass?`🎉 ${s.correct}/${s.total} — Excellent! Next lesson unlocked.`:`${s.correct}/${s.total} — Review the lesson and continue when ready.`;
+  r.className='kcheck-result show '+(pass?'pass':'fail');
+  const nb=document.getElementById(`next-btn-${L}`);
+  if(nb){nb.disabled=false;}
+  const mid=document.getElementById(`lnav-mid-${L}`);
+  if(mid) mid.textContent=pass?'✓ Passed!':'📖 Complete — continue when ready';
+  document.querySelectorAll('.sb-item')[L]?.classList.add('done');
+  updateProgress(L+1);
+}
+
+/* ── NAVIGATION ── */
+function goLesson(i){
+  document.querySelectorAll('.lesson-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`lesson-${i}`).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach((el,j)=>{
+    el.classList.remove('active');
+    if(j===i) el.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateProgress(i);
+}
+
+function updateProgress(n){
+  const pct=Math.max(Math.round((n/10)*100),10);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=`${n} / 10 lessons`;
+}
+
+/* ── ANIMATE BARS ON SCROLL ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{
+        const w=b.style.width; b.style.width='0';
+        setTimeout(()=>b.style.width=w,100);
+      });
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.chart-wrap').forEach(c=>obs.observe(c));
+</script>
+<!-- ═══ STUDYCOACH AI ASSISTANT ═══ -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+#sc-assistant-btn{position:fixed;bottom:24px;right:24px;z-index:9000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;font-size:1.4rem}
+#sc-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(168,85,247,.7)}
+.sc-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#00d4a0;border-radius:50%;border:2px solid #070709}
+#sc-chat-panel{position:fixed;bottom:90px;right:24px;z-index:9000;width:360px;max-height:520px;background:#0e0e12;border:1px solid #1e1e2e;border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+#sc-chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.sc-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:#13131a;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.sc-hname{font-weight:600;font-size:.88rem;color:#e8e8f0}
+.sc-hstatus{font-size:.72rem;color:#00d4a0}
+.sc-close{background:none;border:none;color:#7a7a9a;cursor:pointer;font-size:1rem;padding:.2rem;line-height:1;margin-left:auto}
+.sc-close:hover{color:#e8e8f0}
+.sc-ctx{padding:.5rem 1rem;background:#070709;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-ctx-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:.25rem .7rem;font-size:.72rem;color:#a855f7;font-family:'DM Mono',monospace}
+.sc-msgs{flex:1;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.sc-msgs::-webkit-scrollbar{width:4px}.sc-msgs::-webkit-scrollbar-thumb{background:#1e1e2e;border-radius:2px}
+.sc-m{max-width:85%;display:flex;flex-direction:column;gap:.2rem}
+.sc-m.u{align-self:flex-end;align-items:flex-end}.sc-m.a{align-self:flex-start;align-items:flex-start}
+.sc-b{padding:.6rem .85rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.sc-m.u .sc-b{background:linear-gradient(135deg,#a855f7,#7c4dff);color:#fff;border-radius:12px 12px 2px 12px}
+.sc-m.a .sc-b{background:#13131a;color:#e8e8f0;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px}
+.sc-t{font-size:.65rem;color:#7a7a9a;font-family:'DM Mono',monospace}
+.sc-typing{display:flex;gap:.3rem;padding:.6rem .85rem;background:#13131a;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px;width:fit-content}
+.sc-typing span{width:6px;height:6px;border-radius:50%;background:#a855f7;animation:scB 1.2s infinite}
+.sc-typing span:nth-child(2){animation-delay:.2s}.sc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes scB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.sc-sugg{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;flex-shrink:0;border-top:1px solid #1e1e2e}
+.sc-s{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2);border-radius:20px;padding:.3rem .75rem;font-size:.75rem;color:#4f8cff;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sc-s:hover{background:rgba(79,140,255,.18)}
+.sc-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid #1e1e2e;flex-shrink:0;background:#13131a}
+.sc-in{flex:1;background:#0e0e12;border:1px solid #1e1e2e;border-radius:8px;padding:.55rem .85rem;color:#e8e8f0;font-size:.84rem;font-family:'DM Sans',sans-serif;resize:none;outline:none;transition:border-color .2s;min-height:36px;max-height:100px;line-height:1.4}
+.sc-in::placeholder{color:#7a7a9a}.sc-in:focus{border-color:#a855f7}
+.sc-send{background:#a855f7;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.sc-send:hover{opacity:.85}.sc-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:480px){#sc-chat-panel{width:calc(100vw - 20px);right:10px;bottom:80px}#sc-assistant-btn{right:16px;bottom:16px}}
+</style>
+<button id="sc-assistant-btn" onclick="scToggle()" title="Ask your AI tutor">🎓<div class="sc-badge"></div></button>
+<div id="sc-chat-panel">
+  <div class="sc-header"><div class="sc-avatar">🎓</div><div><div class="sc-hname">StudyCoach AI</div><div class="sc-hstatus">● Online</div></div><button class="sc-close" onclick="scToggle()">✕</button></div>
+  <div class="sc-ctx"><div class="sc-ctx-pill" id="sc-pill">📚 Investor's Academy</div></div>
+  <div class="sc-msgs" id="sc-msgs"><div class="sc-m a"><div class="sc-b">Hi! I'm your AI tutor 👋 Ask me anything about the course — concepts, examples, or quiz help!</div><div class="sc-t">Now</div></div></div>
+  <div class="sc-sugg" id="sc-sugg"><button class="sc-s" onclick="scSug(this)">Explain this simply</button><button class="sc-s" onclick="scSug(this)">Real-world example</button><button class="sc-s" onclick="scSug(this)">Quiz me</button></div>
+  <div class="sc-row"><textarea class="sc-in" id="sc-in" placeholder="Ask anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();scSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea><button class="sc-send" id="sc-btn" onclick="scSend()">↑</button></div>
+</div>
+<script>
+(function(){
+  let open=false,hist=[],busy=false;
+  const sys=`You are a friendly expert tutor for StudyCoach Academy, an investment education platform. Answer questions clearly as a knowledgeable friend — use real examples, keep responses concise (2-4 sentences for simple questions), and make learning enjoyable. Current lesson context: the student is studying investing and financial markets. Never give personal investment advice — keep it educational.`;
+  window.scToggle=function(){open=!open;document.getElementById('sc-chat-panel').classList.toggle('open',open);if(open){const ey=document.querySelector('.lesson-eyebrow');if(ey)document.getElementById('sc-pill').textContent='📚 '+ey.textContent.trim();document.getElementById('sc-in').focus();}};
+  window.scSug=function(b){document.getElementById('sc-in').value=b.textContent;document.getElementById('sc-sugg').style.display='none';scSend();};
+  window.scSend=async function(){
+    const inp=document.getElementById('sc-in'),txt=inp.value.trim();
+    if(!txt||busy)return;
+    inp.value='';inp.style.height='auto';
+    document.getElementById('sc-sugg').style.display='none';
+    scMsg('u',txt);hist.push({role:'user',content:txt});
+    busy=true;document.getElementById('sc-btn').disabled=true;
+    const msgs=document.getElementById('sc-msgs');
+    const typ=document.createElement('div');typ.className='sc-m a';
+    typ.innerHTML='<div class="sc-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typ);msgs.scrollTop=msgs.scrollHeight;
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist})});
+      const d=await r.json();typ.remove();
+      const reply=d.content?.[0]?.text||'Sorry, try again!';
+      scMsg('a',reply);hist.push({role:'assistant',content:reply});
+      if(hist.length>20)hist=hist.slice(-16);
+    }catch(e){typ.remove();scMsg('a','Connection issue — please try again.');}
+    busy=false;document.getElementById('sc-btn').disabled=false;document.getElementById('sc-in').focus();
+  };
+  function scMsg(role,text){
+    const c=document.getElementById('sc-msgs'),now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');el.className='sc-m '+role;
+    const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,.15);padding:.1rem .3rem;border-radius:3px;font-size:.8em">$1</code>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    el.innerHTML=`<div class="sc-b">${fmt}</div><div class="sc-t">${now}</div>`;
+    c.appendChild(el);c.scrollTop=c.scrollHeight;
+  }
+})();
+</script>
+
+</body>
+</html>

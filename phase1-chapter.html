@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/>
+<meta name="theme-color" content="#070709"/>
+<style>html,body{background:#070709 !important}</style>
+<title>Phase 1 — Money Basics & The Investor Mindset · Investor's Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:#070709; --surface:#0e0e12; --card:#13131a; --border:#1e1e2e;
+  --accent:#e8c97a; --accent2:#4f8cff; --accent3:#00d4a0; --danger:#ff4d6d;
+  --text:#e8e8f0; --muted:#b0b0c8;
+  --display:'Cormorant Garamond',serif; --mono:'DM Mono',monospace; --body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#070709 !important;color-scheme:dark}
+body{background:#070709 !important;color:#e8e8f0 !important;font-family:var(--body);font-size:15px;line-height:1.7;overflow-x:hidden}
+.app,.main,.sidebar,.lesson-panel{background:#070709}
+.sidebar{background:#0e0e12}
+@media(prefers-color-scheme:light){
+  html,body{background:#070709 !important;color:#e8e8f0 !important}
+  .app,.main,.lesson-panel{background:#070709 !important}
+  .sidebar{background:#0e0e12 !important}
+  .kcheck,.chart-wrap,.case-study,.takeaways,.callout{background-color:inherit}
+}
+
+/* grain */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,169,110,.4)}50%{box-shadow:0 0 0 8px rgba(200,169,110,0)}}
+
+/* ── TICKER ── */
+.ticker-wrap{overflow:hidden;background:#060608;border-bottom:1px solid var(--border);padding:.38rem 0;position:sticky;top:60px;z-index:400}
+.ticker-track{display:flex;gap:2.5rem;width:max-content;animation:ticker 32s linear infinite;font-family:var(--mono);font-size:.73rem}
+.tick-item{white-space:nowrap;color:var(--muted)}
+.tick-up{color:var(--accent3)}.tick-dn{color:var(--danger)}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:500;background:rgba(7,7,9,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-left{display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.82rem;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.nav-back:hover{color:var(--accent)}
+.nav-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--accent)}
+.nav-progress{display:flex;align-items:center;gap:.75rem}
+.progress-bar{width:140px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#e8c88a);border-radius:2px;transition:width .5s ease}
+.progress-lbl{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+
+/* ── SIDEBAR + LAYOUT ── */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:82px;height:calc(100vh - 82px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.4rem;margin-top:.5rem}
+.sb-item{display:flex;align-items:center;gap:.7rem;padding:.6rem 1.4rem;cursor:pointer;transition:all .2s;border-left:2px solid transparent;font-size:.86rem;color:var(--muted)}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sb-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(200,169,110,.06)}
+.sb-item.done{color:var(--accent3)}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.sb-item.active .sb-dot{background:var(--accent);animation:pulse 2s infinite}
+.sb-item.done .sb-dot{background:var(--accent3)}
+
+/* ── MAIN CONTENT ── */
+.main{padding:3rem 3rem 6rem;max-width:820px}
+
+/* ── HERO LESSON ── */
+.lesson-hero{margin-bottom:3rem;animation:fadeUp .6s ease both}
+.lesson-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+.lesson-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.08;margin-bottom:1rem}
+.lesson-title em{font-style:italic;background:linear-gradient(135deg,var(--accent) 0%,#e8c88a 50%,var(--accent) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+.lesson-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.lmeta{font-family:var(--mono);font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
+.lesson-intro{font-size:1.05rem;color:var(--muted);line-height:1.75;border-left:3px solid var(--accent);padding-left:1.25rem}
+
+/* ── CONTENT BLOCKS ── */
+.lesson-section{margin:2.5rem 0}
+.ls-heading{font-family:var(--display);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--text)}
+.ls-subheading{font-size:.95rem;font-weight:600;margin:1.25rem 0 .4rem;color:var(--text)}
+.ls-body{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+.ls-body+.ls-body{margin-top:.5rem}
+
+/* ── DEFINITION TERMS (clickable) ── */
+.def{border-bottom:1px dashed var(--accent);color:var(--accent);cursor:pointer;transition:all .2s;position:relative}
+.def:hover{background:rgba(200,169,110,.1);border-radius:2px}
+
+/* ── DICTIONARY POPUP ── */
+.dict-popup{position:fixed;z-index:8000;background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:1rem 1.2rem;max-width:300px;box-shadow:0 8px 40px rgba(0,0,0,.6);animation:popIn .2s ease both;pointer-events:none}
+.dict-popup.visible{pointer-events:auto}
+.dict-word{font-family:var(--mono);font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.dict-def{font-size:.84rem;color:var(--text);line-height:1.6}
+.dict-close{position:absolute;top:.5rem;right:.7rem;color:var(--muted);cursor:pointer;font-size:.9rem;line-height:1}
+.dict-close:hover{color:var(--text)}
+.dict-example{margin-top:.6rem;font-size:.78rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:.5rem}
+
+/* ── CALLOUT BOXES ── */
+.callout{border-radius:10px;padding:1.1rem 1.3rem;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-title{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.callout.gold{background:rgba(200,169,110,.08);border:1px solid rgba(200,169,110,.2)}.callout.gold .callout-title{color:var(--accent)}
+.callout.blue{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)}.callout.blue .callout-title{color:var(--accent2)}
+.callout.green{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2)}.callout.green .callout-title{color:var(--accent3)}
+.callout.red{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2)}.callout.red .callout-title{color:var(--danger)}
+.callout p{color:var(--muted)}
+
+/* ── CASE STUDY ── */
+.case-study{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent2);border-radius:0 0 10px 10px;padding:1.5rem;margin:2rem 0}
+.cs-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.cs-icon{font-size:1.5rem}
+.cs-meta{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent2)}
+.cs-title{font-weight:600;font-size:1rem;margin-top:.15rem}
+.cs-body{font-size:.87rem;color:var(--muted);line-height:1.8}
+.cs-stat{display:inline-block;background:rgba(79,140,255,.12);border:1px solid rgba(79,140,255,.2);border-radius:6px;padding:.3rem .7rem;font-family:var(--mono);font-size:.78rem;color:var(--accent2);margin:.2rem .2rem 0 0}
+
+/* ── CHARTS / VISUAL DIAGRAMS ── */
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.chart-title{font-family:var(--mono);font-size:.73rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1.25rem}
+/* Bar chart */
+.bar-chart{display:flex;flex-direction:column;gap:.7rem}
+.bar-row{display:grid;grid-template-columns:110px 1fr 70px;gap:.75rem;align-items:center;font-size:.82rem}
+.bar-label{color:var(--muted);text-align:right;font-size:.78rem}
+.bar-track{height:24px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.6rem;font-size:.72rem;font-family:var(--mono);color:rgba(0,0,0,.8);font-weight:600;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.bar-val{font-family:var(--mono);font-size:.78rem;color:var(--text);text-align:right}
+/* Line chart SVG */
+.svg-chart{width:100%;overflow:visible}
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.donut-legend{display:flex;flex-direction:column;gap:.5rem}
+.dl-item{display:flex;align-items:center;gap:.6rem;font-size:.82rem}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* Compound table */
+.compound-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.compound-table th{padding:.5rem .75rem;background:rgba(255,255,255,.04);border:1px solid var(--border);font-weight:500;color:var(--muted);font-family:var(--mono);font-size:.7rem;text-align:right}
+.compound-table th:first-child{text-align:left}
+.compound-table td{padding:.5rem .75rem;border:1px solid rgba(255,255,255,.05);text-align:right;color:var(--muted)}
+.compound-table td:first-child{text-align:left;color:var(--text)}
+.compound-table tr.highlight td{color:var(--accent);font-weight:600;background:rgba(200,169,110,.06)}
+/* Cycle diagram */
+.cycle-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.cycle-cell{border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:center}
+.cycle-cell.up{border-color:rgba(0,212,160,.3);background:rgba(0,212,160,.06)}
+.cycle-cell.dn{border-color:rgba(255,77,109,.3);background:rgba(255,77,109,.06)}
+.cycle-arrow{font-size:1.4rem;margin-bottom:.4rem}
+.cycle-label{font-size:.8rem;font-weight:600;margin-bottom:.3rem}
+.cycle-sub{font-size:.74rem;color:var(--muted)}
+
+/* ── KNOWLEDGE CHECK (per-lesson quiz) ── */
+.kcheck{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin:2.5rem 0}
+.kcheck-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.kcheck-icon{font-size:1.3rem}
+.kcheck-title{font-weight:600}
+.kcheck-sub{font-size:.8rem;color:var(--muted);margin-top:.1rem}
+.kq{margin-bottom:1.5rem}
+.kq-text{font-size:.9rem;font-weight:500;margin-bottom:.7rem}
+.kq-opts{display:flex;flex-direction:column;gap:.45rem}
+.kq-opt{padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.84rem;color:var(--muted);background:var(--card);transition:all .2s;text-align:left}
+.kq-opt:hover:not(.locked){border-color:var(--accent2);color:var(--text)}
+.kq-opt.correct{border-color:var(--accent3);background:rgba(0,212,160,.1);color:var(--accent3)}
+.kq-opt.wrong{border-color:var(--danger);background:rgba(255,77,109,.1);color:var(--danger)}
+.kq-opt.locked{cursor:default}
+.kq-feedback{font-size:.82rem;margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;display:none}
+.kq-feedback.show{display:block}
+.kq-feedback.ok{background:rgba(0,212,160,.1);color:var(--accent3);border:1px solid rgba(0,212,160,.2)}
+.kq-feedback.bad{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.2)}
+.kcheck-result{display:none;margin-top:1rem;padding:.9rem 1rem;border-radius:8px;font-weight:600;text-align:center;font-size:.9rem}
+.kcheck-result.show{display:block}
+.kcheck-result.pass{background:rgba(0,212,160,.1);color:var(--accent3);border:1px solid rgba(0,212,160,.25)}
+.kcheck-result.fail{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.25)}
+
+/* ── LESSON NAV ── */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.btn-lnav{padding:.7rem 1.4rem;border-radius:6px;font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-prev{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-prev:hover{border-color:var(--accent);color:var(--accent)}
+.btn-next{background:var(--accent);border:none;color:#1a1208}.btn-next:hover{opacity:.88;transform:translateY(-1px)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.lnav-mid{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:center}
+
+/* ── LESSON PANELS ── */
+.lesson-panel{display:none;animation:fadeUp .5s ease both}
+.lesson-panel.active{display:block}
+
+/* ── QUOTE ── */
+.pull-quote{border-left:3px solid var(--accent2);padding:1rem 1.5rem;margin:2rem 0;font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--text);line-height:1.6}
+.pull-quote cite{display:block;margin-top:.5rem;font-family:var(--body);font-style:normal;font-size:.78rem;color:var(--muted)}
+
+/* ── KEY TAKEAWAYS ── */
+.takeaways{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin:2rem 0}
+.takeaways-title{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.75rem}
+.takeaways ul{list-style:none}
+.takeaways ul li{padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.86rem;color:var(--muted);display:flex;gap:.6rem;align-items:flex-start}
+.takeaways ul li:last-child{border-bottom:none}
+.takeaways ul li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:.05rem}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:1.5rem 1.2rem 5rem}
+  .nav-progress{display:none}
+}
+
+/* ── DICT OVERLAY ── */
+#dict-overlay{position:fixed;inset:0;z-index:7999;display:none}
+#dict-overlay.visible{display:block}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <a class="nav-back" href="investing-course.html">← Course Home</a>
+    <div style="width:1px;height:20px;background:var(--border)"></div>
+    <div class="nav-title">Phase 1 — Money Basics</div>
+  </div>
+  <div class="nav-progress">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:12%"></div></div>
+    <div class="progress-lbl" id="prog-lbl">1 / 8 lessons</div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="tick-item">S&P 500 <span class="tick-up">▲ +0.84%</span></span>
+    <span class="tick-item">INFLATION CPI <span class="tick-dn">▼ 3.2% YoY</span></span>
+    <span class="tick-item">10-YR TREASURY <span class="tick-up">4.45%</span></span>
+    <span class="tick-item">GOLD <span class="tick-up">▲ +0.92%</span></span>
+    <span class="tick-item">FED FUNDS RATE <span class="tick-up">5.25–5.50%</span></span>
+    <span class="tick-item">SAVINGS RATE AVG <span class="tick-dn">▼ 0.47%</span></span>
+    <span class="tick-item">BUFFETT CASH PILE <span class="tick-up">$189B</span></span>
+    <span class="tick-item">VIX FEAR INDEX <span class="tick-dn">▼ 14.2</span></span>
+    <span class="tick-item">BRK.B <span class="tick-up">▲ +1.2%</span></span>
+    <span class="tick-item">COMPOUND @ 10% / 30yr <span class="tick-up">17× your money</span></span>
+    <span class="tick-item">S&P 500 <span class="tick-up">▲ +0.84%</span></span>
+    <span class="tick-item">INFLATION CPI <span class="tick-dn">▼ 3.2% YoY</span></span>
+    <span class="tick-item">10-YR TREASURY <span class="tick-up">4.45%</span></span>
+    <span class="tick-item">GOLD <span class="tick-up">▲ +0.92%</span></span>
+    <span class="tick-item">FED FUNDS RATE <span class="tick-up">5.25–5.50%</span></span>
+    <span class="tick-item">SAVINGS RATE AVG <span class="tick-dn">▼ 0.47%</span></span>
+    <span class="tick-item">BUFFETT CASH PILE <span class="tick-up">$189B</span></span>
+    <span class="tick-item">VIX FEAR INDEX <span class="tick-dn">▼ 14.2</span></span>
+  </div>
+</div>
+
+<!-- DICTIONARY POPUP -->
+<div id="dict-overlay"></div>
+<div class="dict-popup" id="dict-popup" style="display:none">
+  <div class="dict-close" id="dict-close">✕</div>
+  <div class="dict-word" id="dict-word"></div>
+  <div class="dict-def" id="dict-def"></div>
+  <div class="dict-example" id="dict-example"></div>
+</div>
+
+<!-- APP SHELL -->
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-label">Phase 1 Lessons</div>
+    <div class="sb-item active" onclick="goLesson(0)"><div class="sb-dot"></div>1. Why Invest?</div>
+    <div class="sb-item" onclick="goLesson(1)"><div class="sb-dot"></div>2. Asset Classes</div>
+    <div class="sb-item" onclick="goLesson(2)"><div class="sb-dot"></div>3. Risk vs Return</div>
+    <div class="sb-item" onclick="goLesson(3)"><div class="sb-dot"></div>4. Compound Interest</div>
+    <div class="sb-item" onclick="goLesson(4)"><div class="sb-dot"></div>5. Account Types</div>
+    <div class="sb-item" onclick="goLesson(5)"><div class="sb-dot"></div>6. Behavioural Finance</div>
+    <div class="sb-item" onclick="goLesson(6)"><div class="sb-dot"></div>7. Your First Portfolio</div>
+    <div class="sb-item" onclick="goLesson(7)"><div class="sb-dot"></div>8. DCA vs Lump Sum</div>
+    <div class="sb-label" style="margin-top:1rem">All Phases</div>
+    <div class="sb-item" style="color:var(--accent);border-left:2px solid var(--accent);background:rgba(232,201,122,.06)"><div class="sb-dot" style="background:var(--accent)"></div>← Phase 1 (here)</div>
+    <div class="sb-item" onclick="window.location='phase2-chapter.html'"><div class="sb-dot" style="background:var(--accent2)"></div>Phase 2 — Analysis</div>
+    <div class="sb-item" onclick="window.location='phase3-chapter.html'"><div class="sb-dot" style="background:#00d4a0"></div>Phase 3 — Portfolios</div>
+    <div class="sb-item" onclick="window.location='phase4-chapter.html'"><div class="sb-dot" style="background:#a855f7"></div>Phase 4 — Hedge Funds</div>
+    <div class="sb-item" onclick="window.location='phase5-chapter.html'"><div class="sb-dot" style="background:#f59e0b"></div>Phase 5 — Launch a Fund</div>
+    <div class="sb-item" onclick="window.location='investing-course.html'"><div class="sb-dot" style="background:#555"></div>↩ Course Home</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content">
+
+<!-- ═══════════════════════════════════════════
+     LESSON 1 — WHY INVEST?
+═══════════════════════════════════════════ -->
+<div class="lesson-panel active" id="lesson-0">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 1 of 8</div>
+    <h1 class="lesson-title">Why Invest? The Real Cost of <em>Doing Nothing</em></h1>
+    <div class="lesson-meta">
+      <span class="lmeta">⏱ 12 min read</span>
+      <span class="lmeta">📊 3 charts</span>
+      <span class="lmeta">🧠 Knowledge check included</span>
+      <span class="lmeta">💡 Tap gold words for definitions</span>
+    </div>
+    <p class="lesson-intro">Most people never invest — not because they lack money, but because they don't truly understand what <em>not</em> investing costs them. By the end of this lesson, that will change forever.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Silent Thief: Inflation</h2>
+    <p class="ls-body">Imagine you stuff £10,000 under your mattress today. In 10 years, you open the mattress and still have £10,000. Seems safe, right? Wrong. That £10,000 now buys significantly less than it did a decade ago — because <span class="def" data-word="Inflation" data-def="The rate at which the general level of prices for goods and services rises over time, eroding purchasing power. Central banks typically target 2% annual inflation." data-ex="Example: If inflation is 3% per year, something costing £100 today will cost £134 in 10 years.">inflation</span> has quietly stolen your purchasing power.</p>
+    <p class="ls-body">At an average <span class="def" data-word="Inflation Rate" data-def="The percentage increase in a general price index (like the Consumer Price Index / CPI) over a specific time period, usually measured year-on-year." data-ex="Example: UK CPI averaged ~2.5% per year over the past 30 years. This means prices doubled roughly every 28 years.">inflation rate</span> of 3% per year, your £10,000 is worth only £7,374 in real terms after 10 years. You've lost £2,626 while doing absolutely nothing. This is the first reason investing isn't optional — it's essential for preserving wealth.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📉 Purchasing Power of £10,000 Over Time (3% Annual Inflation)</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Year 0</div><div class="bar-track"><div class="bar-fill" style="--w:100%;width:100%;background:var(--accent3)">£10,000</div></div><div class="bar-val">£10,000</div></div>
+        <div class="bar-row"><div class="bar-label">Year 5</div><div class="bar-track"><div class="bar-fill" style="--w:86%;width:86%;background:#6fc97a">£8,626</div></div><div class="bar-val">£8,626</div></div>
+        <div class="bar-row"><div class="bar-label">Year 10</div><div class="bar-track"><div class="bar-fill" style="--w:74%;width:74%;background:#9eb86a">£7,374</div></div><div class="bar-val">£7,374</div></div>
+        <div class="bar-row"><div class="bar-label">Year 20</div><div class="bar-track"><div class="bar-fill" style="--w:55%;width:55%;background:#c8a060">£5,537</div></div><div class="bar-val">£5,537</div></div>
+        <div class="bar-row"><div class="bar-label">Year 30</div><div class="bar-track"><div class="bar-fill" style="--w:41%;width:41%;background:var(--danger)">£4,120</div></div><div class="bar-val">£4,120</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Your money halves in purchasing power every ~24 years at 3% inflation. Holding cash is not "safe" — it's a guaranteed slow loss.</p>
+    </div>
+
+    <div class="callout gold">
+      <div class="callout-title">💡 Key Insight</div>
+      <p>A UK savings account in 2024 pays roughly 0.47% interest on average. With inflation at 3%+, savers are losing ~2.5% of real purchasing power every year. Investing isn't about getting rich quick — it's about not getting poor slowly.</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Opportunity Cost of Waiting</h2>
+    <p class="ls-body"><span class="def" data-word="Opportunity Cost" data-def="The hidden cost of the next best alternative foregone when making a decision. In investing, it's the return you miss by keeping money in cash instead of deploying it." data-ex="Example: If you hold £10,000 in cash earning 0.5% instead of investing it at 10%, your opportunity cost is ~9.5% per year — or £950 in the first year alone.">Opportunity cost</span> is one of the most powerful concepts in economics. Every day your money sits uninvested, it's implicitly choosing the lowest-return option: cash. The compounding returns you're missing — especially in the early years — are irreversible.</p>
+    <p class="ls-body">Consider two investors, Alex and Sam. Both invest £200 per month at a 10% annual return (the long-run average of the S&P 500). Alex starts at 22. Sam waits until 32 — just 10 years later. The result is staggering.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Alex (starts age 22) vs Sam (starts age 32) — £200/month at 10%</div>
+      <table class="compound-table">
+        <thead><tr><th>Age</th><th>Alex Invested</th><th>Alex Total</th><th>Sam Invested</th><th>Sam Total</th></tr></thead>
+        <tbody>
+          <tr><td>Age 30</td><td>£19,200</td><td>£38,768</td><td>£0</td><td>£0</td></tr>
+          <tr><td>Age 40</td><td>£43,200</td><td>£152,203</td><td>£24,000</td><td>£38,768</td></tr>
+          <tr><td>Age 50</td><td>£67,200</td><td>£452,098</td><td>£48,000</td><td>£152,203</td></tr>
+          <tr class="highlight"><td>Age 65</td><td>£103,200</td><td>£1,897,224</td><td>£79,200</td><td>£702,856</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Alex ends up with <strong style="color:var(--accent)">£1.19 million more</strong> — despite only investing £24,000 more. That's the power of starting early. Time in the market is more valuable than the amount invested.</p>
+    </div>
+
+    <div class="pull-quote">
+      "Someone is sitting in the shade today because someone planted a tree a long time ago."
+      <cite>— Warren Buffett</cite>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">What Markets Have Actually Returned</h2>
+    <p class="ls-body">Sceptics often argue that investing is "gambling." The data disagrees. The <span class="def" data-word="S&P 500" data-def="A stock market index tracking the 500 largest publicly listed companies in the United States. It is the most widely used benchmark for the US stock market and global equities." data-ex="Example: If you invested $10,000 in an S&P 500 index fund in 1994, it would be worth approximately $180,000 by 2024 — an 18× return.">S&P 500</span> has returned an average of ~10% per year over the past 100 years — through wars, depressions, pandemics, and crashes.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📈 Average Annual Returns by Asset Class (Long-Run Historical)</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">US Stocks</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent3)">10.2%</div></div><div class="bar-val" style="color:var(--accent3)">+10.2%</div></div>
+        <div class="bar-row"><div class="bar-label">Global Stocks</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#5cb4b0">8.6%</div></div><div class="bar-val">+8.6%</div></div>
+        <div class="bar-row"><div class="bar-label">Property (REITs)</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--accent)">8.2%</div></div><div class="bar-val">+8.2%</div></div>
+        <div class="bar-row"><div class="bar-label">Bonds (10-yr US)</div><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--accent2)">4.6%</div></div><div class="bar-val">+4.6%</div></div>
+        <div class="bar-row"><div class="bar-label">Gold</div><div class="bar-track"><div class="bar-fill" style="width:35%;background:#a0906a">3.6%</div></div><div class="bar-val">+3.6%</div></div>
+        <div class="bar-row"><div class="bar-label">Cash / Savings</div><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--danger)">0.5%</div></div><div class="bar-val" style="color:var(--danger)">+0.5%</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Stocks beat every other major asset class over the long run. The gap between cash (+0.5%) and stocks (+10.2%) compounded over 30 years is the difference between poverty and prosperity.</p>
+    </div>
+
+    <div class="callout red">
+      <div class="callout-title">⚠️ Important Caveat</div>
+      <p>Past returns do not guarantee future performance. Markets can — and do — crash. The S&P 500 fell 57% in the 2008 financial crisis. However, every single crash in history has eventually recovered and surpassed its previous high. The lesson: <strong>time horizon matters enormously.</strong> Short-term, markets are unpredictable. Long-term, the trend is upward.</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Mindset Shift: From Saver to Owner</h2>
+    <p class="ls-body">The fundamental mental shift you must make is this: buying a share of Apple doesn't mean you're gambling on a stock price chart. It means you're buying a tiny ownership stake in a business that generates billions in <span class="def" data-word="Free Cash Flow" data-def="The cash a company generates after paying for its operating expenses and capital expenditure. It represents the actual cash available to return to shareholders via dividends or buybacks." data-ex="Example: Apple generated $99 billion in free cash flow in 2023 — money it returned to shareholders through buybacks and dividends.">free cash flow</span> every year. When Apple profits, you profit — proportionally.</p>
+    <p class="ls-body">This ownership mindset is the foundation of value investing, championed by Warren Buffett. He doesn't think "I'm buying AAPL at $185." He thinks "I'm buying a stake in a wonderful business that will be worth far more in 10 years."</p>
+
+    <div class="case-study">
+      <div class="cs-header">
+        <div class="cs-icon">🍎</div>
+        <div>
+          <div class="cs-meta">Case Study · Apple Inc (AAPL)</div>
+          <div class="cs-title">The Most Valuable Company in History</div>
+        </div>
+      </div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In 2003, Apple's stock traded at around $0.35 (split-adjusted). The iPod had just launched. In 2024, Apple trades at ~$185 — a <strong>529× return</strong> in 21 years.</p>
+        <p style="margin-bottom:.75rem">But here's what made it investable even then: Apple had a product people loved, a brand with real pricing power, a CEO who thought in decades not quarters, and a business model generating real cash. An investor who understood the <em>business</em> could have held through the 2008 crash (-60%), the 2016 dip (-30%), and the 2022 decline (-27%) — because the underlying business never stopped growing.</p>
+        <p>The lesson isn't "buy Apple." It's: invest in businesses you understand, with durable competitive advantages, at reasonable prices — then <em>don't sell when the market panics.</em></p>
+      </div>
+      <div style="margin-top:.75rem">
+        <span class="cs-stat">$0.35 → $185 (21 years)</span>
+        <span class="cs-stat">Free Cash Flow 2023: $99B</span>
+        <span class="cs-stat">529× return for patient investors</span>
+        <span class="cs-stat">Dividends paid since 2012</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 1</div>
+    <ul>
+      <li>Inflation averages ~3%/year, meaning cash loses purchasing power constantly. Holding cash is not "safe."</li>
+      <li>The opportunity cost of not investing is enormous — especially in your 20s and 30s when compound interest has maximum time to work.</li>
+      <li>Stocks have returned ~10%/year over 100 years — far outpacing inflation, bonds, gold, and cash.</li>
+      <li>Buying a share means buying partial ownership of a business, not a bet on a price chart.</li>
+      <li>Starting 10 years earlier can result in nearly 3× more wealth at retirement, even with identical monthly contributions.</li>
+    </ul>
+  </div>
+
+  <!-- KNOWLEDGE CHECK -->
+  <div class="kcheck" id="kcheck-0">
+    <div class="kcheck-header">
+      <div class="kcheck-icon">🧠</div>
+      <div><div class="kcheck-title">Knowledge Check — Lesson 1</div><div class="kcheck-sub">3 questions · answer all to unlock the next lesson</div></div>
+    </div>
+    <div class="kq" id="kq-0-0">
+      <div class="kq-text">1. At 3% annual inflation, approximately how much is £10,000 worth in real terms after 30 years?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,0,0,1)">A. £9,100 — almost the same</button>
+        <button class="kq-opt" onclick="answerQ(0,0,1,1)">B. £4,120 — roughly half</button>
+        <button class="kq-opt" onclick="answerQ(0,0,2,1)">C. £7,500 — a small decrease</button>
+        <button class="kq-opt" onclick="answerQ(0,0,3,1)">D. £2,000 — almost nothing</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-0"></div>
+    </div>
+    <div class="kq" id="kq-0-1">
+      <div class="kq-text">2. Alex starts investing £200/month at age 22. Sam starts at age 32. Who has more at age 65?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,1,0,0)">A. Sam — he invests smarter, not earlier</button>
+        <button class="kq-opt" onclick="answerQ(0,1,1,0)">B. They end up with the same amount</button>
+        <button class="kq-opt" onclick="answerQ(0,1,2,1)">C. Alex — by nearly £1.2 million more</button>
+        <button class="kq-opt" onclick="answerQ(0,1,3,0)">D. Sam — he has more capital to invest</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-1"></div>
+    </div>
+    <div class="kq" id="kq-0-2">
+      <div class="kq-text">3. What does buying a share of a company actually mean?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,2,0,0)">A. You're betting that the stock price will rise</button>
+        <button class="kq-opt" onclick="answerQ(0,2,1,1)">B. You own a proportional stake in the business and its earnings</button>
+        <button class="kq-opt" onclick="answerQ(0,2,2,0)">C. You've lent the company money at interest</button>
+        <button class="kq-opt" onclick="answerQ(0,2,3,0)">D. You have the right to vote on all company decisions</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-0"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" disabled>← Previous</button>
+    <div class="lnav-mid" id="lnav-mid-0">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-0" disabled onclick="goLesson(1)">Lesson 2: Asset Classes →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LESSON 2 — ASSET CLASSES
+═══════════════════════════════════════════ -->
+<div class="lesson-panel" id="lesson-1">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 2 of 8</div>
+    <h1 class="lesson-title">Asset Classes: <em>What You Can Actually Buy</em></h1>
+    <div class="lesson-meta">
+      <span class="lmeta">⏱ 14 min read</span>
+      <span class="lmeta">📊 2 diagrams</span>
+      <span class="lmeta">🧠 Knowledge check included</span>
+    </div>
+    <p class="lesson-intro">Before you invest a single pound, you need to understand the universe of things you can invest in — and why they each behave so differently. Asset classes are the building blocks of every portfolio on earth.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Five Major Asset Classes</h2>
+    <p class="ls-body">Every investment in the world falls into one of five broad categories. Each has a distinct risk/return profile, liquidity characteristic, and behaviour across economic cycles. Professional investors call allocating money across these categories <span class="def" data-word="Asset Allocation" data-def="The process of dividing an investment portfolio among different asset categories such as stocks, bonds, and cash. Research suggests asset allocation accounts for 90%+ of long-run portfolio returns." data-ex="Example: A classic 60/40 portfolio allocates 60% to equities and 40% to bonds.">asset allocation</span> — arguably the single most important investment decision you'll ever make.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">⚖️ Asset Class Comparison — Risk vs Expected Return</div>
+      <div style="overflow-x:auto">
+        <table class="compound-table" style="min-width:500px">
+          <thead><tr><th style="text-align:left">Asset Class</th><th>Expected Return</th><th>Volatility</th><th>Liquidity</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td>🏦 Cash / Savings</td><td>0.5–2%</td><td>None</td><td>Instant</td><td>Emergency fund</td></tr>
+            <tr><td>📜 Government Bonds</td><td>3–5%</td><td>Low</td><td>High</td><td>Capital preservation</td></tr>
+            <tr><td>🏢 Corporate Bonds</td><td>4–7%</td><td>Low–Med</td><td>High</td><td>Income</td></tr>
+            <tr class="highlight"><td>📈 Equities (Stocks)</td><td>8–12%</td><td>High</td><td>High</td><td>Long-term growth</td></tr>
+            <tr><td>🏠 Real Estate</td><td>6–10%</td><td>Med</td><td>Low</td><td>Income + growth</td></tr>
+            <tr><td>🥇 Commodities</td><td>3–5%</td><td>Very High</td><td>Med</td><td>Inflation hedge</td></tr>
+            <tr><td>🔒 Private Equity</td><td>12–18%</td><td>High</td><td>Very Low</td><td>Sophisticated investors</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Equities (Stocks): Owning a Piece of a Business</h2>
+    <p class="ls-body">When you buy a <span class="def" data-word="Equity / Stock / Share" data-def="A unit of ownership in a company. Shareholders own a proportional slice of the company's assets and earnings. If the company grows, the stock typically grows in value. If it pays dividends, shareholders receive income." data-ex="Example: Owning 100 shares of a company with 1,000,000 total shares means you own 0.01% of the business.">stock</span>, you become a part-owner of the underlying business. Your return comes from two sources: <span class="def" data-word="Capital Appreciation" data-def="The increase in an asset's market price over time. For stocks, this happens when a company's earnings and future prospects improve, causing investors to pay more for the shares." data-ex="Example: Buying Apple at $100 and selling at $150 results in £50 capital appreciation per share.">capital appreciation</span> (the stock goes up) and <span class="def" data-word="Dividends" data-def="Cash payments made by a company to its shareholders, typically quarterly. A way of distributing profits directly to owners. Not all companies pay dividends — growth companies often reinvest profits instead." data-ex="Example: If you own 100 shares of a company paying a $2 annual dividend, you receive $200/year in dividend income.">dividends</span> (cash the company pays you from profits).</p>
+    <p class="ls-body">Equities are the highest-returning major asset class over the long run because they carry the most risk. Companies can go bankrupt (stock goes to zero). Prices can crash 50–60% in recessions. But the shareholders who don't panic and sell are the ones who capture the full long-run 10% average annual return.</p>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏦</div><div><div class="cs-meta">Case Study · The 2008 Financial Crisis</div><div class="cs-title">What Patient Investors Earned</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">The S&P 500 fell 57% between October 2007 and March 2009 — one of the worst crashes in history. An investor with £100,000 saw it briefly fall to £43,000. Millions panic-sold. But investors who held — or better yet, kept buying — saw extraordinary outcomes:</p>
+        <p style="margin-bottom:.75rem">By 2013 (just 4 years later), the S&P 500 had fully recovered. By 2024, it had tripled from the 2007 peak. The investor who held £100,000 through the crash now had ~£430,000. The investor who panic-sold at the bottom locked in a permanent 57% loss.</p>
+        <p>The lesson: volatility is the <em>price of admission</em> for equity returns. The market offers no high returns without temporary pain.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">S&P 500 Peak (2007): 1,565</span><span class="cs-stat">Trough (2009): 666 (−57%)</span><span class="cs-stat">Recovery by 2013: ✓</span><span class="cs-stat">2024 level: ~5,200 (+232% from peak)</span></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Bonds: Lending Your Money for Interest</h2>
+    <p class="ls-body">When you buy a <span class="def" data-word="Bond" data-def="A debt instrument issued by a government or corporation. You lend money for a fixed period at a fixed interest rate (the coupon). At maturity, the principal is repaid. Bonds are generally safer than stocks but return less." data-ex="Example: A UK government bond (Gilt) with a 4% coupon means for every £1,000 face value, you receive £40 annually until the bond matures.">bond</span>, you're lending money to a government or company. They pay you regular interest (the <span class="def" data-word="Coupon Rate" data-def="The annual interest rate paid by a bond, expressed as a percentage of the face value. Fixed at issuance and paid regardless of market conditions." data-ex="Example: A bond with a £1,000 face value and 5% coupon pays £50 per year to the bondholder.">coupon</span>) and return your principal at maturity. Bonds are generally safer than stocks but deliver lower returns.</p>
+    <p class="ls-body">The critical insight about bonds: their prices move <em>inversely</em> to interest rates. When rates rise, existing bond prices fall (because newer bonds pay more interest, making old ones less attractive). This is why the 2022 rate-hiking cycle caused bond portfolios to lose 20-30% — many investors were shocked because bonds are supposed to be "safe."</p>
+
+    <div class="callout blue">
+      <div class="callout-title">📐 The Inverse Relationship Rule</div>
+      <p>Interest rates UP → Bond prices DOWN. Interest rates DOWN → Bond prices UP. This is a mathematical certainty, not a market opinion. Memorise it — it explains most of what happens in bond markets.</p>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Real Estate: Tangible Assets with Income</h2>
+    <p class="ls-body">Real estate is unique — it generates rental income (yield) while also potentially appreciating in value. The primary ways to invest in real estate without buying property outright are <span class="def" data-word="REITs (Real Estate Investment Trusts)" data-def="Companies that own income-producing real estate (offices, apartments, warehouses, hospitals). They trade on stock exchanges like regular shares and are required to distribute 90%+ of taxable income as dividends." data-ex="Example: Buying shares in a REIT like Segro (industrial warehouses) or UNITE Group (student accommodation) gives you proportional ownership of their property portfolio.">REITs</span>, which trade on stock exchanges and must distribute 90% of income to shareholders as dividends.</p>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏢</div><div><div class="cs-meta">Case Study · Prologis (PLD) — The Amazon Landlord</div><div class="cs-title">Why Industrial REITs Boomed with E-Commerce</div></div></div>
+      <div class="cs-body"><p>Prologis owns 1.2 billion square feet of logistics warehouses globally — the buildings where Amazon, DHL, and FedEx store and ship your online orders. As e-commerce exploded, demand for warehousing outpaced supply. Prologis's stock rose from $20 in 2010 to $140 in 2022 — a 7× return — while paying quarterly dividends throughout. This is the power of identifying a structural trend (e-commerce growth) and finding the <em>infrastructure</em> that enables it.</p></div>
+      <div style="margin-top:.75rem"><span class="cs-stat">7× price return (2010–2022)</span><span class="cs-stat">Quarterly dividends throughout</span><span class="cs-stat">1.2B sqft portfolio</span></div>
+    </div>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Commodities & Alternatives: The Inflation Hedges</h2>
+    <p class="ls-body"><span class="def" data-word="Commodities" data-def="Raw materials or primary agricultural products that can be bought and sold, such as gold, oil, copper, wheat, and natural gas. Prices are determined by global supply and demand." data-ex="Example: When Russia invaded Ukraine in 2022, wheat and oil prices spiked dramatically because both countries are major producers — directly impacting commodity investors.">Commodities</span> like gold, oil, and agricultural products don't produce earnings or cash flow — you make money only if prices rise. They're primarily used as <span class="def" data-word="Inflation Hedge" data-def="An investment expected to maintain or increase in value during periods of high inflation, protecting purchasing power when currency values decline." data-ex="Example: Gold rose from $1,800 to $2,400 per ounce between 2022–2024 as inflation surged globally.">inflation hedges</span> and portfolio diversifiers, not as primary wealth-builders.</p>
+    <p class="ls-body">Gold has held its purchasing power over millennia but delivered only ~3.6% annual nominal returns — barely above inflation. It earns its place in a portfolio not for its return but for its behaviour during crises: gold typically rises when equities crash and currencies weaken, providing genuine portfolio protection.</p>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 2</div>
+    <ul>
+      <li>The five major asset classes are: Cash, Bonds, Equities, Real Estate, and Commodities/Alternatives.</li>
+      <li>Equities offer the highest long-run returns (~10%/year) but with the most volatility — including potential crashes of 50%+.</li>
+      <li>Bonds are safer but lower-returning, and their prices fall when interest rates rise.</li>
+      <li>REITs let you own real estate through the stock market with regular dividend income.</li>
+      <li>Asset allocation — how you split money across these classes — is the most important portfolio decision you'll make.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-1">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 2</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-1-0">
+      <div class="kq-text">1. Interest rates rise sharply. What happens to existing bond prices?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,0,0,0)">A. They rise — higher rates mean higher coupon payments</button>
+        <button class="kq-opt" onclick="answerQ(1,0,1,1)">B. They fall — existing bonds pay less than new bonds, so they're worth less</button>
+        <button class="kq-opt" onclick="answerQ(1,0,2,0)">C. They stay the same — coupons are fixed</button>
+        <button class="kq-opt" onclick="answerQ(1,0,3,0)">D. It depends on the government's credit rating</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-0"></div>
+    </div>
+    <div class="kq" id="kq-1-1">
+      <div class="kq-text">2. What is a REIT?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,1,0,0)">A. A government savings account with tax advantages</button>
+        <button class="kq-opt" onclick="answerQ(1,1,1,0)">B. A bond that pays returns linked to real estate prices</button>
+        <button class="kq-opt" onclick="answerQ(1,1,2,1)">C. A company owning income-producing property, traded on the stock exchange, distributing 90%+ of income as dividends</button>
+        <button class="kq-opt" onclick="answerQ(1,1,3,0)">D. A type of mortgage loan for investment properties</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-1"></div>
+    </div>
+    <div class="kq" id="kq-1-2">
+      <div class="kq-text">3. Which asset class has delivered the highest average annual returns over the past 100 years?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,2,0,0)">A. Gold — it holds value across centuries</button>
+        <button class="kq-opt" onclick="answerQ(1,2,1,0)">B. Government bonds — they're backed by the state</button>
+        <button class="kq-opt" onclick="answerQ(1,2,2,1)">C. Equities (stocks) — ~10% per year on average</button>
+        <button class="kq-opt" onclick="answerQ(1,2,3,0)">D. Real estate — because property always goes up</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-1"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(0)">← Lesson 1</button>
+    <div class="lnav-mid" id="lnav-mid-1">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-1" disabled onclick="goLesson(2)">Lesson 3: Risk vs Return →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LESSON 3 — RISK vs RETURN
+═══════════════════════════════════════════ -->
+<div class="lesson-panel" id="lesson-2">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 3 of 8</div>
+    <h1 class="lesson-title">Risk vs Return: <em>The Fundamental Trade-Off</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min read</span><span class="lmeta">📊 2 diagrams</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">The single most important principle in investing: you cannot get higher returns without accepting higher risk. Anyone who tells you otherwise is either uninformed or trying to sell you something.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">What Is Risk? (It's Not What Most People Think)</h2>
+    <p class="ls-body">Most beginners define risk as "the chance of losing money." Professional investors define it more precisely as <span class="def" data-word="Volatility" data-def="The degree of variation in an investment's price over time, measured statistically as standard deviation. High volatility means large price swings — up and down. It is the most common measure of investment risk." data-ex="Example: A stock that fluctuates between $80 and $120 in a year is more volatile than one that moves between $95 and $105.">volatility</span> — the degree to which prices swing around their average. A volatile investment isn't necessarily a bad investment; it just requires a longer time horizon and stronger nerves.</p>
+    <p class="ls-body">The key metric is <span class="def" data-word="Standard Deviation" data-def="A statistical measure of how much returns deviate from their average. A higher standard deviation means more volatile (and risky) returns. Used to compare the risk of different investments." data-ex="Example: The S&P 500 has an annual standard deviation of ~15%. A 10% average return with 15% std dev means returns typically range from −5% to +25% in any given year.">standard deviation</span>. If an investment returns 10% on average but sometimes loses 30% and sometimes gains 50%, it has high standard deviation. Understanding this is crucial: you might experience a terrible year even in an investment that performs well over the long run.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 The Risk-Return Spectrum</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Cash</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--accent3)">Low risk</div></div><div class="bar-val">0.5% return</div></div>
+        <div class="bar-row"><div class="bar-label">Gov. Bonds</div><div class="bar-track"><div class="bar-fill" style="width:28%;background:#6fc97a">Low-Med</div></div><div class="bar-val">4–5%</div></div>
+        <div class="bar-row"><div class="bar-label">Corp. Bonds</div><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--accent)">Medium</div></div><div class="bar-val">5–7%</div></div>
+        <div class="bar-row"><div class="bar-label">Large-cap Stocks</div><div class="bar-track"><div class="bar-fill" style="width:72%;background:#e0a030">High</div></div><div class="bar-val">8–10%</div></div>
+        <div class="bar-row"><div class="bar-label">Small-cap Stocks</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#e06030">Very High</div></div><div class="bar-val">10–12%</div></div>
+        <div class="bar-row"><div class="bar-label">Crypto / Speculative</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--danger)">Extreme</div></div><div class="bar-val">−90% to +1000%</div></div>
+      </div>
+    </div>
+
+    <h2 class="ls-heading" style="margin-top:2rem">The Sharpe Ratio: Risk-Adjusted Return</h2>
+    <p class="ls-body">Raw returns are misleading. A 30% return sounds incredible — unless you took 5× more risk than necessary to get it. The <span class="def" data-word="Sharpe Ratio" data-def="A measure of risk-adjusted return. Calculated as: (Portfolio Return − Risk-Free Rate) ÷ Standard Deviation. Higher is better. A Sharpe ratio of 1.0 is considered good; 2.0+ is exceptional." data-ex="Example: Fund A returns 15% with a Sharpe of 0.5 (took lots of risk). Fund B returns 12% with a Sharpe of 1.8 (efficient returns). Fund B is the better manager.">Sharpe Ratio</span> solves this by measuring how much return you earn per unit of risk taken. It's how professional investors compare managers fairly.</p>
+
+    <div class="callout gold">
+      <div class="callout-title">💡 Sharpe Ratio Formula</div>
+      <p><strong>Sharpe = (Portfolio Return − Risk-Free Rate) ÷ Standard Deviation</strong><br><br>If a fund returns 12%, the risk-free rate is 4%, and standard deviation is 8%: Sharpe = (12−4)÷8 = <strong>1.0</strong> — this is good. Warren Buffett's long-run Sharpe Ratio is approximately 0.76 — extraordinary given his sheer scale and decades of performance.</p>
+    </div>
+
+    <h2 class="ls-heading">Maximum Drawdown: The Real Gut-Check</h2>
+    <p class="ls-body">Perhaps the most psychologically important risk metric is <span class="def" data-word="Maximum Drawdown" data-def="The largest peak-to-trough percentage decline in a portfolio's value before a new peak is achieved. It measures the worst-case loss from holding an investment over a period." data-ex="Example: If a fund rose to £100,000, then fell to £60,000, the maximum drawdown is 40%. The investor must then achieve a 66% return just to get back to break-even.">maximum drawdown</span>. Can you stomach watching your portfolio fall 40% — on paper — before it recovers? Most people say yes until it actually happens.</p>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🧘</div><div><div class="cs-meta">Case Study · The Investor Who Held Through Everything</div><div class="cs-title">Ronald Read: The Janitor Worth $8 Million</div></div></div>
+      <div class="cs-body"><p style="margin-bottom:.75rem">Ronald Read was a Vermont gas station janitor and department store cleaner who died in 2014 at age 92 — and left an $8 million estate to charity. His secret? He bought shares in companies he understood (utilities, banks, retail), never sold through crashes, and reinvested every dividend for decades.</p><p>He experienced the 1987 Black Monday crash (−22% in a day), the dot-com bust (−50%), and the 2008 crisis (−57%) — and he didn't blink. His portfolio was discovered only after his death. He never told anyone. He lived frugally, bought what he understood, and let compound interest do the rest. He had no finance degree, no Bloomberg terminal, no trading algorithm.</p></div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Starting capital: ~$12,000 (estimated)</span><span class="cs-stat">Final portfolio: $8,000,000</span><span class="cs-stat">Strategy: Buy quality, never sell, reinvest dividends</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 3</div>
+    <ul>
+      <li>Risk = volatility (price swings), not just the chance of permanent loss. Temporary drawdowns are normal and expected.</li>
+      <li>Higher expected returns always come with higher volatility — there is no free lunch.</li>
+      <li>The Sharpe Ratio measures return per unit of risk — the best way to compare investments and managers fairly.</li>
+      <li>Maximum drawdown tests your psychological resilience. Plan your portfolio so you won't panic-sell in a crash.</li>
+      <li>Ronald Read's story proves: patience and consistency beats complexity every time.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-2">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 3</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-2-0">
+      <div class="kq-text">1. Fund A returns 20% per year. Fund B returns 14% per year. Which is the better investment?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,0,0,0)">A. Fund A — higher returns always mean better performance</button>
+        <button class="kq-opt" onclick="answerQ(2,0,1,1)">B. It depends on the risk (volatility) each fund took to achieve those returns</button>
+        <button class="kq-opt" onclick="answerQ(2,0,2,0)">C. Fund B — lower returns mean less risk</button>
+        <button class="kq-opt" onclick="answerQ(2,0,3,0)">D. They are equal because markets are efficient</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-0"></div>
+    </div>
+    <div class="kq" id="kq-2-1">
+      <div class="kq-text">2. A portfolio drops from £200,000 to £120,000. What is the maximum drawdown, and what return is needed to recover?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,1,0,0)">A. 40% drawdown, needs 40% to recover</button>
+        <button class="kq-opt" onclick="answerQ(2,1,1,1)">B. 40% drawdown, needs 67% return to recover</button>
+        <button class="kq-opt" onclick="answerQ(2,1,2,0)">C. 60% drawdown, needs 40% to recover</button>
+        <button class="kq-opt" onclick="answerQ(2,1,3,0)">D. 80% drawdown, needs 80% to recover</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-1"></div>
+    </div>
+    <div class="kq" id="kq-2-2">
+      <div class="kq-text">3. The Sharpe Ratio of Fund X is 1.8. This means:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,2,0,0)">A. The fund returned 180% last year</button>
+        <button class="kq-opt" onclick="answerQ(2,2,1,1)">B. The fund earned 1.8 units of return for every 1 unit of risk — an excellent score</button>
+        <button class="kq-opt" onclick="answerQ(2,2,2,0)">C. The fund beat the market by 1.8%</button>
+        <button class="kq-opt" onclick="answerQ(2,2,3,0)">D. The fund has a volatility of 1.8%</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-2"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(1)">← Lesson 2</button>
+    <div class="lnav-mid" id="lnav-mid-2">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-2" disabled onclick="goLesson(3)">Lesson 4: Compound Interest →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LESSON 4 — COMPOUND INTEREST
+═══════════════════════════════════════════ -->
+<div class="lesson-panel" id="lesson-3">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 4 of 8</div>
+    <h1 class="lesson-title">Compound Interest: <em>The Eighth Wonder</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 10 min read</span><span class="lmeta">📊 Interactive table</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Albert Einstein allegedly called compound interest the most powerful force in the universe. Whether he said it or not, the mathematics behind it will permanently change how you think about money and time.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Simple vs Compound: The Difference That Makes Millionaires</h2>
+    <p class="ls-body"><span class="def" data-word="Simple Interest" data-def="Interest calculated only on the original principal. If you invest £1,000 at 10% simple interest, you earn £100 every year, regardless of accumulated interest." data-ex="Example: £1,000 at 10% simple interest for 10 years = £2,000 total (£100 per year × 10 years + original £1,000).">Simple interest</span> pays you a fixed amount based only on your initial investment. <span class="def" data-word="Compound Interest" data-def="Interest calculated on both the initial principal AND the accumulated interest from previous periods. Interest earns interest. This creates exponential — not linear — growth over time." data-ex="Example: £1,000 at 10% compound interest for 10 years = £2,594 (vs £2,000 with simple interest). After 30 years: £17,449 vs £4,000. The gap widens dramatically over time.">Compound interest</span> pays you interest on your interest. This seemingly small difference creates extraordinary outcomes over decades.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🧮 £10,000 invested at 10% — Simple vs Compound Interest</div>
+      <table class="compound-table">
+        <thead><tr><th>Year</th><th>Simple Interest (£)</th><th>Compound Interest (£)</th><th>Extra from Compounding</th></tr></thead>
+        <tbody>
+          <tr><td>Year 1</td><td>£11,000</td><td>£11,000</td><td>£0</td></tr>
+          <tr><td>Year 5</td><td>£15,000</td><td>£16,105</td><td>+£1,105</td></tr>
+          <tr><td>Year 10</td><td>£20,000</td><td>£25,937</td><td>+£5,937</td></tr>
+          <tr><td>Year 20</td><td>£30,000</td><td>£67,275</td><td>+£37,275</td></tr>
+          <tr class="highlight"><td>Year 30</td><td>£40,000</td><td>£174,494</td><td>+£134,494</td></tr>
+          <tr class="highlight"><td>Year 40</td><td>£50,000</td><td>£452,593</td><td>+£402,593</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading" style="margin-top:2rem">The Rule of 72</h2>
+    <p class="ls-body">The <span class="def" data-word="Rule of 72" data-def="A simple formula to estimate how long it takes to double your money at a given annual return. Divide 72 by the annual return rate. Works with compound interest." data-ex="Example: At 10% annual return, 72 ÷ 10 = 7.2 years to double. At 6%, 72 ÷ 6 = 12 years. At 1% (savings account), 72 ÷ 1 = 72 years!">Rule of 72</span> is the fastest mental math shortcut in investing. Divide 72 by your annual return to find how many years it takes to double your money.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">⚡ Rule of 72 — Years to Double Your Money</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">1% (savings)</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--danger)">72 yrs</div></div><div class="bar-val" style="color:var(--danger)">72 years</div></div>
+        <div class="bar-row"><div class="bar-label">3% (bonds)</div><div class="bar-track"><div class="bar-fill" style="width:67%;background:#c06050">24 yrs</div></div><div class="bar-val">24 years</div></div>
+        <div class="bar-row"><div class="bar-label">6% (balanced)</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--accent)">12 yrs</div></div><div class="bar-val">12 years</div></div>
+        <div class="bar-row"><div class="bar-label">10% (stocks)</div><div class="bar-track"><div class="bar-fill" style="width:35%;background:#6fc97a">7.2 yrs</div></div><div class="bar-val" style="color:var(--accent3)">7.2 years</div></div>
+        <div class="bar-row"><div class="bar-label">12% (great fund)</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--accent3)">6 yrs</div></div><div class="bar-val" style="color:var(--accent3)">6 years</div></div>
+      </div>
+    </div>
+
+    <div class="pull-quote">"My wealth has come from a combination of living in America, some lucky genes, and compound interest."<cite>— Warren Buffett</cite></div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🧓</div><div><div class="cs-meta">Case Study · Warren Buffett's Age-Wealth Timeline</div><div class="cs-title">Why 99% of Buffett's Wealth Was Made After Age 50</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Warren Buffett's net worth at various ages: Age 30: $1M. Age 40: $25M. Age 50: $376M. Age 60: $3.8B. Age 70: $36B. Age 80: $47B. Age 93: ~$120B.</p>
+        <p>Notice that 99% of his wealth appeared after age 50 — not because he invested differently, but because compound interest requires time to reach its exponential phase. If Buffett had started investing at 25 (instead of 10) and retired at 65 (like most people), his net worth would be approximately $11.9 million — still rich, but 99% less than $120 billion. <strong>Time is the greatest asset.</strong></p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Age 10: $0</span><span class="cs-stat">Age 30: $1M</span><span class="cs-stat">Age 60: $3.8B</span><span class="cs-stat">Age 93: ~$120B</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 4</div>
+    <ul>
+      <li>Compound interest earns returns on your returns — creating exponential, not linear, growth.</li>
+      <li>At 10% annual return, £10,000 becomes £174,494 in 30 years vs £40,000 with simple interest.</li>
+      <li>The Rule of 72: divide 72 by your return rate to find years to double your money.</li>
+      <li>99% of Buffett's wealth came after age 50 — the exponential phase of compounding takes decades to materialise.</li>
+      <li>The most actionable implication: start as early as possible, never interrupt compounding unnecessarily.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-3">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 4</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-3-0">
+      <div class="kq-text">1. Using the Rule of 72, how long does it take to double £5,000 at a 9% annual return?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,0,0,0)">A. 9 years</button>
+        <button class="kq-opt" onclick="answerQ(3,0,1,1)">B. 8 years</button>
+        <button class="kq-opt" onclick="answerQ(3,0,2,0)">C. 5 years</button>
+        <button class="kq-opt" onclick="answerQ(3,0,3,0)">D. 12 years</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-0"></div>
+    </div>
+    <div class="kq" id="kq-3-1">
+      <div class="kq-text">2. Why did 99% of Buffett's wealth appear after age 50?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,1,0,0)">A. He made better investment decisions in old age</button>
+        <button class="kq-opt" onclick="answerQ(3,1,1,0)">B. He took more risk as he got older</button>
+        <button class="kq-opt" onclick="answerQ(3,1,2,1)">C. Compounding is exponential — the gains in later decades dwarf earlier ones even with the same returns</button>
+        <button class="kq-opt" onclick="answerQ(3,1,3,0)">D. He received more dividends as his portfolio grew</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-1"></div>
+    </div>
+    <div class="kq" id="kq-3-2">
+      <div class="kq-text">3. What is the main difference between simple and compound interest?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,2,0,0)">A. Simple interest is paid annually; compound interest is paid monthly</button>
+        <button class="kq-opt" onclick="answerQ(3,2,1,1)">B. Compound interest earns returns on accumulated interest, not just the original principal</button>
+        <button class="kq-opt" onclick="answerQ(3,2,2,0)">C. Compound interest is only available on bonds and savings accounts</button>
+        <button class="kq-opt" onclick="answerQ(3,2,3,0)">D. Simple interest is more powerful over long periods</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-3"></div>
+  </div>
+
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(2)">← Lesson 3</button>
+    <div class="lnav-mid" id="lnav-mid-3">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-3" disabled onclick="goLesson(4)">Lesson 5: Account Types →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     LESSONS 5-8 PLACEHOLDER
+═══════════════════════════════════════════ -->
+<!-- ═══ LESSON 5 — ACCOUNT TYPES ═══ -->
+<div class="lesson-panel" id="lesson-4">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 5 of 8</div>
+    <h1 class="lesson-title">Account Types: <em>Where You Hold Your Investments</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 12 min read</span><span class="lmeta">📊 Comparison table</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">Picking the right investments is only half the battle. Where you hold them determines how much tax you pay — and tax is the single biggest drag on long-run returns. The right account can add hundreds of thousands to your final portfolio.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Two Types of Account</h2>
+    <p class="ls-body">Every investor has access to two broad categories of investment account. <span class="def" data-word="Taxable Brokerage Account" data-def="A standard investment account with no special tax treatment. You pay tax on dividends, interest, and capital gains each year or when you sell. Flexible — no contribution limits or withdrawal restrictions." data-ex="Example: A standard Hargreaves Lansdown account or Vanguard account in the UK. You can put in any amount and withdraw anytime.">Taxable accounts</span> are flexible — no limits, no restrictions — but every gain is taxable. <span class="def" data-word="Tax-Advantaged Account" data-def="A government-approved account that shelters your investments from some or all taxes — either on contributions (tax relief going in) or withdrawals (tax-free going out), or both." data-ex="Example: A Stocks & Shares ISA in the UK — all growth and income is 100% tax-free forever, even on withdrawal.">Tax-advantaged accounts</span> are the most powerful wealth-building tools available to ordinary investors. Use them first, every time.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🏦 Account Types by Country — Key Features</div>
+      <table class="compound-table">
+        <thead><tr><th>Account</th><th>Country</th><th>Annual Limit</th><th>Tax Benefit</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr class="highlight"><td>Stocks & Shares ISA</td><td>🇬🇧 UK</td><td>£20,000</td><td>All growth & income 100% tax-free forever</td><td>Everyone — use first</td></tr>
+          <tr class="highlight"><td>SIPP (pension)</td><td>🇬🇧 UK</td><td>£60,000/yr</td><td>Tax relief on contributions (20-45%); tax-free at 25% on withdrawal</td><td>Retirement savings</td></tr>
+          <tr><td>Roth IRA</td><td>🇺🇸 US</td><td>$7,000</td><td>After-tax contributions; all growth & withdrawals tax-free</td><td>Long-term wealth</td></tr>
+          <tr><td>401(k)</td><td>🇺🇸 US</td><td>$23,000</td><td>Pre-tax contributions; tax-deferred growth; taxed on withdrawal</td><td>Employer match first</td></tr>
+          <tr><td>Superannuation</td><td>🇦🇺 AUS</td><td>$30,000</td><td>Concessional tax of 15%; tax-free after 60</td><td>Retirement</td></tr>
+          <tr><td>TFSA</td><td>🇨🇦 CAN</td><td>$7,000</td><td>All growth and withdrawals completely tax-free</td><td>Flexible tax-free growth</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading">The ISA: The UK Investor's Greatest Gift</h2>
+    <p class="ls-body">The <span class="def" data-word="Stocks & Shares ISA" data-def="Individual Savings Account — a UK tax wrapper allowing you to invest up to £20,000 per year with zero tax on any growth, dividends, or capital gains. Ever. Even on withdrawal." data-ex="Example: £20,000 invested in an ISA growing at 10%/year for 30 years becomes £349,000 — and you pay £0 in tax on any of it. In a taxable account, you'd lose roughly £70,000+ to capital gains and dividend tax.">Stocks & Shares ISA</span> is extraordinary. Every pound of profit — whether from dividends, interest, or selling shares at a profit — is completely free of UK tax. There is no tax on withdrawal. There is no time limit. You can let it compound for 40 years, withdraw millions, and owe nothing.</p>
+    <p class="ls-body">The only rule: you must use your £20,000 annual allowance or lose it — it doesn't roll over to the next year. This is why starting early matters doubly inside an ISA — you're not just benefiting from compound returns, you're sheltering those returns from the taxman permanently.</p>
+
+    <div class="callout gold">
+      <div class="callout-title">💡 The ISA vs Taxable Account — Real Numbers</div>
+      <p>£500/month invested at 8%/year for 30 years. In a taxable account (assuming 20% capital gains tax on gains): approximately £510,000 after tax. In a Stocks & Shares ISA: approximately £680,000. The ISA delivers <strong>£170,000 more</strong> — purely by sheltering the same investment from tax. That's the power of the right account.</p>
+    </div>
+
+    <h2 class="ls-heading">The SIPP: Turbocharge Your Pension</h2>
+    <p class="ls-body">A <span class="def" data-word="SIPP (Self-Invested Personal Pension)" data-def="A UK pension account where you choose your own investments. The government adds tax relief to every contribution — a basic-rate taxpayer gets 25% added (£80 becomes £100). Higher-rate taxpayers can claim up to 45% relief via self-assessment." data-ex="Example: You put £800 into a SIPP. HMRC automatically adds £200 (20% basic rate relief), so £1,000 is invested. A higher-rate taxpayer can claim a further £200 back via tax return — making the effective cost only £600 for £1,000 invested.">SIPP</span> gives you an instant return on every contribution equal to your income tax rate. A basic-rate taxpayer (20%) gets 25% added automatically. A higher-rate taxpayer (40%) can effectively claim back up to 45p for every pound contributed.</p>
+    <p class="ls-body">The trade-off: you cannot access a SIPP until age 57 (rising to 58 in 2028). But within it, all growth is sheltered from tax, and 25% of the final pot can be withdrawn tax-free. For long-term retirement wealth, the SIPP is the most tax-efficient vehicle available to UK investors.</p>
+
+    <div class="callout blue">
+      <div class="callout-title">📐 The Optimal UK Account Priority Order</div>
+      <p><strong>1st:</strong> Employer pension match (if offered) — it's an instant 100% return on matched contributions. Never leave it unclaimed.<br><strong>2nd:</strong> Stocks & Shares ISA — £20,000/year, tax-free growth, complete flexibility.<br><strong>3rd:</strong> SIPP — for additional retirement savings, especially if higher-rate taxpayer.<br><strong>4th:</strong> Taxable brokerage account — once the above are maxed.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🧮</div><div><div class="cs-meta">Case Study · Two Investors, Same Stocks, Different Accounts</div><div class="cs-title">How Account Choice Cost Sarah £240,000</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">James and Sarah both invest £500/month in identical global index funds from age 30 to 65 at 9% annual return. James uses a Stocks & Shares ISA. Sarah uses a standard taxable account and pays 20% CGT on annual gains.</p>
+        <p>At 65: James has £1,490,000. Sarah has £1,250,000. Same investments, same amount invested, same time period. The £240,000 difference is entirely the tax drag on Sarah's account. James didn't pick better stocks — he just used the right wrapper. This is why accounts come before stock selection in the priority order.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">James (ISA): £1,490,000</span><span class="cs-stat">Sarah (Taxable): £1,250,000</span><span class="cs-stat">Difference: £240,000</span><span class="cs-stat">Cause: Account choice alone</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 5</div>
+    <ul>
+      <li>Always prioritise tax-advantaged accounts (ISA, SIPP) before a taxable brokerage account.</li>
+      <li>A UK Stocks & Shares ISA shelters all growth and income from tax, forever — the most powerful tool for most UK investors.</li>
+      <li>A SIPP gives instant tax relief equal to your marginal rate — basic-rate taxpayers get 25% added automatically.</li>
+      <li>The optimal UK order: employer pension match → ISA → SIPP → taxable account.</li>
+      <li>Account choice can create a £200,000+ difference over a career — it matters as much as investment selection.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-4">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 5</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-4-0">
+      <div class="kq-text">1. A UK investor puts £800 into a SIPP. How much is actually invested after basic-rate tax relief?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,0,0,0)">A. £800 — tax relief is only claimed later via tax return</button>
+        <button class="kq-opt" onclick="answerQ(4,0,1,1)">B. £1,000 — HMRC automatically adds £200 (20% basic-rate relief)</button>
+        <button class="kq-opt" onclick="answerQ(4,0,2,0)">C. £960 — a small top-up is added</button>
+        <button class="kq-opt" onclick="answerQ(4,0,3,0)">D. £1,600 — contributions are doubled by the government</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-0"></div>
+    </div>
+    <div class="kq" id="kq-4-1">
+      <div class="kq-text">2. What is the primary advantage of a Stocks & Shares ISA over a standard brokerage account?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,1,0,0)">A. You can invest in more types of assets</button>
+        <button class="kq-opt" onclick="answerQ(4,1,1,0)">B. The government adds contributions on your behalf</button>
+        <button class="kq-opt" onclick="answerQ(4,1,2,1)">C. All growth, dividends, and capital gains are completely tax-free — now and on withdrawal</button>
+        <button class="kq-opt" onclick="answerQ(4,1,3,0)">D. There are no investment fees inside an ISA</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-1"></div>
+    </div>
+    <div class="kq" id="kq-4-2">
+      <div class="kq-text">3. Your employer matches pension contributions up to 5% of salary. What should you do?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,2,0,0)">A. Invest the money yourself in an ISA instead — you get more control</button>
+        <button class="kq-opt" onclick="answerQ(4,2,1,0)">B. Only contribute what you can afford — the match isn't guaranteed</button>
+        <button class="kq-opt" onclick="answerQ(4,2,2,1)">C. Always contribute at least 5% — the employer match is an instant 100% return, the best available anywhere</button>
+        <button class="kq-opt" onclick="answerQ(4,2,3,0)">D. Max your ISA first, then think about pension matching</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-4"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(3)">← Lesson 4</button>
+    <div class="lnav-mid" id="lnav-mid-4">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-4" disabled onclick="goLesson(5)">Lesson 6: Behavioural Finance →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 6 — BEHAVIOURAL FINANCE ═══ -->
+<div class="lesson-panel" id="lesson-5">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 6 of 8</div>
+    <h1 class="lesson-title">Behavioural Finance: <em>Your Brain is the Enemy</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min read</span><span class="lmeta">🧠 Knowledge check included</span><span class="lmeta">💡 Tap gold words for definitions</span></div>
+    <p class="lesson-intro">You can learn every ratio, read every balance sheet, and still lose money — because the human brain was not designed for investing. Understanding your own psychological biases is the most underrated edge in the market.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">System 1 vs System 2: Kahneman's Framework</h2>
+    <p class="ls-body">Nobel laureate Daniel Kahneman identified two modes of thinking. <span class="def" data-word="System 1 Thinking" data-def="Fast, automatic, emotional, instinctive thinking. It operates without conscious effort and is responsible for snap judgements. In investing, System 1 causes panic selling in crashes and euphoric buying at peaks." data-ex="Example: You see a stock down 30% in a day and immediately feel the urge to sell — that's System 1. It mistakes volatility for permanent loss.">System 1</span> is fast, emotional, and instinctive. It kept our ancestors alive on the savannah. In markets, it is catastrophically costly. <span class="def" data-word="System 2 Thinking" data-def="Slow, deliberate, analytical, rational thinking. Requires conscious effort. In investing, System 2 asks: is this company's business actually impaired, or is the market just panicking?" data-ex="Example: Warren Buffett reading Coca-Cola's annual report during the 1987 crash instead of watching the news — that's System 2.">System 2</span> is slow, deliberate, and rational. Great investors build systems that force System 2 to override System 1 at the worst moments.</p>
+
+    <div class="callout gold">
+      <div class="callout-title">💡 The Paradox of Investing</div>
+      <p>Everything that feels right in investing is usually wrong. Selling when markets crash (feels safe — is wrong). Buying when markets are at all-time highs (feels exciting — is often wrong). Checking your portfolio every day (feels responsible — causes worse returns). The investor who acts least often often performs best.</p>
+    </div>
+
+    <h2 class="ls-heading">The 7 Cognitive Biases That Cost Investors Billions</h2>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🧠 Cognitive Biases — How They Manifest & How to Fight Them</div>
+      <table class="compound-table">
+        <thead><tr><th>Bias</th><th>What It Does</th><th>Real Investor Mistake</th><th>The Fix</th></tr></thead>
+        <tbody>
+          <tr><td><span class="def" data-word="Loss Aversion" data-def="Losses feel approximately 2× more painful than equivalent gains feel pleasurable. Identified by Kahneman & Tversky. Causes investors to hold losing positions too long and sell winners too early." data-ex="Example: Losing £1,000 feels twice as bad as winning £1,000 feels good — so investors irrationally avoid selling a losing stock to avoid 'realising' the loss.">Loss Aversion</span></td><td>Losses hurt 2× more than gains feel good</td><td>Holding ZERO for years rather than sell and admit the loss</td><td>Pre-set exit rules before you buy</td></tr>
+          <tr><td><span class="def" data-word="Recency Bias" data-def="Overweighting recent events when predicting the future. Investors assume recent trends will continue indefinitely — buying high after bull runs and selling at the bottom of crashes." data-ex="Example: Buying Bitcoin at $60,000 in 2021 because it had just risen 600% — assuming the trend would continue.">Recency Bias</span></td><td>Recent events feel like permanent trends</td><td>Buying tech stocks at peak 2021 valuations; panic-selling in March 2020</td><td>Always compare to long-run base rates</td></tr>
+          <tr><td><span class="def" data-word="Confirmation Bias" data-def="The tendency to seek out information that confirms existing beliefs and ignore contradictory evidence. Dangerous in investing — you stop seeing risks once you've decided to buy." data-ex="Example: After buying Tesla shares, only reading Tesla bull case articles and dismissing bearish analysis as 'they just don't understand.'">Confirmation Bias</span></td><td>Only seeking information that confirms your view</td><td>Ignoring red flags after you've bought a position</td><td>Actively seek the bear case before buying</td></tr>
+          <tr><td><span class="def" data-word="Herd Mentality" data-def="Following the crowd because it feels safe. In markets, the crowd is most often wrong at extremes — maximum optimism at market tops and maximum pessimism at bottoms." data-ex="Example: Buying GameStop shares in 2021 because 'everyone else is' — leading to losses when the crowd reversed.">Herd Mentality</span></td><td>Following the crowd for safety</td><td>Buying meme stocks; selling at market bottoms with everyone else</td><td>Ask: why do I know something the market doesn't?</td></tr>
+          <tr><td><span class="def" data-word="Overconfidence Bias" data-def="Overestimating your ability to pick stocks, predict markets, or time entries and exits. Studies show most investors believe they are above-average — which is mathematically impossible." data-ex="Example: Believing you can consistently predict which individual stocks will outperform the S&P 500, despite data showing 92% of active managers fail to do so over 20 years.">Overconfidence</span></td><td>Overestimating your skill vs luck</td><td>Over-trading, excessive concentration, ignoring diversification</td><td>Track every decision; separate skill from luck</td></tr>
+          <tr><td><span class="def" data-word="Anchoring Bias" data-def="Over-relying on the first piece of information seen (the 'anchor') when making decisions. In investing, the price you paid becomes an anchor that distorts rational sell decisions." data-ex="Example: Refusing to sell a stock at £80 because you paid £100 — even if the business has fundamentally deteriorated. The £100 is irrelevant to future returns.">Anchoring</span></td><td>Over-weighting the price you paid</td><td>"I'll sell when it gets back to what I paid" — even if the business has broken</td><td>Ask: would I buy this today at today's price?</td></tr>
+          <tr><td><span class="def" data-word="Availability Bias" data-def="Overweighting information that is easily recalled — typically recent, vivid, or emotionally charged events. Media amplifies this by making dramatic events feel more likely than they are." data-ex="Example: After watching news about a plane crash, people overestimate the danger of flying — which is far safer than driving. Same applies to over-weighting recent market crashes.">Availability Bias</span></td><td>What you can easily recall feels most likely</td><td>Over-estimating crash risk after 2008; under-estimating it before 2020</td><td>Use base rates and data, not memory</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading">How Buffett Stays Rational When Others Panic</h2>
+    <p class="ls-body">Buffett's psychological edge is not intellect — it's temperament. He has described investing as "simple but not easy." The framework is straightforward (buy good businesses cheap, hold forever). The execution requires overriding every System 1 instinct during market crises.</p>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">😰</div><div><div class="cs-meta">Case Study · March 2020 — The 33-Day Crash</div><div class="cs-title">The Fastest Bear Market in History and What the Data Shows</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Between February 19 and March 23, 2020, the S&P 500 fell 34% in just 33 days — the fastest bear market in history. News channels broadcast apocalyptic headlines daily. Millions of retail investors sold at the bottom. Vanguard reported that 5.5% of account holders made trades in March 2020 — almost all were selling.</p>
+        <p style="margin-bottom:.75rem">By the end of 2020 — just 9 months later — the S&P 500 had fully recovered and hit new all-time highs. By the end of 2021, it was up 114% from the March 2020 low. Investors who sold in panic locked in a 34% permanent loss. Investors who did nothing — or bought more — captured the full recovery.</p>
+        <p>The investors who performed best in 2020? Those who never checked their portfolios. This is not a joke — Vanguard's data shows investors who never logged in during the crash had better outcomes than those who monitored daily.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Crash: −34% in 33 days</span><span class="cs-stat">Recovery: full by Dec 2020</span><span class="cs-stat">2021 peak: +114% from low</span><span class="cs-stat">Best performers: did nothing</span></div>
+    </div>
+
+    <h2 class="ls-heading">Building a System to Override Emotion</h2>
+    <p class="ls-body">The antidote to behavioural biases is a pre-committed, rules-based investment system. Write your rules when you are calm and rational — then follow them mechanically when markets are in chaos. Buffett's rule: "Be fearful when others are greedy and greedy when others are fearful." But to follow that rule, you need it written down <em>before</em> the fear arrives.</p>
+
+    <div class="callout green">
+      <div class="callout-title">✅ The 5-Rule Behavioural Investment Policy</div>
+      <p>1. <strong>Write a thesis before every investment</strong> — what must be true for this to work?<br>
+      2. <strong>Set an exit price before you buy</strong> — removes anchoring to purchase price.<br>
+      3. <strong>Check portfolio monthly, not daily</strong> — reduces noise-driven decisions.<br>
+      4. <strong>During crashes, read your original thesis</strong> — has the business changed, or just the price?<br>
+      5. <strong>Track every decision</strong> — over time, you'll see your own biases clearly.</p>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 6</div>
+    <ul>
+      <li>System 1 (emotional, fast) causes most investing mistakes. System 2 (rational, slow) creates wealth.</li>
+      <li>Loss aversion makes losses feel 2× worse than gains feel good — causing irrational holding of losers.</li>
+      <li>In March 2020, investors who did nothing outperformed those who checked daily and traded on emotion.</li>
+      <li>Confirmation bias is most dangerous after you've already bought — you stop seeing risks.</li>
+      <li>The fix: write rules when calm, follow them mechanically when fearful. Pre-commitment is the only reliable override.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-5">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 6</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-5-0">
+      <div class="kq-text">1. You bought shares at £100. They're now worth £60 but the business hasn't deteriorated. You're holding because "I'll sell when it gets back to £100." Which bias is this?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,0,0,0)">A. Recency Bias — you're assuming recent decline will reverse</button>
+        <button class="kq-opt" onclick="answerQ(5,0,1,1)">B. Anchoring Bias — your £100 purchase price is irrelevant to future decisions but feels like a target</button>
+        <button class="kq-opt" onclick="answerQ(5,0,2,0)">C. Confirmation Bias — you're only looking for positive signals</button>
+        <button class="kq-opt" onclick="answerQ(5,0,3,0)">D. Overconfidence — you're too confident the stock will recover</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-0"></div>
+    </div>
+    <div class="kq" id="kq-5-1">
+      <div class="kq-text">2. According to Vanguard's research on the 2020 COVID crash, which group of investors had the best outcomes?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,1,0,0)">A. Investors who sold early and bought back at the bottom</button>
+        <button class="kq-opt" onclick="answerQ(5,1,1,0)">B. Investors who actively rebalanced during the crash</button>
+        <button class="kq-opt" onclick="answerQ(5,1,2,1)">C. Investors who never logged in and made no changes during the crash</button>
+        <button class="kq-opt" onclick="answerQ(5,1,3,0)">D. Investors who moved to cash in February 2020</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-1"></div>
+    </div>
+    <div class="kq" id="kq-5-2">
+      <div class="kq-text">3. Loss aversion means that psychologically, losing £500 feels roughly equivalent to the pleasure of gaining how much?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,2,0,0)">A. £500 — gains and losses feel equal</button>
+        <button class="kq-opt" onclick="answerQ(5,2,1,0)">B. £250 — gains feel better so you need less to compensate</button>
+        <button class="kq-opt" onclick="answerQ(5,2,2,1)">C. £1,000 — losses feel approximately twice as painful as equivalent gains feel pleasurable</button>
+        <button class="kq-opt" onclick="answerQ(5,2,3,0)">D. £5,000 — losses are catastrophically over-weighted</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-5"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(4)">← Lesson 5</button>
+    <div class="lnav-mid" id="lnav-mid-5">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-5" disabled onclick="goLesson(6)">Lesson 7: Your First Portfolio →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 7 — YOUR FIRST PORTFOLIO ═══ -->
+<div class="lesson-panel" id="lesson-6">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 7 of 8</div>
+    <h1 class="lesson-title">Your First Portfolio: <em>The 3-Fund Simple Start</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min read</span><span class="lmeta">📊 Portfolio breakdown</span><span class="lmeta">🧠 Knowledge check included</span></div>
+    <p class="lesson-intro">A total market index fund + international fund + bond fund can outperform 90% of active managers over 20 years. This is not a boring compromise — it is the mathematically optimal starting strategy for almost every investor on earth.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">Why Index Funds Beat Most Active Managers</h2>
+    <p class="ls-body">An <span class="def" data-word="Index Fund" data-def="A fund that passively tracks a market index (like the S&P 500 or FTSE All-World) by holding all the stocks in that index in proportion to their size. Because it requires no stock-picking, costs are minimal — typically 0.03–0.2% per year." data-ex="Example: The Vanguard FTSE All-World ETF (VWRP) holds 3,500+ stocks across 50 countries for a 0.22% annual fee. It automatically rebalances and grows with the global economy.">index fund</span> simply holds every stock in a market index. No manager picking winners, no research costs, no trading commissions. The result? After fees, the vast majority of actively managed funds underperform the index over long periods.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 % of Active Funds Underperforming Their Index (S&P SPIVA Report)</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Over 1 Year</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--danger)">60%</div></div><div class="bar-val" style="color:var(--danger)">60% lose</div></div>
+        <div class="bar-row"><div class="bar-label">Over 5 Years</div><div class="bar-track"><div class="bar-fill" style="width:78%;background:#e07050">78%</div></div><div class="bar-val">78% lose</div></div>
+        <div class="bar-row"><div class="bar-label">Over 10 Years</div><div class="bar-track"><div class="bar-fill" style="width:88%;background:#c06040">88%</div></div><div class="bar-val">88% lose</div></div>
+        <div class="bar-row"><div class="bar-label">Over 20 Years</div><div class="bar-track"><div class="bar-fill" style="width:92%;background:var(--danger)">92%</div></div><div class="bar-val" style="color:var(--danger)">92% lose</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Over 20 years, 92% of active fund managers fail to beat their benchmark index after fees. The longer the time horizon, the worse active management looks. This is why Buffett himself recommended index funds for ordinary investors.</p>
+    </div>
+
+    <p class="ls-body">The reason is simple arithmetic: the stock market's total return must equal the average return of all investors combined. The average active investor gets the market return before costs. After costs (1–2% management fees, trading costs, tax drag), the average active investor is guaranteed to underperform. Not most of them. <em>All of them, on average.</em></p>
+
+    <h2 class="ls-heading">The 3-Fund Portfolio — Building Blocks</h2>
+    <p class="ls-body">The 3-fund portfolio, popularised by Vanguard's John Bogle, is the simplest effective portfolio ever designed. Three funds. Globally diversified. Automatically rebalancing. Virtually zero effort.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">🏗️ The 3-Fund Portfolio — Components & Purpose</div>
+      <table class="compound-table">
+        <thead><tr><th>Fund</th><th>What It Holds</th><th>Purpose</th><th>Example (UK)</th><th>Example (US)</th></tr></thead>
+        <tbody>
+          <tr class="highlight"><td>1. Global Equities</td><td>3,500+ stocks across 50 countries</td><td>Long-run growth engine (80–100% of portfolio for young investors)</td><td>VWRP (Vanguard)</td><td>VT (Vanguard)</td></tr>
+          <tr><td>2. Bonds</td><td>Government & corporate bonds</td><td>Stability, reduces volatility, rebalancing buffer</td><td>VAGP (Vanguard)</td><td>BND (Vanguard)</td></tr>
+          <tr><td>3. (Optional) Home Bias</td><td>UK/US stocks only</td><td>Currency matching, familiarity, some tax advantages</td><td>VUKE (Vanguard)</td><td>VOO (Vanguard)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="ls-heading">How Much in Each Fund? The Age-Based Rule</h2>
+    <p class="ls-body">The classic allocation rule: <strong style="color:var(--text)">Bond % = Your Age.</strong> At 25: 25% bonds, 75% equities. At 50: 50% bonds, 50% equities. At 70: 70% bonds, 30% equities. This automatically reduces risk as you approach retirement when you can least afford a big drawdown. Modern versions suggest a more aggressive equity tilt — especially when interest rates are high and you're young.</p>
+
+    <div class="callout green">
+      <div class="callout-title">✅ Simplified Allocation for Different Life Stages</div>
+      <p><strong>Age 20–35:</strong> 90–100% global equities, 0–10% bonds. You have 30+ years to recover from any crash.<br>
+      <strong>Age 35–50:</strong> 80% equities, 20% bonds. Starting to build resilience while maintaining growth.<br>
+      <strong>Age 50–65:</strong> 60% equities, 40% bonds. Protecting what you've built while still growing.<br>
+      <strong>Age 65+:</strong> 40–50% equities (for longevity), 50–60% bonds/cash.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏆</div><div><div class="cs-meta">Case Study · Warren Buffett's Instructions for His Wife</div><div class="cs-title">The World's Greatest Investor Recommends Index Funds</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In his 2013 Berkshire Hathaway annual letter, Warren Buffett — the most celebrated active investor in history — revealed what he has instructed the trustee managing his estate for his wife to do after he dies:</p>
+        <p style="margin-bottom:.75rem"><em>"Put 10% of the cash in short-term government bonds and 90% in a very low-cost S&P 500 index fund. I believe the trust's long-term results from this policy will be superior to those attained by most investors — whether pension funds, institutions or individuals — who employ high-fee managers."</em></p>
+        <p>The man who has beaten the market for 60 years recommends index funds for everyone else — including his own family. The lesson: complexity is the enemy of good returns for most investors. Simple, low-cost, globally diversified, and patient is the strategy that actually works.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Buffett's instruction: 90% S&P 500 index</span><span class="cs-stat">10% short-term bonds</span><span class="cs-stat">Fund: Vanguard S&P 500</span><span class="cs-stat">Fee: 0.03%/year</span></div>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 7</div>
+    <ul>
+      <li>92% of active managers underperform their benchmark index over 20 years after fees — the index wins by default.</li>
+      <li>Index funds win because they have near-zero costs, no manager risk, and automatic diversification.</li>
+      <li>The 3-fund portfolio: global equities + bonds + (optional) home market — covers the whole world in 2–3 ETFs.</li>
+      <li>Classic allocation guide: Bond % = your age. Adjust based on risk tolerance and time horizon.</li>
+      <li>Even Warren Buffett recommends index funds for his own family — the ultimate endorsement of simplicity.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-6">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 7</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-6-0">
+      <div class="kq-text">1. Why do the majority of active fund managers underperform index funds over 20 years?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,0,0,0)">A. Fund managers are not intelligent enough to beat the market</button>
+        <button class="kq-opt" onclick="answerQ(6,0,1,1)">B. After fees and costs, the average active manager must underperform — it's a mathematical certainty</button>
+        <button class="kq-opt" onclick="answerQ(6,0,2,0)">C. Index funds hold better quality stocks</button>
+        <button class="kq-opt" onclick="answerQ(6,0,3,0)">D. Active managers take too much risk</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-0"></div>
+    </div>
+    <div class="kq" id="kq-6-1">
+      <div class="kq-text">2. You are 30 years old and want a simple 3-fund portfolio. What allocation makes most sense?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,1,0,0)">A. 30% equities, 70% bonds — your age should equal your equity allocation</button>
+        <button class="kq-opt" onclick="answerQ(6,1,1,1)">B. 90% global equities, 10% bonds — you have 35+ years to recover from crashes</button>
+        <button class="kq-opt" onclick="answerQ(6,1,2,0)">C. 50% equities, 50% bonds — balanced is always best</button>
+        <button class="kq-opt" onclick="answerQ(6,1,3,0)">D. 100% bonds — safety first when young</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-1"></div>
+    </div>
+    <div class="kq" id="kq-6-2">
+      <div class="kq-text">3. What did Warren Buffett instruct the trustee of his estate to do with his wife's inheritance?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,2,0,0)">A. Invest entirely in Berkshire Hathaway shares</button>
+        <button class="kq-opt" onclick="answerQ(6,2,1,0)">B. Hire the world's best active fund managers</button>
+        <button class="kq-opt" onclick="answerQ(6,2,2,1)">C. Put 90% in a low-cost S&P 500 index fund and 10% in short-term government bonds</button>
+        <button class="kq-opt" onclick="answerQ(6,2,3,0)">D. Hold 100% in cash and buy stocks during crashes only</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-6"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(5)">← Lesson 6</button>
+    <div class="lnav-mid" id="lnav-mid-6">Complete the knowledge check to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-6" disabled onclick="goLesson(7)">Lesson 8: DCA vs Lump Sum →</button>
+  </div>
+</div>
+
+<!-- ═══ LESSON 8 — DCA vs LUMP SUM ═══ -->
+<div class="lesson-panel" id="lesson-7">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 1 · Lesson 8 of 8</div>
+    <h1 class="lesson-title">Dollar-Cost Averaging <em>vs Lump Sum</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 11 min read</span><span class="lmeta">📊 Real data comparison</span><span class="lmeta">🧠 Final knowledge check</span></div>
+    <p class="lesson-intro">You have £10,000 to invest. Do you put it all in today, or spread it over 12 months? The research and the psychology point in different directions — and understanding both will make you a better investor.</p>
+  </div>
+
+  <div class="lesson-section">
+    <h2 class="ls-heading">What the Data Actually Says</h2>
+    <p class="ls-body"><span class="def" data-word="Lump Sum Investing" data-def="Investing all available capital at once rather than spreading it over time. Studies consistently show this outperforms DCA approximately 2/3 of the time over 12-month periods, because markets trend upward more often than not." data-ex="Example: Receiving £50,000 inheritance and investing it all in a global index fund on the day you receive it.">Lump sum investing</span> means deploying all your capital at once. <span class="def" data-word="Dollar-Cost Averaging (DCA)" data-def="Investing a fixed amount at regular intervals regardless of market price. Automatically buys more shares when prices are low and fewer when high. Reduces timing risk and emotional decision-making." data-ex="Example: Investing £500 every month regardless of whether markets are up, down, or sideways. Over time, your average cost per share is smoothed out.">Dollar-Cost Averaging (DCA)</span> means spreading investments over time in equal amounts. Vanguard studied this extensively using 10-year rolling windows across the US, UK, and Australian markets.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Lump Sum vs DCA — Vanguard Research Results (12-Month Deployment)</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">US Market</div><div class="bar-track"><div class="bar-fill" style="width:68%;background:var(--accent3)">Lump Sum wins 68%</div></div><div class="bar-val" style="color:var(--accent3)">68% of time</div></div>
+        <div class="bar-row"><div class="bar-label">UK Market</div><div class="bar-track"><div class="bar-fill" style="width:71%;background:#5cba90">Lump Sum wins 71%</div></div><div class="bar-val">71% of time</div></div>
+        <div class="bar-row"><div class="bar-label">Australia</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:#4ca880">Lump Sum wins 70%</div></div><div class="bar-val">70% of time</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.75rem">↑ Lump sum wins approximately 2/3 of the time. The reason: markets go up more often than down (~73% of calendar years are positive). Keeping cash on the sidelines costs you expected return every day it isn't invested.</p>
+    </div>
+
+    <h2 class="ls-heading">When DCA Makes More Sense</h2>
+    <p class="ls-body">Lump sum wins mathematically — but DCA wins psychologically in certain situations. If markets crash 30% the week after you invest your life savings in a lump sum, you may panic-sell and lock in losses. DCA removes this scenario. The best strategy is the one you can stick to.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">⚖️ When to Use Each Strategy</div>
+      <table class="compound-table">
+        <thead><tr><th>Situation</th><th>Best Strategy</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Monthly salary / regular income</td><td>DCA (automatic)</td><td>You have no choice — invest as money arrives</td></tr>
+          <tr><td>Large lump sum (inheritance, bonus, sale proceeds)</td><td>Lump Sum — if emotionally ready</td><td>Mathematically optimal; markets rise 73% of years</td></tr>
+          <tr><td>Large lump sum but anxious about timing</td><td>DCA over 3–6 months</td><td>Sacrifice some expected return for psychological comfort</td></tr>
+          <tr class="highlight"><td>Markets have just crashed 30%+</td><td>Lump Sum immediately</td><td>Expected returns are now highest; the math is even more decisive</td></tr>
+          <tr><td>Markets at all-time highs</td><td>Still invest — don't try to time</td><td>All-time highs are followed by more all-time highs more often than crashes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout gold">
+      <div class="callout-title">💡 The Most Important Insight</div>
+      <p>For most people, DCA is not a market-timing strategy — it's simply the natural consequence of having a salary. You invest monthly because that's when money arrives. The lump sum vs DCA debate only matters when you have a windfall to deploy. In that case, the mathematically correct answer is lump sum, but the psychologically sustainable answer might be DCA over 3–6 months. Both are infinitely better than holding cash.</p>
+    </div>
+
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📅</div><div><div class="cs-meta">Case Study · The World's Worst Market Timer</div><div class="cs-title">What Happens If You Always Invest at the Worst Possible Moment?</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Imagine an investor who, through terrible luck, invested a £10,000 lump sum at the absolute market peak before every major crash since 1970: October 1972 (before the 73-74 bear market), August 1987 (before Black Monday), December 1999 (before the dot-com bust), October 2007 (before the financial crisis), and February 2020 (before COVID).</p>
+        <p style="margin-bottom:.75rem">Total invested: £50,000 at five of the worst possible moments in market history. By 2022, that £50,000 was worth approximately £1.1 million — a 22× return — despite investing at the worst possible times every single time.</p>
+        <p>The lesson: time in the market beats timing the market. Even the world's worst market timer gets rich eventually if they don't sell. The only way to permanently lose is to sell at the bottom. Stay invested.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Invested: £50,000 total</span><span class="cs-stat">Final value: ~£1.1M</span><span class="cs-stat">Every investment at a market peak</span><span class="cs-stat">Key: never sold during crashes</span></div>
+    </div>
+
+    <div class="callout green">
+      <div class="callout-title">🎉 Phase 1 Complete — What You Now Know</div>
+      <p>You've covered all 8 foundations: why investing is essential, asset classes, risk vs return, compound interest, tax-advantaged accounts, behavioural biases, index fund portfolios, and investment timing. You think like an investor now. <strong>Phase 2: Fundamental & Technical Analysis</strong> is where you learn to pick individual companies — the skills that separate serious investors from beginners.</p>
+    </div>
+  </div>
+
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 8 & Phase 1 Complete</div>
+    <ul>
+      <li>Lump sum investing outperforms DCA ~2/3 of the time because markets rise more often than they fall.</li>
+      <li>DCA is often the right psychological choice for large windfalls if you fear a crash right after investing.</li>
+      <li>The world's worst market timer still made 22× returns by never selling — time in the market beats timing.</li>
+      <li>For regular income investors, DCA is natural and automatic — invest every month as money arrives.</li>
+      <li>The only way to permanently lose is to sell at the bottom. Staying invested is the most powerful decision you can make.</li>
+    </ul>
+  </div>
+
+  <div class="kcheck" id="kcheck-7">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Final Knowledge Check — Lesson 8</div><div class="kcheck-sub">3 questions · Complete Phase 1</div></div></div>
+    <div class="kq" id="kq-7-0">
+      <div class="kq-text">1. According to Vanguard's research, lump sum investing outperforms DCA approximately how often?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,0,0,0)">A. 90% of the time — lump sum is almost always better</button>
+        <button class="kq-opt" onclick="answerQ(7,0,1,1)">B. 2/3 of the time (roughly 67%) — because markets trend upward more often than not</button>
+        <button class="kq-opt" onclick="answerQ(7,0,2,0)">C. 50% of the time — it's essentially a coin flip</button>
+        <button class="kq-opt" onclick="answerQ(7,0,3,0)">D. Only 40% — DCA is usually the better strategy</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-0"></div>
+    </div>
+    <div class="kq" id="kq-7-1">
+      <div class="kq-text">2. The "world's worst market timer" case study invested £50,000 at the worst possible moments across 50 years. What was the approximate outcome?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,1,0,0)">A. They lost money — bad timing always loses long-term</button>
+        <button class="kq-opt" onclick="answerQ(7,1,1,0)">B. They broke even — gains and losses cancelled out</button>
+        <button class="kq-opt" onclick="answerQ(7,1,2,1)">C. £1.1 million — a 22× return despite always investing at market peaks</button>
+        <button class="kq-opt" onclick="answerQ(7,1,3,0)">D. £200,000 — a modest return reflecting the timing mistakes</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-1"></div>
+    </div>
+    <div class="kq" id="kq-7-2">
+      <div class="kq-text">3. Markets have just crashed 40%. You have a £20,000 lump sum ready to invest. What does the data suggest?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,2,0,0)">A. Wait until markets stabilise — don't catch a falling knife</button>
+        <button class="kq-opt" onclick="answerQ(7,2,1,0)">B. DCA it over 12 months to reduce risk</button>
+        <button class="kq-opt" onclick="answerQ(7,2,2,1)">C. Invest as a lump sum — expected returns are now highest and the math for lump sum is even more decisive</button>
+        <button class="kq-opt" onclick="answerQ(7,2,3,0)">D. Keep it in cash — crashes can get worse before they get better</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-7"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(6)">← Lesson 7</button>
+    <div class="lnav-mid" id="lnav-mid-7">Complete the final check to finish Phase 1!</div>
+    <button class="btn-lnav btn-next" id="next-btn-7" disabled onclick="window.location='phase2-chapter.html'">🎓 Start Phase 2 →</button>
+  </div>
+</div>
+
+  </main>
+</div><!-- /app -->
+
+<script>
+/* ── DICTIONARY DATA ── */
+const dict = {};
+document.querySelectorAll('.def').forEach(el => {
+  dict[el.dataset.word] = { def: el.dataset.def, ex: el.dataset.ex };
+});
+
+const popup = document.getElementById('dict-popup');
+const overlay = document.getElementById('dict-overlay');
+
+document.querySelectorAll('.def').forEach(el => {
+  el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const word = el.dataset.word;
+    const data = { def: el.dataset.def, ex: el.dataset.ex };
+    document.getElementById('dict-word').textContent = word;
+    document.getElementById('dict-def').textContent = data.def;
+    document.getElementById('dict-example').textContent = data.ex || '';
+    // Position popup near the clicked word
+    const rect = el.getBoundingClientRect();
+    let top = rect.bottom + 8 + window.scrollY;
+    let left = rect.left;
+    // Boundary checks
+    if (left + 310 > window.innerWidth) left = window.innerWidth - 320;
+    if (left < 8) left = 8;
+    popup.style.top = top + 'px';
+    popup.style.left = left + 'px';
+    popup.style.display = 'block';
+    popup.classList.add('visible');
+    overlay.classList.add('visible');
+  });
+});
+
+document.getElementById('dict-close').addEventListener('click', closeDict);
+overlay.addEventListener('click', closeDict);
+function closeDict() {
+  popup.style.display = 'none';
+  popup.classList.remove('visible');
+  overlay.classList.remove('visible');
+}
+
+/* ── QUIZ SYSTEM ── */
+// Track per-lesson quiz state: {lessonIdx: {questionIdx: answered, score, total}}
+const quizState = {};
+// Correct feedback messages
+const correctMsgs = [
+  "✓ Exactly right! ",
+  "✓ Perfect! ",
+  "✓ Correct! ",
+];
+const wrongMsgs = [
+  "✗ Not quite. ",
+  "✗ Incorrect. ",
+  "✗ Wrong answer. ",
+];
+
+const explanations = {
+  '0-0-1': "At 3% inflation, £10,000 halves in purchasing power every ~24 years. After 30 years: £10,000 × (0.97)³⁰ ≈ £4,120. This is why holding cash long-term destroys wealth silently.",
+  '0-0-0': "Incorrect. 3% inflation is much more damaging than that. After 30 years, the real value drops to ~£4,120 — less than half.",
+  '0-0-2': "Incorrect. Even 1% annual inflation compounds to significant purchasing power loss over 30 years. At 3%, you lose nearly 60% of real value.",
+  '0-0-3': "That's an overestimate of inflation's damage, but the real answer (£4,120) is still shockingly low!",
+  '0-1-2': "Alex ends up with ~£1.9M vs Sam's ~£703K — a difference of £1.19M — despite only investing £24,000 more. This is the compound effect of a 10-year head start.",
+  '0-1-0': "Incorrect. Investing smarter cannot overcome the mathematical advantage of time. Alex's 10-year head start is worth ~£1.2 million more at retirement.",
+  '0-1-1': "Incorrect. The 10-year difference in start time results in a ~£1.19M gap at retirement, even with identical monthly contributions.",
+  '0-1-3': "Incorrect. Sam has less time for compounding, which completely overwhelms any advantage from having more capital to invest.",
+  '0-2-1': "Correct! Owning a share means you are a part-owner of the underlying business. You participate in its earnings growth and receive dividends from profits.",
+  '0-2-0': "Partially true in the short run, but the correct framing is ownership. A share represents a proportional claim on the company's assets and future earnings.",
+  '0-2-2': "That describes a bond, not a stock. Bondholders lend money at interest. Shareholders own equity in the business.",
+  '0-2-3': "You do have voting rights on major decisions, but that's a secondary feature. The primary meaning of a share is proportional business ownership.",
+  '1-0-1': "Correct! When new bonds offer higher interest rates, existing bonds with lower rates become less attractive, so their market price falls. This is a mathematical certainty.",
+  '1-0-0': "Incorrect. Existing bonds have fixed coupon payments set at issuance. When rates rise, new bonds pay more, making old bonds less valuable.",
+  '1-0-2': "Incorrect. While the coupon payment is fixed, the market price of existing bonds adjusts to reflect the new rate environment.",
+  '1-0-3': "Credit rating affects the risk premium but doesn't change the fundamental inverse relationship between rates and bond prices.",
+  '1-1-2': "Correct! REITs are companies owning income-producing real estate, traded on stock exchanges like ordinary shares, and legally required to distribute 90%+ of taxable income.",
+  '1-1-0': "Incorrect. That describes a government savings scheme. REITs are publicly traded companies owning physical property.",
+  '1-1-1': "Incorrect. REITs are equity investments (shares), not bonds. They represent ownership in a property portfolio.",
+  '1-1-3': "Incorrect. REITs are not loans. They're equity ownership in real estate portfolios traded on stock exchanges.",
+  '1-2-2': "Correct! Equities have returned ~10%/year over the past century — higher than bonds, gold, real estate, or cash — because they carry the most risk.",
+  '1-2-0': "Incorrect. Gold has returned ~3.6%/year historically — barely above inflation. It's a store of value, not a wealth builder.",
+  '1-2-1': "Incorrect. Government bonds have returned 3–5% historically — meaningful but far below equities' ~10%.",
+  '1-2-3': "Incorrect — this is a common myth. Real estate returns have been solid (6–8%) but below equities. And real estate 'always going up' is demonstrably false (see 2008).",
+  '2-0-1': "Correct! Returns must always be evaluated relative to risk taken. A fund returning 20% with 40% volatility may have a worse Sharpe Ratio than a fund returning 14% with 8% volatility.",
+  '2-0-0': "Incorrect. Higher raw returns mean nothing without knowing the risk taken. A fund could achieve 20% by taking extreme risks that could easily result in −40% in a bad year.",
+  '2-0-2': "Incorrect. Lower returns don't automatically mean less risk. You need to look at volatility and the Sharpe Ratio.",
+  '2-0-3': "Incorrect. Markets are not perfectly efficient — that's why active managers and investors can add value.",
+  '2-1-1': "Correct! Drawdown = (200k−120k)/200k = 40%. To recover: you need to go from 120k back to 200k, which requires 200k/120k − 1 = 66.7% return. Losses always require larger gains to recover.",
+  '2-1-0': "Incorrect. You need a 67% gain to recover from a 40% loss — not 40%. Because you're working from a lower base. This asymmetry is crucial to understand.",
+  '2-1-2': "Incorrect. The drawdown is (200k−120k)/200k = 40% (from the peak), not 60%.",
+  '2-1-3': "Incorrect. A fall from 200k to 120k is a 40% decline, not 80%.",
+  '2-2-1': "Correct! A Sharpe of 1.8 means for every unit of risk taken, the fund generated 1.8 units of excess return. Anything above 1.0 is good; 1.8 is excellent.",
+  '2-2-0': "Incorrect. The Sharpe Ratio is not a percentage return figure. It's a ratio of excess return to volatility.",
+  '2-2-2': "Incorrect. Alpha measures outperformance vs a benchmark. The Sharpe Ratio measures return per unit of total risk.",
+  '2-2-3': "Incorrect. Standard deviation measures volatility. The Sharpe Ratio uses standard deviation as its denominator but is itself a ratio.",
+  '3-0-1': "Correct! 72 ÷ 9 = 8 years. At 9% annual return, your money doubles every 8 years. So £5,000 becomes £10,000 in 8 years.",
+  '3-0-0': "Incorrect. 72 ÷ 9 = 8, not 9. The Rule of 72 divides 72 by the return rate.",
+  '3-0-2': "Incorrect. At 9%, doubling takes 8 years. 5 years would require a ~14% annual return.",
+  '3-0-3': "Incorrect. 12 years corresponds to a 6% return (72÷6=12). At 9%, it's 8 years.",
+  '3-1-2': "Correct! Compounding is exponential. The gains in decades 5 and 6 of Buffett's career dwarfed everything before — not because he invested differently, but because the base had grown so large.",
+  '3-1-0': "Incorrect. Buffett used the same value investing principles throughout his career. The late-life wealth explosion is purely mathematical — exponential compounding.",
+  '3-1-1': "Incorrect. Buffett actually became more conservative with age. The wealth explosion is purely the mathematics of compounding on a very large base.",
+  '3-1-3': "Dividends played a role, but the primary driver is the exponential nature of compounding — not just the dividend income.",
+  '3-2-1': "Correct! Compound interest earns returns on all accumulated interest, not just the initial principal. This creates exponential growth — 'interest on interest on interest.'",
+  '3-2-0': "Incorrect. Both types can be calculated at any frequency. The key difference is whether interest is calculated on the original principal only (simple) or on all accumulated value (compound).",
+  '3-2-2': "Incorrect. Compound interest applies to all investments including equities (through reinvested dividends and earnings growth), not just savings products.",
+  '3-2-3': "Incorrect. Compound interest is dramatically more powerful over long periods. This is the whole lesson!",
+
+  // Lesson 5 — Account Types
+  '4-0-1': "Correct! HMRC automatically tops up every SIPP contribution at the basic rate. £800 from you + £200 from HMRC = £1,000 invested. Higher-rate taxpayers can claim even more via self-assessment.",
+  '4-0-0': "Incorrect. Basic-rate tax relief is claimed automatically at source — HMRC adds it directly to your SIPP without you needing to file anything.",
+  '4-0-2': "Incorrect. The top-up is not a small amount — it's 25% of your net contribution. £800 becomes £1,000, not £960.",
+  '4-0-3': "Incorrect. Contributions are not doubled. The top-up equals the basic tax rate: 20% relief on the gross contribution, meaning your £800 becomes £1,000.",
+  '4-1-2': "Correct! Inside an ISA, all growth, dividends, and capital gains are completely sheltered from UK tax — permanently. There's no tax even when you withdraw the money, regardless of how large the pot has grown.",
+  '4-1-0': "Incorrect. An ISA does not expand the range of assets you can invest in — you can hold the same assets in a taxable account. The advantage is purely tax treatment.",
+  '4-1-1': "Incorrect. That describes a SIPP (pension), not an ISA. The ISA does not receive government contribution top-ups.",
+  '4-1-3': "Incorrect. Investment fees (such as platform fees and fund ongoing charges) still apply inside an ISA — they are charged by the platform and fund provider, not eliminated by the tax wrapper.",
+  '4-2-2': "Correct! An employer match is genuinely the best return available anywhere in investing. If your employer matches 5%, you immediately double your money on those contributions before a single day of market return. Always capture the full match — it's free money.",
+  '4-2-0': "Incorrect. Putting employer-matched pension contributions into an ISA instead means forfeiting the employer match entirely. That's an instant loss of free money — never the right choice.",
+  '4-2-1': "Incorrect. Employer matches are not a guarantee in the sense that they require your contribution — but if you contribute the required amount, the match is contractually guaranteed. There's no reason not to claim it.",
+  '4-2-3': "Incorrect. The employer match should always come first — it's an instant 100% return that no ISA can match. The correct priority is: employer match → ISA → SIPP → taxable account.",
+
+  // Lesson 6 — Behavioural Finance
+  '5-0-1': "Correct! Anchoring bias is exactly this — your purchase price of £100 feels like a meaningful target even though it is completely irrelevant to whether the stock will perform well going forward. The rational question is: would I buy this stock at £60 today?",
+  '5-0-0': "Recency bias would be assuming the recent price decline will continue. Holding because of your purchase price is specifically anchoring — the original price is your 'anchor' distorting your decision.",
+  '5-0-2': "Confirmation bias is about seeking validating information. Holding because of your purchase price is a different distortion — it's anchoring to a reference point that is irrelevant to future returns.",
+  '5-0-3': "Overconfidence would involve believing you definitely know the stock will recover. Anchoring is specifically about using an irrelevant historical price as a decision anchor.",
+  '5-1-2': "Correct! Vanguard's research showed that investors who never logged in during the crash had the best outcomes — they avoided panic-selling at the bottom and captured the full recovery. Frequent checking caused worse decisions.",
+  '5-1-0': "Incorrect. Timing the market is extraordinarily difficult — almost no retail investors successfully sold and bought back at the bottom. Those who tried mostly sold low and bought back high.",
+  '5-1-1': "Incorrect. While rebalancing can be beneficial, active rebalancing during acute crashes often led to premature selling of fallen positions before recovery.",
+  '5-1-3': "Incorrect. Moving to cash in February 2020 would have required perfect foresight — and then also required perfect re-entry timing. In practice, those who moved to cash mostly missed the recovery entirely.",
+  '5-2-2': "Correct! This is Kahneman and Tversky's landmark finding: losses feel approximately twice as painful as equivalent gains feel pleasurable. Losing £500 has the same emotional impact as gaining approximately £1,000. This asymmetry is called loss aversion.",
+  '5-2-0': "Incorrect. Gains and losses do not feel equal. This is the core finding of prospect theory — losses are felt more acutely than gains of the same magnitude.",
+  '5-2-1': "Incorrect. If anything, the opposite is true — losses feel disproportionately worse, not gains feeling disproportionately better.",
+  '5-2-3': "Incorrect. While losses are over-weighted, the research shows they're approximately 2× as painful as equivalent gains — not 10×.",
+
+  // Lesson 7 — First Portfolio
+  '6-0-1': "Correct! By arithmetic, all investors together must earn the market's return before costs. After fees of 1–2% per year, the average active manager must underperform the index. This is not opinion — it's mathematical certainty. Individual managers can outperform, but on average they cannot after costs.",
+  '6-0-0': "Incorrect. Many active fund managers are extremely intelligent. The problem isn't intelligence — it's the structural impossibility of the average investor outperforming after costs.",
+  '6-0-2': "Incorrect. Index funds hold the same stocks as active funds — the entire market. Active funds often hold a subset of those same stocks. The advantage is cost, not stock quality.",
+  '6-0-3': "Incorrect. Active funds vary widely in risk levels. The underperformance is driven by fees and trading costs, not excess risk.",
+  '6-1-1': "Correct! At 30, you have 35+ years before typical retirement. Equities have never delivered negative returns over any 20-year period in history. A high equity allocation (90%+) is the mathematically optimal choice when you have decades for any crash to recover.",
+  '6-1-0': "Incorrect. The classic rule is Bond % = your age. At 30, that's 30% bonds, 70% equities — but even this may be too conservative for many 30-year-olds given long time horizons.",
+  '6-1-2': "Incorrect. A 50/50 split is appropriate for investors much closer to retirement who need to protect accumulated capital. At 30, bonds provide stability but drag on long-run returns significantly.",
+  '6-1-3': "Incorrect. Bonds at age 30 reduce volatility but also dramatically reduce long-run wealth accumulation. At 30, short-term volatility is a feature, not a bug — it's the price of higher long-run returns.",
+  '6-2-2': "Correct! In his 2013 Berkshire Hathaway letter, Buffett stated he has instructed the trustee managing money for his wife to put 90% in a very low-cost S&P 500 index fund and 10% in short-term government bonds. The specific fund mentioned: Vanguard's S&P 500 index fund.",
+  '6-2-0': "Incorrect. Buffett did not instruct his wife's trust to hold Berkshire Hathaway shares — he recommended a Vanguard S&P 500 index fund.",
+  '6-2-1': "Incorrect. Buffett explicitly stated his belief that index funds would outperform most active managers — the opposite of recommending high-fee active management.",
+  '6-2-3': "Incorrect. Buffett recommended staying invested in an index fund at all times — not holding cash and trying to time purchases during crashes.",
+
+  // Lesson 8 — DCA vs Lump Sum
+  '7-0-1': "Correct! Vanguard studied lump sum vs DCA across US, UK, and Australian markets over all rolling 12-month periods. Lump sum outperformed approximately 2/3 of the time — because markets trend upward in ~73% of calendar years, so staying invested from day 1 captures more of that uptrend.",
+  '7-0-0': "Incorrect. Lump sum is better than DCA most of the time, but not 90% of the time. In the 1/3 of cases where DCA wins, it's usually because markets fell sharply right after the lump sum was invested.",
+  '7-0-2': "Incorrect. It's not a coin flip — lump sum wins approximately 2/3 of the time, not 50%. The asymmetry exists because markets rise more than they fall over any given year.",
+  '7-0-3': "Incorrect. DCA underperforms lump sum the majority of the time, not 60% of the time.",
+  '7-1-2': "Correct! Despite always investing £10,000 at the absolute worst possible moment before each major crash since 1970, the investor's £50,000 total grew to approximately £1.1 million by 2022 — because they never sold. Time in the market overpowers even catastrophic timing mistakes.",
+  '7-1-0': "Incorrect. Despite investing at every market peak before a crash, the investor still generated enormous positive returns — because markets eventually recovered and reached new highs every time.",
+  '7-1-1': "Incorrect. The investor did not break even — they turned £50,000 into approximately £1.1 million, a 22× return, despite the worst possible timing.",
+  '7-1-3': "Incorrect. £200,000 significantly understates the outcome. The investor made approximately £1.1 million — demonstrating that time in the market crushes even the worst possible market timing.",
+  '7-2-2': "Correct! After a 40% crash, expected future returns are significantly above average (markets are cheaper than before). The lump sum math is even more decisive in this scenario — you're buying at a discount. The data consistently shows that investing after crashes produces above-average long-run returns.",
+  '7-2-0': "Incorrect. 'Don't catch a falling knife' sounds wise but leads to permanent underperformance. Markets can always fall further in the short term, but waiting for stability means missing much of the recovery. After crashes, expected returns are highest.",
+  '7-2-1': "Incorrect. DCA over 12 months after a 40% crash means 11 months of keeping cash on the sidelines while the market (historically) recovers. The lump sum approach is mathematically superior — especially after a significant decline.",
+  '7-2-3': "Incorrect. History shows that investing after major crashes — not waiting for further falls — produces the best long-run returns. The investor who waited for 'stability' after the 2009 bottom missed a 300%+ recovery.",
+};
+
+function answerQ(lessonIdx, qIdx, optIdx, isCorrect) {
+  const qId = `kq-${lessonIdx}-${qIdx}`;
+  const fbId = `kqf-${lessonIdx}-${qIdx}`;
+  const opts = document.querySelectorAll(`#${qId} .kq-opt`);
+  // Lock all options
+  opts.forEach((btn, i) => {
+    btn.classList.add('locked');
+    btn.onclick = null;
+  });
+  // Mark correct/wrong
+  const correctIdxMap = {
+    '0-0':1,'0-1':2,'0-2':1,
+    '1-0':1,'1-1':2,'1-2':2,
+    '2-0':1,'2-1':1,'2-2':1,
+    '3-0':1,'3-1':2,'3-2':1,
+    '4-0':1,'4-1':2,'4-2':2,
+    '5-0':1,'5-1':2,'5-2':2,
+    '6-0':1,'6-1':1,'6-2':2,
+    '7-0':1,'7-1':2,'7-2':2,
+  };
+  const correctIdx = correctIdxMap[`${lessonIdx}-${qIdx}`];
+  opts[correctIdx].classList.add('correct');
+  if (!isCorrect) opts[optIdx].classList.add('wrong');
+
+  // Show feedback
+  const fb = document.getElementById(fbId);
+  const key = `${lessonIdx}-${qIdx}-${optIdx}`;
+  fb.textContent = explanations[key] || (isCorrect ? '✓ Correct!' : '✗ Incorrect.');
+  fb.className = 'kq-feedback show ' + (isCorrect ? 'ok' : 'bad');
+
+  // Track state
+  if (!quizState[lessonIdx]) quizState[lessonIdx] = { answered: 0, correct: 0, total: 3 };
+  if (!quizState[lessonIdx][qIdx]) {
+    quizState[lessonIdx][qIdx] = true;
+    quizState[lessonIdx].answered++;
+    if (isCorrect) quizState[lessonIdx].correct++;
+    checkLessonComplete(lessonIdx);
+  }
+}
+
+function checkLessonComplete(lessonIdx) {
+  const state = quizState[lessonIdx];
+  if (state.answered < state.total) return;
+  const score = state.correct;
+  const total = state.total;
+  const passed = score >= 2;
+  const resultEl = document.getElementById(`kcheck-result-${lessonIdx}`);
+  resultEl.textContent = passed
+    ? `🎉 ${score}/${total} correct — Great work! Lesson unlocked.`
+    : `${score}/${total} correct — Review the material above and try Phase 2 when ready. Lesson unlocked.`;
+  resultEl.className = 'kcheck-result show ' + (passed ? 'pass' : 'fail');
+  // Unlock next button
+  const nextBtn = document.getElementById(`next-btn-${lessonIdx}`);
+  if (nextBtn) {
+    nextBtn.disabled = false;
+    nextBtn.style.animation = 'pulse 2s infinite';
+  }
+  const mid = document.getElementById(`lnav-mid-${lessonIdx}`);
+  if (mid) mid.textContent = passed ? '✓ Knowledge check passed!' : '📖 Lesson complete — continue when ready';
+  // Mark sidebar item done
+  const items = document.querySelectorAll('.sb-item');
+  if (items[lessonIdx]) items[lessonIdx].classList.add('done');
+  updateProgress(lessonIdx + 1);
+}
+
+/* ── LESSON NAVIGATION ── */
+let currentLesson = 0;
+function goLesson(idx) {
+  document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`lesson-${idx}`).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach((item, i) => {
+    item.classList.remove('active');
+    if (i === idx) item.classList.add('active');
+  });
+  currentLesson = idx;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updateProgress(idx);
+}
+
+function updateProgress(completedUpTo) {
+  const pct = Math.round((completedUpTo / 8) * 100);
+  document.getElementById('prog-fill').style.width = Math.max(pct, 12) + '%';
+  document.getElementById('prog-lbl').textContent = `${completedUpTo} / 8 lessons`;
+}
+
+// Animate bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => { bar.style.width = w; }, 100);
+      });
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.chart-wrap').forEach(c => observer.observe(c));
+</script>
+<!-- ═══ STUDYCOACH AI ASSISTANT ═══ -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+#sc-assistant-btn{position:fixed;bottom:24px;right:24px;z-index:9000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;font-size:1.4rem}
+#sc-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(168,85,247,.7)}
+.sc-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#00d4a0;border-radius:50%;border:2px solid #070709}
+#sc-chat-panel{position:fixed;bottom:90px;right:24px;z-index:9000;width:360px;max-height:520px;background:#0e0e12;border:1px solid #1e1e2e;border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+#sc-chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.sc-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:#13131a;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.sc-hname{font-weight:600;font-size:.88rem;color:#e8e8f0}
+.sc-hstatus{font-size:.72rem;color:#00d4a0}
+.sc-close{background:none;border:none;color:#7a7a9a;cursor:pointer;font-size:1rem;padding:.2rem;line-height:1;margin-left:auto}
+.sc-close:hover{color:#e8e8f0}
+.sc-ctx{padding:.5rem 1rem;background:#070709;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-ctx-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:.25rem .7rem;font-size:.72rem;color:#a855f7;font-family:'DM Mono',monospace}
+.sc-msgs{flex:1;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.sc-msgs::-webkit-scrollbar{width:4px}.sc-msgs::-webkit-scrollbar-thumb{background:#1e1e2e;border-radius:2px}
+.sc-m{max-width:85%;display:flex;flex-direction:column;gap:.2rem}
+.sc-m.u{align-self:flex-end;align-items:flex-end}.sc-m.a{align-self:flex-start;align-items:flex-start}
+.sc-b{padding:.6rem .85rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.sc-m.u .sc-b{background:linear-gradient(135deg,#a855f7,#7c4dff);color:#fff;border-radius:12px 12px 2px 12px}
+.sc-m.a .sc-b{background:#13131a;color:#e8e8f0;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px}
+.sc-t{font-size:.65rem;color:#7a7a9a;font-family:'DM Mono',monospace}
+.sc-typing{display:flex;gap:.3rem;padding:.6rem .85rem;background:#13131a;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px;width:fit-content}
+.sc-typing span{width:6px;height:6px;border-radius:50%;background:#a855f7;animation:scB 1.2s infinite}
+.sc-typing span:nth-child(2){animation-delay:.2s}.sc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes scB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.sc-sugg{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;flex-shrink:0;border-top:1px solid #1e1e2e}
+.sc-s{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2);border-radius:20px;padding:.3rem .75rem;font-size:.75rem;color:#4f8cff;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sc-s:hover{background:rgba(79,140,255,.18)}
+.sc-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid #1e1e2e;flex-shrink:0;background:#13131a}
+.sc-in{flex:1;background:#0e0e12;border:1px solid #1e1e2e;border-radius:8px;padding:.55rem .85rem;color:#e8e8f0;font-size:.84rem;font-family:'DM Sans',sans-serif;resize:none;outline:none;transition:border-color .2s;min-height:36px;max-height:100px;line-height:1.4}
+.sc-in::placeholder{color:#7a7a9a}.sc-in:focus{border-color:#a855f7}
+.sc-send{background:#a855f7;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.sc-send:hover{opacity:.85}.sc-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:480px){#sc-chat-panel{width:calc(100vw - 20px);right:10px;bottom:80px}#sc-assistant-btn{right:16px;bottom:16px}}
+</style>
+<button id="sc-assistant-btn" onclick="scToggle()" title="Ask your AI tutor">🎓<div class="sc-badge"></div></button>
+<div id="sc-chat-panel">
+  <div class="sc-header"><div class="sc-avatar">🎓</div><div><div class="sc-hname">StudyCoach AI</div><div class="sc-hstatus">● Online</div></div><button class="sc-close" onclick="scToggle()">✕</button></div>
+  <div class="sc-ctx"><div class="sc-ctx-pill" id="sc-pill">📚 Investor's Academy</div></div>
+  <div class="sc-msgs" id="sc-msgs"><div class="sc-m a"><div class="sc-b">Hi! I'm your AI tutor 👋 Ask me anything about the course — concepts, examples, or quiz help!</div><div class="sc-t">Now</div></div></div>
+  <div class="sc-sugg" id="sc-sugg"><button class="sc-s" onclick="scSug(this)">Explain this simply</button><button class="sc-s" onclick="scSug(this)">Real-world example</button><button class="sc-s" onclick="scSug(this)">Quiz me</button></div>
+  <div class="sc-row"><textarea class="sc-in" id="sc-in" placeholder="Ask anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();scSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea><button class="sc-send" id="sc-btn" onclick="scSend()">↑</button></div>
+</div>
+<script>
+(function(){
+  let open=false,hist=[],busy=false;
+  const sys=`You are a friendly expert tutor for StudyCoach Academy, an investment education platform. Answer questions clearly as a knowledgeable friend — use real examples, keep responses concise (2-4 sentences for simple questions), and make learning enjoyable. Current lesson context: the student is studying investing and financial markets. Never give personal investment advice — keep it educational.`;
+  window.scToggle=function(){open=!open;document.getElementById('sc-chat-panel').classList.toggle('open',open);if(open){const ey=document.querySelector('.lesson-eyebrow');if(ey)document.getElementById('sc-pill').textContent='📚 '+ey.textContent.trim();document.getElementById('sc-in').focus();}};
+  window.scSug=function(b){document.getElementById('sc-in').value=b.textContent;document.getElementById('sc-sugg').style.display='none';scSend();};
+  window.scSend=async function(){
+    const inp=document.getElementById('sc-in'),txt=inp.value.trim();
+    if(!txt||busy)return;
+    inp.value='';inp.style.height='auto';
+    document.getElementById('sc-sugg').style.display='none';
+    scMsg('u',txt);hist.push({role:'user',content:txt});
+    busy=true;document.getElementById('sc-btn').disabled=true;
+    const msgs=document.getElementById('sc-msgs');
+    const typ=document.createElement('div');typ.className='sc-m a';
+    typ.innerHTML='<div class="sc-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typ);msgs.scrollTop=msgs.scrollHeight;
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist})});
+      const d=await r.json();typ.remove();
+      const reply=d.content?.[0]?.text||'Sorry, try again!';
+      scMsg('a',reply);hist.push({role:'assistant',content:reply});
+      if(hist.length>20)hist=hist.slice(-16);
+    }catch(e){typ.remove();scMsg('a','Connection issue — please try again.');}
+    busy=false;document.getElementById('sc-btn').disabled=false;document.getElementById('sc-in').focus();
+  };
+  function scMsg(role,text){
+    const c=document.getElementById('sc-msgs'),now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');el.className='sc-m '+role;
+    const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,.15);padding:.1rem .3rem;border-radius:3px;font-size:.8em">$1</code>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    el.innerHTML=`<div class="sc-b">${fmt}</div><div class="sc-t">${now}</div>`;
+    c.appendChild(el);c.scrollTop=c.scrollHeight;
+  }
+})();
+</script>
+
+</body>
+</html>

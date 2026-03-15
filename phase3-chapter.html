@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/><meta name="theme-color" content="#070709"/>
+<style>html,body{background:#070709 !important}</style>
+<title>Phase 3 — Portfolio Management · Investor's Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070709;--surface:#0e0e12;--card:#13131a;--border:#1e1e2e;--accent:#00d4a0;--accent2:#4f8cff;--accent3:#e8c97a;--danger:#ff4d6d;--text:#e8e8f0;--muted:#b0b0c8;--display:'Cormorant Garamond',serif;--mono:'DM Mono',monospace;--body:'DM Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#070709 !important;color-scheme:dark}
+body{background:#070709 !important;color:#e8e8f0 !important;font-family:var(--body);font-size:15px;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,160,.4)}50%{box-shadow:0 0 0 8px rgba(0,212,160,0)}}
+.ticker-wrap{overflow:hidden;background:#060608;border-bottom:1px solid var(--border);padding:.38rem 0;position:sticky;top:60px;z-index:400}
+.ticker-track{display:flex;gap:2.5rem;width:max-content;animation:ticker 36s linear infinite;font-family:var(--mono);font-size:.73rem}
+.tick-item{white-space:nowrap;color:var(--muted)}.tick-up{color:var(--accent)}.tick-dn{color:var(--danger)}
+nav{position:sticky;top:0;z-index:500;background:rgba(7,7,9,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.82rem;transition:color .2s}.nav-back:hover{color:var(--accent)}
+.nav-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--accent)}
+.nav-progress{display:flex;align-items:center;gap:.75rem}
+.progress-bar{width:140px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#00ffcc);border-radius:2px;transition:width .5s ease}
+.progress-lbl{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#0e0e12;border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:82px;height:calc(100vh - 82px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.4rem;margin-top:.5rem}
+.sb-item{display:flex;align-items:center;gap:.7rem;padding:.6rem 1.4rem;cursor:pointer;transition:all .2s;border-left:2px solid transparent;font-size:.86rem;color:var(--muted)}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sb-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(0,212,160,.06)}
+.sb-item.done{color:var(--accent3)}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.sb-item.active .sb-dot{background:var(--accent);animation:pulse 2s infinite}
+.sb-item.done .sb-dot{background:var(--accent3)}
+.main{padding:3rem 3rem 6rem;max-width:820px;background:#070709}
+.lesson-hero{margin-bottom:3rem;animation:fadeUp .6s ease both}
+.lesson-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+.lesson-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.08;margin-bottom:1rem}
+.lesson-title em{font-style:italic;background:linear-gradient(135deg,var(--accent) 0%,#00ffcc 50%,var(--accent) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+.lesson-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.lmeta{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.lesson-intro{font-size:1.05rem;color:var(--muted);line-height:1.75;border-left:3px solid var(--accent);padding-left:1.25rem}
+.lesson-section{margin:2.5rem 0}
+.ls-heading{font-family:var(--display);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--text)}
+.ls-body{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+.def{border-bottom:1px dashed var(--accent3);color:var(--accent3);cursor:pointer;transition:all .2s}
+.def:hover{background:rgba(232,201,122,.1);border-radius:2px}
+.dict-popup{position:fixed;z-index:8000;background:var(--card);border:1px solid var(--accent3);border-radius:10px;padding:1rem 1.2rem;max-width:310px;box-shadow:0 8px 40px rgba(0,0,0,.7);animation:popIn .2s ease both;display:none}
+.dict-popup.visible{display:block}
+.dict-word{font-family:var(--mono);font-size:.75rem;color:var(--accent3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.dict-def{font-size:.84rem;color:var(--text);line-height:1.6}
+.dict-close{position:absolute;top:.5rem;right:.7rem;color:var(--muted);cursor:pointer;font-size:.9rem}.dict-close:hover{color:var(--text)}
+.dict-example{margin-top:.6rem;font-size:.78rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:.5rem}
+#dict-overlay{position:fixed;inset:0;z-index:7999;display:none}#dict-overlay.visible{display:block}
+.callout{border-radius:10px;padding:1.1rem 1.3rem;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-title{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.callout.gold{background:rgba(232,201,122,.08);border:1px solid rgba(232,201,122,.2)}.callout.gold .callout-title{color:var(--accent3)}
+.callout.blue{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)}.callout.blue .callout-title{color:var(--accent2)}
+.callout.green{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2)}.callout.green .callout-title{color:var(--accent)}
+.callout.red{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2)}.callout.red .callout-title{color:var(--danger)}
+.callout p{color:var(--muted)}
+.case-study{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);border-radius:0 0 10px 10px;padding:1.5rem;margin:2rem 0}
+.cs-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.cs-icon{font-size:1.5rem}.cs-meta{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.cs-title{font-weight:600;font-size:1rem;margin-top:.15rem}
+.cs-body{font-size:.87rem;color:var(--muted);line-height:1.8}
+.cs-stat{display:inline-block;background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.2);border-radius:6px;padding:.3rem .7rem;font-family:var(--mono);font-size:.78rem;color:var(--accent);margin:.2rem .2rem 0 0}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.chart-title{font-family:var(--mono);font-size:.73rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1.25rem}
+.bar-chart{display:flex;flex-direction:column;gap:.7rem}
+.bar-row{display:grid;grid-template-columns:130px 1fr 80px;gap:.75rem;align-items:center;font-size:.82rem}
+.bar-label{color:var(--muted);text-align:right;font-size:.78rem}
+.bar-track{height:26px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.6rem;font-size:.72rem;font-family:var(--mono);color:rgba(0,0,0,.85);font-weight:600;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.bar-val{font-family:var(--mono);font-size:.78rem;color:var(--text);text-align:right}
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.data-table th{padding:.55rem .85rem;background:rgba(255,255,255,.04);border:1px solid var(--border);font-weight:500;color:var(--muted);font-family:var(--mono);font-size:.7rem;text-align:left;text-transform:uppercase;letter-spacing:.06em}
+.data-table td{padding:.6rem .85rem;border:1px solid rgba(255,255,255,.05);color:var(--muted);vertical-align:top}
+.data-table td:first-child{color:var(--text);font-weight:500}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table tr.hl td{color:var(--accent);background:rgba(0,212,160,.05)}
+.pull-quote{border-left:3px solid var(--accent3);padding:1rem 1.5rem;margin:2rem 0;font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--text);line-height:1.6}
+.pull-quote cite{display:block;margin-top:.5rem;font-family:var(--body);font-style:normal;font-size:.78rem;color:var(--muted)}
+.takeaways{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin:2rem 0}
+.takeaways-title{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.75rem}
+.takeaways ul{list-style:none}
+.takeaways ul li{padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.86rem;color:var(--muted);display:flex;gap:.6rem;align-items:flex-start}
+.takeaways ul li:last-child{border-bottom:none}
+.takeaways ul li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:.05rem}
+.kcheck{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin:2.5rem 0}
+.kcheck-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.kcheck-icon{font-size:1.3rem}.kcheck-title{font-weight:600}.kcheck-sub{font-size:.8rem;color:var(--muted);margin-top:.1rem}
+.kq{margin-bottom:1.5rem}.kq-text{font-size:.9rem;font-weight:500;margin-bottom:.7rem}
+.kq-opts{display:flex;flex-direction:column;gap:.45rem}
+.kq-opt{padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.84rem;color:var(--muted);background:var(--card);transition:all .2s;text-align:left;width:100%}
+.kq-opt:hover:not(.locked){border-color:var(--accent);color:var(--text)}
+.kq-opt.correct{border-color:var(--accent);background:rgba(0,212,160,.1);color:var(--accent)}
+.kq-opt.wrong{border-color:var(--danger);background:rgba(255,77,109,.1);color:var(--danger)}
+.kq-opt.locked{cursor:default}
+.kq-feedback{font-size:.82rem;margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;display:none}
+.kq-feedback.show{display:block}
+.kq-feedback.ok{background:rgba(0,212,160,.1);color:var(--accent);border:1px solid rgba(0,212,160,.2)}
+.kq-feedback.bad{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.2)}
+.kcheck-result{display:none;margin-top:1rem;padding:.9rem 1rem;border-radius:8px;font-weight:600;text-align:center;font-size:.9rem}
+.kcheck-result.show{display:block}
+.kcheck-result.pass{background:rgba(0,212,160,.1);color:var(--accent);border:1px solid rgba(0,212,160,.25)}
+.kcheck-result.fail{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.25)}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.btn-lnav{padding:.7rem 1.4rem;border-radius:6px;font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-prev{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-prev:hover{border-color:var(--accent);color:var(--accent)}
+.btn-next{background:var(--accent);border:none;color:#003322;font-weight:600}.btn-next:hover{opacity:.88;transform:translateY(-1px)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.lnav-mid{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:center}
+.lesson-panel{display:none;animation:fadeUp .5s ease both}.lesson-panel.active{display:block}
+.alloc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem}
+.alloc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem;text-align:center}
+.alloc-pct{font-family:var(--display);font-size:2.2rem;font-weight:700;margin-bottom:.25rem}
+.alloc-name{font-size:.82rem;font-weight:600;margin-bottom:.3rem}
+.alloc-desc{font-size:.72rem;color:var(--muted);line-height:1.5}
+@media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:1.5rem 1.2rem 5rem}.alloc-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <a class="nav-back" href="investing-course.html">← Course Home</a>
+    <div style="width:1px;height:20px;background:var(--border)"></div>
+    <div class="nav-title">Phase 3 — Portfolio Management</div>
+  </div>
+  <div class="nav-progress">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:12%"></div></div>
+    <div class="progress-lbl" id="prog-lbl">1 / 8 lessons</div>
+  </div>
+</nav>
+<div class="ticker-wrap"><div class="ticker-track">
+  <span class="tick-item">60/40 YTD <span class="tick-up">▲ 8.3%</span></span>
+  <span class="tick-item">VIX <span class="tick-dn">▼ 14.2</span></span>
+  <span class="tick-item">CORRELATION SPY/AGG <span class="tick-dn">−0.22</span></span>
+  <span class="tick-item">SHARPE TARGET <span class="tick-up">≥ 1.0</span></span>
+  <span class="tick-item">REBALANCE BAND <span class="tick-up">±5%</span></span>
+  <span class="tick-item">VALUE FACTOR PREMIUM <span class="tick-up">▲ 4.8%</span></span>
+  <span class="tick-item">ALL WEATHER YTD <span class="tick-up">▲ 6.1%</span></span>
+  <span class="tick-item">MAX DRAWDOWN RULE <span class="tick-dn">−15% TRIGGER</span></span>
+  <span class="tick-item">60/40 YTD <span class="tick-up">▲ 8.3%</span></span>
+  <span class="tick-item">VIX <span class="tick-dn">▼ 14.2</span></span>
+</div></div>
+<div id="dict-overlay"></div>
+<div class="dict-popup" id="dict-popup">
+  <div class="dict-close" id="dict-close">✕</div>
+  <div class="dict-word" id="dict-word"></div>
+  <div class="dict-def" id="dict-def"></div>
+  <div class="dict-example" id="dict-example"></div>
+</div>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-label">Phase 3 Lessons</div>
+  <div class="sb-item active" onclick="goLesson(0)"><div class="sb-dot"></div>1. Modern Portfolio Theory</div>
+  <div class="sb-item" onclick="goLesson(1)"><div class="sb-dot"></div>2. Asset Allocation</div>
+  <div class="sb-item" onclick="goLesson(2)"><div class="sb-dot"></div>3. Rebalancing Strategies</div>
+  <div class="sb-item" onclick="goLesson(3)"><div class="sb-dot"></div>4. Risk Management</div>
+  <div class="sb-item" onclick="goLesson(4)"><div class="sb-dot"></div>5. Factor Investing</div>
+  <div class="sb-item" onclick="goLesson(5)"><div class="sb-dot"></div>6. Tax-Efficient Investing</div>
+  <div class="sb-item" onclick="goLesson(6)"><div class="sb-dot"></div>7. Portfolio Construction</div>
+  <div class="sb-item" onclick="goLesson(7)"><div class="sb-dot"></div>8. Performance Measurement</div>
+  <div class="sb-label" style="margin-top:1rem">All Phases</div>
+  <div class="sb-item" onclick="window.location='phase1-chapter.html'"><div class="sb-dot" style="background:var(--accent3)"></div>Phase 1 — Basics</div>
+  <div class="sb-item" onclick="window.location='phase2-chapter.html'"><div class="sb-dot" style="background:var(--accent2)"></div>Phase 2 — Analysis</div>
+  <div class="sb-item" style="color:var(--accent);border-left:2px solid var(--accent);background:rgba(0,212,160,.06)"><div class="sb-dot" style="background:var(--accent)"></div>← Phase 3 (here)</div>
+  <div class="sb-item" onclick="window.location='phase4-chapter.html'"><div class="sb-dot" style="background:#a855f7"></div>Phase 4 — Hedge Funds</div>
+  <div class="sb-item" onclick="window.location='phase5-chapter.html'"><div class="sb-dot" style="background:#f59e0b"></div>Phase 5 — Launch a Fund</div>
+  <div class="sb-item" onclick="window.location='investing-course.html'"><div class="sb-dot" style="background:#555"></div>↩ Course Home</div>
+</aside>
+<main class="main">
+
+<!-- ═══ L1: MODERN PORTFOLIO THEORY ═══ -->
+<div class="lesson-panel active" id="lesson-0">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 1 of 8</div>
+    <h1 class="lesson-title">Modern Portfolio Theory: <em>The Only Free Lunch in Investing</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min</span><span class="lmeta">📊 Efficient frontier</span><span class="lmeta">🧠 Quiz included</span><span class="lmeta">💡 Tap gold words</span></div>
+    <p class="lesson-intro">Harry Markowitz won the Nobel Prize in 1990 for proving that diversification is the only strategy that reduces risk without sacrificing expected return. This single insight reshapes how professionals think about every portfolio decision.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Breakthrough: Correlation Changes Everything</h2>
+    <p class="ls-body">Before Markowitz's 1952 paper, investors evaluated each stock in isolation. His breakthrough: what matters is not the individual risk of each asset but how assets move relative to each other — their <span class="def" data-word="Correlation" data-def="A statistical measure from +1 (assets move identically) to −1 (assets move in exact opposite directions). Correlation of 0 means independent movement. Lower correlation between portfolio assets reduces total portfolio risk without reducing expected return." data-ex="Example: Stocks and government bonds historically have a slightly negative correlation. When stocks crash, investors flee to bonds, pushing bond prices up. Owning both produces lower portfolio volatility than owning either alone — with similar expected returns.">correlation</span>. Two assets with identical individual risk can combine to produce a portfolio with lower total risk than either — if their correlation is low enough. This is the free lunch.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Free Lunch in Plain English</div>
+      <p>If you own two businesses that fail for the same reasons at the same time, you're not really diversified. But if you own one that does well in recessions AND one that does well in booms — your combined portfolio is safer than either alone, because they can't both fail simultaneously. Lower correlation = genuine diversification.</p>
+    </div>
+    <h2 class="ls-heading">The Efficient Frontier</h2>
+    <p class="ls-body">Markowitz proved that for any level of risk, there's a portfolio that maximises expected return. Plotting all optimal portfolios creates the <span class="def" data-word="Efficient Frontier" data-def="A curve on a risk/return graph showing portfolios that offer maximum return for a given risk level, or minimum risk for a given return. Any portfolio below the frontier is suboptimal — you could achieve better return for the same risk, or same return for less risk." data-ex="Example: A 60/40 stocks/bonds portfolio sits ON the efficient frontier. A 50/50 stocks/cash portfolio where cash earns nothing sits BELOW it — the bonds version achieves higher return for identical risk.">efficient frontier</span>. Any portfolio below this curve is suboptimal — you're leaving return on the table or taking unnecessary risk.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Portfolio Risk vs Return — Where Each Sits on the Frontier</div>
+      <table class="data-table">
+        <thead><tr><th>Portfolio</th><th>Expected Return</th><th>Volatility</th><th>Sharpe</th><th>Position</th></tr></thead>
+        <tbody>
+          <tr><td>100% Cash</td><td>4.5%</td><td>0.5%</td><td>0.00</td><td>On frontier — but boring end</td></tr>
+          <tr><td>60% Stocks / 40% Bonds</td><td>8.5%</td><td>11%</td><td>0.36</td><td>On frontier — classic balanced</td></tr>
+          <tr class="hl"><td>70% Stocks / 20% Bonds / 10% Gold</td><td>9.1%</td><td>11%</td><td>0.42</td><td>Above 60/40 — better diversification</td></tr>
+          <tr><td>100% Stocks</td><td>10%</td><td>17%</td><td>0.32</td><td>On frontier — high risk end</td></tr>
+          <tr><td>100% Single Stock</td><td>10%</td><td>35%+</td><td>0.16</td><td>BELOW frontier — unnecessary risk</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">How Many Stocks Do You Actually Need?</h2>
+    <p class="ls-body">Research shows most diversification benefits are captured quickly. Adding a 2nd stock to a 1-stock portfolio reduces risk dramatically. By 20–30 stocks across sectors, most <span class="def" data-word="Idiosyncratic Risk" data-def="Company-specific risk that can be eliminated through diversification — bad earnings, CEO scandal, product recall. Distinct from systematic risk which affects all companies and cannot be diversified away." data-ex="Example: Owning only Apple means an iPhone recall decimates your portfolio. Owning 30 diversified stocks means the same event affects just 3% of your portfolio.">idiosyncratic risk</span> is gone. What remains is <span class="def" data-word="Systematic Risk" data-def="Market-wide risk affecting all stocks simultaneously — recessions, pandemics, financial crises. Cannot be eliminated through diversification. Can only be reduced by adding non-correlated asset classes: bonds, gold, cash." data-ex="Example: March 2020: virtually every stock fell simultaneously regardless of quality. Even a perfectly diversified 30-stock portfolio fell 30%+ because systematic risk cannot be diversified away within equities.">systematic risk</span> — the floor you cannot diversify below within equities alone.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📉 Diversification Effect — Portfolio Volatility vs Number of Stocks</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">1 stock</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--danger)">~35% vol</div></div><div class="bar-val" style="color:var(--danger)">~35%</div></div>
+        <div class="bar-row"><div class="bar-label">5 stocks</div><div class="bar-track"><div class="bar-fill" style="width:63%;background:#c07040">~22% vol</div></div><div class="bar-val">~22%</div></div>
+        <div class="bar-row"><div class="bar-label">10 stocks</div><div class="bar-track"><div class="bar-fill" style="width:54%;background:var(--accent3)">~19% vol</div></div><div class="bar-val">~19%</div></div>
+        <div class="bar-row"><div class="bar-label">20 stocks</div><div class="bar-track"><div class="bar-fill" style="width:48%;background:#80b060">~17% vol</div></div><div class="bar-val">~17%</div></div>
+        <div class="bar-row"><div class="bar-label">30+ stocks</div><div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--accent)">~15% floor</div></div><div class="bar-val" style="color:var(--accent)">~15%</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.85rem">↑ Risk drops steeply from 1 to 20 stocks, then plateaus at ~15% — the systematic market floor. To reduce below this, add bonds, gold, or other low-correlation asset classes to the portfolio.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏆</div><div><div class="cs-meta">Case Study · Markowitz's Personal Portfolio</div><div class="cs-title">The Nobel Laureate Who Didn't Follow His Own Formula</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In a famous irony, Markowitz admitted he didn't use his own optimisation model for his personal retirement savings. Instead he split 50/50 between stocks and bonds — a simple heuristic. His reason: he wanted to "minimise future regret" if markets went badly wrong. His own model would have suggested a very different allocation.</p>
+        <p>The lesson is not that MPT is wrong — it's that the mathematically optimal portfolio and the psychologically optimal portfolio are not always the same. A portfolio you can hold through a 50% crash is always better than a theoretically superior one you'll panic-sell at the bottom. Optimise for both the maths and your own temperament.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">His model's output: complex optimal mix</span><span class="cs-stat">His actual allocation: 50/50</span><span class="cs-stat">Reason: minimise regret</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 1</div>
+    <ul>
+      <li>Diversification is the only free lunch — it reduces risk without reducing expected return, if correlation is low.</li>
+      <li>The efficient frontier maps all optimal portfolios — anything below it leaves return on the table or takes unnecessary risk.</li>
+      <li>20–30 stocks eliminates most idiosyncratic risk. Systematic market risk remains and requires bonds/gold to reduce.</li>
+      <li>The best portfolio is the best one you can actually hold through a crash — not just the theoretically optimal one.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-0">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 1</div><div class="kcheck-sub">3 questions · pass 2/3 to continue</div></div></div>
+    <div class="kq" id="kq-0-0">
+      <div class="kq-text">1. You hold 35 diversified stocks. A global recession hits and all fall 38%. What type of risk materialised?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,0,0,0)">A. Idiosyncratic risk — your stock selection was poor</button>
+        <button class="kq-opt" onclick="answerQ(0,0,1,1)">B. Systematic risk — market-wide risk that cannot be diversified away within equities</button>
+        <button class="kq-opt" onclick="answerQ(0,0,2,0)">C. Correlation risk — your stocks were too similar</button>
+        <button class="kq-opt" onclick="answerQ(0,0,3,0)">D. Concentration risk — 35 stocks is not enough</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-0"></div>
+    </div>
+    <div class="kq" id="kq-0-1">
+      <div class="kq-text">2. Adding an asset with −0.3 correlation to your stock portfolio will most likely:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,1,0,0)">A. Reduce expected returns proportionally to how much you add</button>
+        <button class="kq-opt" onclick="answerQ(0,1,1,1)">B. Reduce portfolio volatility — potentially without reducing overall expected return</button>
+        <button class="kq-opt" onclick="answerQ(0,1,2,0)">C. Have no effect — only the number of holdings matters</button>
+        <button class="kq-opt" onclick="answerQ(0,1,3,0)">D. Increase risk because negative correlation means the asset underperforms</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-1"></div>
+    </div>
+    <div class="kq" id="kq-0-2">
+      <div class="kq-text">3. A portfolio sitting below the efficient frontier means:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,2,0,1)">A. It is suboptimal — you could get same return with less risk, or more return with same risk</button>
+        <button class="kq-opt" onclick="answerQ(0,2,1,0)">B. The portfolio is maximally safe and risk-free</button>
+        <button class="kq-opt" onclick="answerQ(0,2,2,0)">C. It is outperforming market expectations</button>
+        <button class="kq-opt" onclick="answerQ(0,2,3,0)">D. You need to add more stocks immediately</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-0"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" disabled>← Previous</button>
+    <div class="lnav-mid" id="lnav-mid-0">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-0" disabled onclick="goLesson(1)">Lesson 2: Asset Allocation →</button>
+  </div>
+</div>
+
+<!-- ═══ L2: ASSET ALLOCATION ═══ -->
+<div class="lesson-panel" id="lesson-1">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 2 of 8</div>
+    <h1 class="lesson-title">Asset Allocation: <em>The Decision That Drives 90% of Returns</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Allocation models</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Research consistently shows that how you divide money between stocks, bonds, and other asset classes explains approximately 90% of portfolio return variation over time. Stock selection and timing explain the remaining 10%.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Brinson Study — Numbers Don't Lie</h2>
+    <p class="ls-body">A landmark 1986 study by Gary Brinson analysed 91 pension funds over a decade. <span class="def" data-word="Asset Allocation" data-def="The strategic decision of how to divide a portfolio among different asset classes — stocks, bonds, cash, real estate, commodities, alternatives. The single most important investment decision, explaining ~90% of return variation according to the Brinson study." data-ex="Example: Whether you hold 80% vs 60% stocks has far more impact on your 20-year wealth than which specific stocks you choose within that equity allocation.">Asset allocation</span> accounted for 93.6% of return variation. Individual stock selection and market timing combined explained less than 7%. Implication: spend 90% of your intellectual energy on allocation decisions, not stock picking.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🏗️ Classic Allocation Models — Historical Risk & Return</div>
+      <table class="data-table">
+        <thead><tr><th>Model</th><th>Stocks</th><th>Bonds</th><th>Alts</th><th>Hist. Return</th><th>Worst Year</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td>Conservative</td><td>30%</td><td>60%</td><td>10%</td><td>~6%</td><td>−10%</td><td>Near-retirement</td></tr>
+          <tr><td>Balanced 60/40</td><td>60%</td><td>40%</td><td>0%</td><td>~8.5%</td><td>−22%</td><td>Classic moderate</td></tr>
+          <tr class="hl"><td>Growth</td><td>80%</td><td>15%</td><td>5%</td><td>~9.5%</td><td>−32%</td><td>Long horizon, moderate risk</td></tr>
+          <tr><td>Aggressive</td><td>100%</td><td>0%</td><td>0%</td><td>~10%</td><td>−51%</td><td>Very long horizon</td></tr>
+          <tr><td>All Weather (Dalio)</td><td>30%</td><td>55%</td><td>15%</td><td>~7.5%</td><td>−4%</td><td>Stability in any environment</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Ray Dalio's All Weather Portfolio</h2>
+    <p class="ls-body">Designed to perform in all four economic environments — rising growth, falling growth, rising inflation, falling inflation — by holding assets that excel in each. Rather than predicting which environment is coming, it holds all hedges simultaneously.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🌤️ All Weather — Asset Allocation Breakdown</div>
+      <div class="alloc-grid">
+        <div class="alloc-card" style="border-color:rgba(0,212,160,.3)"><div class="alloc-pct" style="color:var(--accent)">30%</div><div class="alloc-name">US Stocks</div><div class="alloc-desc">Growth engine for rising growth environments</div></div>
+        <div class="alloc-card" style="border-color:rgba(79,140,255,.3)"><div class="alloc-pct" style="color:var(--accent2)">40%</div><div class="alloc-name">Long Bonds</div><div class="alloc-desc">Deflation hedge — performs when growth falls</div></div>
+        <div class="alloc-card" style="border-color:rgba(232,201,122,.3)"><div class="alloc-pct" style="color:var(--accent3)">15%</div><div class="alloc-name">Medium Bonds</div><div class="alloc-desc">Stability layer across all environments</div></div>
+        <div class="alloc-card" style="border-color:rgba(255,159,64,.3)"><div class="alloc-pct" style="color:#ff9f40">7.5%</div><div class="alloc-name">Gold</div><div class="alloc-desc">Inflation and crisis hedge</div></div>
+        <div class="alloc-card" style="border-color:rgba(255,99,71,.3)"><div class="alloc-pct" style="color:#ff6347">7.5%</div><div class="alloc-name">Commodities</div><div class="alloc-desc">Inflation hedge for rising price environments</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.85rem">↑ All Weather delivered ~7.5% annualised with only −4% worst drawdown (2008 comparison: S&P −51%). Trade-off: underperforms pure stocks in strong bull markets. Best for capital preservation with steady growth.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📊</div><div><div class="cs-meta">Case Study · 60/40 in 2022 — Its Worst Year in 50 Years</div><div class="cs-title">Why the Classic Portfolio Failed — and the Fix</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">From 1926 to 2021, the 60/40 portfolio delivered ~8.5% annually with meaningfully lower volatility than pure stocks — because stocks and bonds historically moved in opposite directions during crises (negative correlation). 2022 broke this: S&P 500 fell 19%, US long bonds fell 27%, making it the worst 60/40 year since 1972.</p>
+        <p>The cause: inflation. High inflation causes central banks to raise rates, which simultaneously crushes stocks (higher discount rates) AND bonds (existing bonds worth less when new ones pay more). The lesson: 60/40 is not dead but it needs inflation hedges — commodities, TIPS, gold — to work in all environments. The modern version is closer to 55% stocks / 30% bonds / 15% real assets.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">2022 60/40 return: −16%</span><span class="cs-stat">Worst in 50 years</span><span class="cs-stat">Fix: add inflation hedges</span><span class="cs-stat">Modern 60/40 includes 15% real assets</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 2</div>
+    <ul>
+      <li>Asset allocation explains ~94% of portfolio return variation — more impactful than any stock selection decision.</li>
+      <li>The classic 60/40 works in most environments but fails in high-inflation regimes when stocks and bonds both fall.</li>
+      <li>Dalio's All Weather portfolio trades some upside for dramatically lower drawdown — worst year only −4% vs market's −51%.</li>
+      <li>Modern portfolios should include inflation-sensitive assets (commodities, TIPS, gold) alongside the stock/bond mix.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-1">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 2</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-1-0">
+      <div class="kq-text">1. The Brinson study found asset allocation explains what % of portfolio return variation?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,0,0,0)">A. 30% — stock selection matters more</button>
+        <button class="kq-opt" onclick="answerQ(1,0,1,0)">B. 55% — roughly equal to stock selection</button>
+        <button class="kq-opt" onclick="answerQ(1,0,2,1)">C. 93.6% — the dominant factor by far</button>
+        <button class="kq-opt" onclick="answerQ(1,0,3,0)">D. 100% — stock selection adds zero value</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-0"></div>
+    </div>
+    <div class="kq" id="kq-1-1">
+      <div class="kq-text">2. Why did the 60/40 portfolio fail so badly in 2022 specifically?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,1,0,0)">A. Stocks and bonds are now permanently positively correlated</button>
+        <button class="kq-opt" onclick="answerQ(1,1,1,1)">B. High inflation caused rate hikes that simultaneously crushed both stocks AND bonds — breaking the historical negative correlation</button>
+        <button class="kq-opt" onclick="answerQ(1,1,2,0)">C. The 60/40 portfolio has always been flawed and 2022 proved it</button>
+        <button class="kq-opt" onclick="answerQ(1,1,3,0)">D. Bonds performed well — only stocks fell in 2022</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-1"></div>
+    </div>
+    <div class="kq" id="kq-1-2">
+      <div class="kq-text">3. Dalio's All Weather portfolio holds 40% in long-term bonds. The primary purpose is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,2,0,0)">A. Bonds deliver higher returns than stocks over time</button>
+        <button class="kq-opt" onclick="answerQ(1,2,1,0)">B. To maximise coupon income</button>
+        <button class="kq-opt" onclick="answerQ(1,2,2,1)">C. A deflation and recession hedge — bonds rise strongly when growth falls and investors seek safety</button>
+        <button class="kq-opt" onclick="answerQ(1,2,3,0)">D. Bond funds have lower fees than equity funds</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-1"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(0)">← Lesson 1</button>
+    <div class="lnav-mid" id="lnav-mid-1">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-1" disabled onclick="goLesson(2)">Lesson 3: Rebalancing →</button>
+  </div>
+</div>
+
+<!-- ═══ L3: REBALANCING ═══ -->
+<div class="lesson-panel" id="lesson-2">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 3 of 8</div>
+    <h1 class="lesson-title">Rebalancing: <em>Automatic Buy-Low Sell-High</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 12 min</span><span class="lmeta">📊 Methods compared</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Rebalancing returns a drifted portfolio to its target allocation. Done systematically it enforces buy-low-sell-high discipline without requiring any emotional judgment — the mechanical discipline that separates long-term winners from reactive investors.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">Why Drift Is Dangerous</h2>
+    <p class="ls-body">After a bull market, a 60/40 portfolio might drift to 78/22 — silently increasing your risk far beyond your original intention. <span class="def" data-word="Portfolio Drift" data-def="The natural change in asset allocation as different assets grow at different rates over time. A 60/40 portfolio in a bull market becomes 75/25 without any active decision — meaning you hold more risk than intended when the crash eventually arrives." data-ex="Example: £100,000 in 60/40 (£60k stocks, £40k bonds). After stocks double and bonds stay flat: £120k stocks vs £40k bonds = 75/25. You're taking 25% more equity risk than you intended — and will feel maximum pain in the next crash.">Portfolio drift</span> happens silently during good times — when you feel most comfortable and are least likely to check. When the inevitable correction arrives, you're overexposed.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🔄 Rebalancing Methods Compared</div>
+      <table class="data-table">
+        <thead><tr><th>Method</th><th>Trigger</th><th>Best For</th><th>Downside</th></tr></thead>
+        <tbody>
+          <tr><td>Calendar (Annual)</td><td>Fixed date each year</td><td>Hands-off investors</td><td>May miss large drifts mid-year</td></tr>
+          <tr class="hl"><td>Threshold Band (±5%)</td><td>Any asset drifts 5%+ from target</td><td>Most investors — best balance</td><td>Requires occasional monitoring</td></tr>
+          <tr><td>Cash Flow Rebalancing</td><td>New contributions go to underweight assets</td><td>Accumulation phase investors</td><td>Only works if contributions are large enough relative to drift</td></tr>
+          <tr><td>Percentage-of-Portfolio</td><td>Relative drift ±25%</td><td>Large institutional portfolios</td><td>Complex to implement manually</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout green">
+      <div class="callout-title">✅ The 5% Band Rule — Best Practice</div>
+      <p>Set rebalancing triggers at ±5% from each target weight. If target is 60% stocks and it drifts to 65%+ or 55%−, rebalance. This captures meaningful drift without over-trading on normal day-to-day fluctuations. Studies show 5% bands optimise the balance between risk control and transaction costs.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🔄</div><div><div class="cs-meta">Case Study · 2008 Rebalancing — Mechanical Discipline Wins</div><div class="cs-title">How Rule-Based Investing Recovered 18 Months Faster</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Two 60/40 investors in 2008. Investor A: strict annual rebalancing policy. As stocks fell 51%, their allocation drifted to ~40% stocks. At their January 2009 rebalance date, they mechanically sold bonds (which had risen as investors fled to safety) and bought stocks near their lows — restoring 60% stocks.</p>
+        <p>Investor B watched in horror and held whatever the market left them — ending up 35% stocks at the March 2009 bottom. They missed the first and fastest part of the recovery. Vanguard research found disciplined rebalancers recovered their 2008 losses approximately 18 months faster — purely through mechanical rules that forced buying near the exact bottom.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Disciplined rebalancer recovery: ~2 years</span><span class="cs-stat">Passive investor recovery: ~3.5 years</span><span class="cs-stat">Advantage: 18 months faster</span><span class="cs-stat">Cause: mechanical buying at bottom</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 3</div>
+    <ul>
+      <li>Portfolio drift silently increases risk during bull markets — a 60/40 can become 75/25 without any active decision.</li>
+      <li>Rebalancing mechanically enforces buy-low-sell-high without requiring emotional judgment during volatile markets.</li>
+      <li>The 5% band method is the practical gold standard — rebalance when any asset drifts more than 5% from target.</li>
+      <li>Cash flow rebalancing (directing new contributions to underweight assets) is the most tax-efficient approach.</li>
+      <li>Disciplined rebalancers recovered from 2008 approximately 18 months faster than passive investors.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-2">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 3</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-2-0">
+      <div class="kq-text">1. Your 60/40 portfolio drifted to 78% stocks after a 3-year bull market. The correct action is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,0,0,0)">A. Leave it — stocks have outperformed so the new allocation is earned</button>
+        <button class="kq-opt" onclick="answerQ(2,0,1,1)">B. Rebalance back to 60/40 — you are carrying substantially more risk than your target intended</button>
+        <button class="kq-opt" onclick="answerQ(2,0,2,0)">C. Increase stock target permanently to 78% — update your investment policy</button>
+        <button class="kq-opt" onclick="answerQ(2,0,3,0)">D. Sell all stocks and hold cash until markets correct</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-0"></div>
+    </div>
+    <div class="kq" id="kq-2-1">
+      <div class="kq-text">2. Why is cash flow rebalancing the most tax-efficient method?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,1,0,0)">A. Cash earns interest that offsets capital gains tax</button>
+        <button class="kq-opt" onclick="answerQ(2,1,1,1)">B. You buy underweight assets with new contributions rather than selling overweight ones — avoiding capital gains tax triggers entirely</button>
+        <button class="kq-opt" onclick="answerQ(2,1,2,0)">C. The government provides tax relief on rebalancing transactions</button>
+        <button class="kq-opt" onclick="answerQ(2,1,3,0)">D. It generates the highest returns of all methods</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-1"></div>
+    </div>
+    <div class="kq" id="kq-2-2">
+      <div class="kq-text">3. The behavioural superpower of systematic rebalancing is that it:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,2,0,0)">A. Guarantees higher returns than buy-and-hold</button>
+        <button class="kq-opt" onclick="answerQ(2,2,1,0)">B. Eliminates all investment risk</button>
+        <button class="kq-opt" onclick="answerQ(2,2,2,1)">C. Forces buying low and selling high mechanically — removing the need for emotional judgment during volatile markets</button>
+        <button class="kq-opt" onclick="answerQ(2,2,3,0)">D. Reduces investment management fees</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-2"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(1)">← Lesson 2</button>
+    <div class="lnav-mid" id="lnav-mid-2">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-2" disabled onclick="goLesson(3)">Lesson 4: Risk Management →</button>
+  </div>
+</div>
+
+<!-- ═══ L4: RISK MANAGEMENT ═══ -->
+<div class="lesson-panel" id="lesson-3">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 4 of 8</div>
+    <h1 class="lesson-title">Risk Management: <em>Protecting What You've Built</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min</span><span class="lmeta">📊 Risk types framework</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Risk is not just volatility — it is the permanent loss of capital. Understanding different risk types, measuring them, and managing each separately is what distinguishes professional portfolio management from amateur investing.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Six Risks Every Portfolio Manager Tracks</h2>
+    <p class="ls-body">Most investors focus only on volatility — the day-to-day price swings. But <span class="def" data-word="Volatility Risk" data-def="Short-term price fluctuations that may be large but temporary. A stock falling 50% and recovering is volatile but does not cause permanent loss if you don't sell at the bottom. Volatility is the cost of long-run equity premium — not the same as 'losing money.'" data-ex="Example: Amazon fell 95% in the dot-com crash. Investors who held through the volatility captured 100,000%+ returns over the next 20 years. The volatility was temporary noise; the business value was real.">volatility risk</span> and <span class="def" data-word="Permanent Capital Loss" data-def="When an investment loses value that is never recovered — through business failure, fraud, or selling at the bottom of a decline and never reinvesting. This is the true risk to fear. Volatility is not permanent loss." data-ex="Example: Enron shareholders suffered permanent capital loss — the business failed entirely and shares went to zero forever. Amazon shareholders suffered temporary volatility during the dot-com crash — their capital was not permanently lost.">permanent capital loss</span> are completely different things. Only the latter actually destroys wealth.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">⚠️ Six Risk Types — Measurement and Management</div>
+      <table class="data-table">
+        <thead><tr><th>Risk Type</th><th>How to Measure</th><th>How to Manage</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Market Risk</td><td>Beta, standard deviation</td><td>Diversification, bonds, hedges</td><td>Recession hitting all stocks simultaneously</td></tr>
+          <tr><td>Concentration Risk</td><td>% in single stock or sector</td><td>Max 5–10% per position</td><td>Enron employees: 80% in employer stock</td></tr>
+          <tr><td>Drawdown Risk</td><td>Maximum drawdown %</td><td>Asset allocation, stop losses</td><td>S&P 500: −51% peak-to-trough in 2009</td></tr>
+          <tr class="hl"><td>Sequence Risk</td><td>Monte Carlo simulation</td><td>Cash buffer, annuities, flexible withdrawal</td><td>Retiring in 2000 then experiencing 2001 and 2008</td></tr>
+          <tr><td>Inflation Risk</td><td>Real return vs CPI</td><td>TIPS, commodities, real assets</td><td>Cash savings losing 3%/yr in real value</td></tr>
+          <tr><td>Behavioural Risk</td><td>Historical panic-sell rate</td><td>Pre-written rules, automation, advisor</td><td>Panic-selling at March 2020 bottom</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Sequence of Returns Risk — The Retiree's Hidden Enemy</h2>
+    <p class="ls-body"><span class="def" data-word="Sequence of Returns Risk" data-def="The danger that the timing of returns — not just the average — determines retirement wealth. A severe crash in the first years of retirement, combined with withdrawals, permanently impairs a portfolio even if long-run average returns are identical. The order matters." data-ex="Example: Two investors average 6% over 20 years of retirement. Investor A has good early years, bad late years. Investor B has bad early years. If both withdraw £40k/year, Investor B may run out of money despite identical averages — because early withdrawals forced them to sell cheap shares that never recovered.">Sequence of returns risk</span> is the most underappreciated risk for anyone approaching retirement. A 40% market crash in year 1 of retirement, combined with regular withdrawals, can permanently impair a portfolio even if markets fully recover — because you've been forced to sell shares at the bottom to fund living expenses.</p>
+    <div class="callout red">
+      <div class="callout-title">⚠️ The 4% Rule — A Starting Point, Not a Guarantee</div>
+      <p>The famous 4% safe withdrawal rate was based on 1926–1994 US data — a remarkably strong period. In lower-return environments, or with bad sequence risk, even 3.5% withdrawal may be aggressive. Build a 2-year cash buffer before retiring: draw from cash during market downturns instead of selling equities at the bottom. This simple hedge dramatically reduces sequence risk.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🛡️</div><div><div class="cs-meta">Case Study · Enron — Concentration Risk at Its Most Catastrophic</div><div class="cs-title">When Your Employer IS Your Portfolio</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">When Enron collapsed in December 2001, thousands of employees lost not just their jobs but their entire retirement savings simultaneously. The reason: Enron's 401(k) encouraged employees to hold large amounts of Enron stock — many had 80–100% of retirement savings in one company. When the stock went to zero, everything went to zero.</p>
+        <p>The 5–10% single-stock rule exists precisely to prevent this scenario. No matter how confident you are in your employer, your knowledge, or a single investment thesis — no single holding should exceed 10% of your portfolio. At 10%, even a total loss is a painful but survivable −10% portfolio impact. At 80%, it's a life-altering disaster.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Employee retirement losses: $1.2B+</span><span class="cs-stat">Many had 80–100% in Enron</span><span class="cs-stat">The rule: max 5–10% single stock</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 4</div>
+    <ul>
+      <li>Volatility is not the same as risk — temporary price swings recover. Permanent capital loss is the real enemy.</li>
+      <li>Never hold more than 5–10% in any single stock — especially your employer's. Concentration risk is the most preventable.</li>
+      <li>Sequence of returns risk can destroy a retirement portfolio even with good long-run average returns — timing matters.</li>
+      <li>A 2-year cash buffer before retirement dramatically reduces sequence risk by avoiding selling equities in crashes.</li>
+      <li>Behavioural risk — panic selling at bottoms — causes more permanent loss than the market crashes themselves.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-3">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 4</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-3-0">
+      <div class="kq-text">1. Amazon fell 95% during 2000–2002. An investor who held through the crash made 100,000%+ over 20 years. What type of risk did they experience?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,0,0,1)">A. Volatility risk — a large but fully temporary decline, not permanent capital loss</button>
+        <button class="kq-opt" onclick="answerQ(3,0,1,0)">B. Permanent capital loss — a 95% fall is by definition permanent</button>
+        <button class="kq-opt" onclick="answerQ(3,0,2,0)">C. Sequence risk — the timing of the crash permanently damaged returns</button>
+        <button class="kq-opt" onclick="answerQ(3,0,3,0)">D. Liquidity risk — they couldn't sell during the crash</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-0"></div>
+    </div>
+    <div class="kq" id="kq-3-1">
+      <div class="kq-text">2. Two retirees both average 6% returns over 20 years but one runs out of money. The most likely explanation is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,1,0,0)">A. One had higher investment fees</button>
+        <button class="kq-opt" onclick="answerQ(3,1,1,1)">B. Sequence of returns risk — early bad years forced selling shares cheap to fund withdrawals, irreversibly impairing the portfolio</button>
+        <button class="kq-opt" onclick="answerQ(3,1,2,0)">C. One investor spent more in retirement</button>
+        <button class="kq-opt" onclick="answerQ(3,1,3,0)">D. 6% average return is never sufficient to fund retirement withdrawals</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-1"></div>
+    </div>
+    <div class="kq" id="kq-3-2">
+      <div class="kq-text">3. The maximum position size recommended for any single stock in a diversified portfolio is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,2,0,0)">A. 25% — meaningful enough to make a real difference</button>
+        <button class="kq-opt" onclick="answerQ(3,2,1,1)">B. 5–10% — a total loss of the position is then a manageable portfolio setback</button>
+        <button class="kq-opt" onclick="answerQ(3,2,2,0)">C. 1% — the only truly safe size</button>
+        <button class="kq-opt" onclick="answerQ(3,2,3,0)">D. No limit — conviction should drive all position sizing</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-3"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(2)">← Lesson 3</button>
+    <div class="lnav-mid" id="lnav-mid-3">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-3" disabled onclick="goLesson(4)">Lesson 5: Factor Investing →</button>
+  </div>
+</div>
+
+<!-- ═══ L5: FACTOR INVESTING ═══ -->
+<div class="lesson-panel" id="lesson-4">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 5 of 8</div>
+    <h1 class="lesson-title">Factor Investing: <em>Evidence-Based Excess Returns</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Factor premiums data</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Academic research has identified specific, persistent stock characteristics — "factors" — that explain systematic outperformance over long periods. Tilting your portfolio toward these factors is evidence-based investing at the portfolio construction level.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">From CAPM to the Five-Factor Model</h2>
+    <p class="ls-body">The original <span class="def" data-word="CAPM" data-def="Capital Asset Pricing Model — the foundational finance theory stating that a stock's expected return is determined solely by its sensitivity to the overall market (Beta). Higher beta = higher expected return. In practice, many other factors explain returns beyond Beta." data-ex="Example: CAPM says two stocks with identical Beta should have identical expected returns. But value stocks (cheap P/B) consistently outperform growth stocks with the same Beta — a violation CAPM cannot explain, which led to the discovery of additional factors.">CAPM</span> said only market Beta explains returns. Fama and French proved value and size also explain returns independently. Today five factors have overwhelming academic evidence:</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🔬 Five Factors — Annual Premium Over Market (Long-Run Average)</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Market (Beta)</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--accent2)">5–7% over cash</div></div><div class="bar-val">5–7%</div></div>
+        <div class="bar-row"><div class="bar-label">Momentum</div><div class="bar-track"><div class="bar-fill" style="width:78%;background:var(--accent)">~7.1% over mkt</div></div><div class="bar-val" style="color:var(--accent)">~7.1%</div></div>
+        <div class="bar-row"><div class="bar-label">Value</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--accent3)">~4.8% over mkt</div></div><div class="bar-val">~4.8%</div></div>
+        <div class="bar-row"><div class="bar-label">Profitability</div><div class="bar-track"><div class="bar-fill" style="width:58%;background:#5cba90">~4.1% over mkt</div></div><div class="bar-val">~4.1%</div></div>
+        <div class="bar-row"><div class="bar-label">Size (Small Cap)</div><div class="bar-track"><div class="bar-fill" style="width:44%;background:#80b060">~3.2% over mkt</div></div><div class="bar-val">~3.2%</div></div>
+        <div class="bar-row"><div class="bar-label">Low Volatility</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:#4ca880">~2.9% over mkt</div></div><div class="bar-val">~2.9%</div></div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.85rem">↑ Premiums measured over decades — not consistent year to year. Momentum has highest premium but crashes hardest. Value had a decade-long drought 2010–2020 before returning strongly. Factor investing requires genuine 10+ year conviction.</p>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">📚 Five Factors — Why Each Persists and How to Access It</div>
+      <table class="data-table">
+        <thead><tr><th>Factor</th><th>What It Is</th><th>Why It Persists</th><th>UK/Global ETF</th></tr></thead>
+        <tbody>
+          <tr><td>Value</td><td>Cheap stocks (low P/B, P/E) outperform expensive ones</td><td>Risk premium + investor overreaction to bad news creates mispricings</td><td>VVLU, IWVL</td></tr>
+          <tr><td>Size</td><td>Small-cap stocks outperform large-caps over time</td><td>Higher risk, less coverage, more mis-pricing opportunities</td><td>VUKE small, IJR</td></tr>
+          <tr><td>Momentum</td><td>Recent winners keep winning (short-term)</td><td>Investor underreaction — trends continue as news spreads slowly</td><td>MTUM, IMTM</td></tr>
+          <tr><td>Profitability</td><td>Highly profitable firms outperform less profitable ones</td><td>More FCF to reinvest; better business quality compounds capital</td><td>QUAL, IWQU</td></tr>
+          <tr class="hl"><td>Low Volatility</td><td>Low-vol stocks outperform on risk-adjusted basis</td><td>Investors overpay for lottery-ticket high-vol stocks — creating mispricing of boring stable ones</td><td>USMV, XDEW</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout gold">
+      <div class="callout-title">⚠️ The Factor Investor's Warning</div>
+      <p>Factor premiums are real but not free. Value underperformed for a full decade. Momentum crashes suddenly and violently several times per decade. Low volatility has been arbitraged away in some markets. Factor investing requires genuine long-term conviction — 10+ year time horizons, and stomach for extended underperformance vs a simple index fund. Multi-factor portfolios reduce single-factor pain but don't eliminate it.</p>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 5</div>
+    <ul>
+      <li>Academic research identifies five factors explaining systematic excess returns: Value, Size, Momentum, Profitability, Low Volatility.</li>
+      <li>Momentum offers the highest premium (~7.1%) but crashes hardest — requires active management or high crash tolerance.</li>
+      <li>The value factor underperformed for a decade (2010–2020) before returning — factor investing demands patience and conviction.</li>
+      <li>Multi-factor ETFs combine several factors, reducing the pain of any single factor's underperformance period.</li>
+      <li>CAPM said only Beta explains returns — Fama and French proved it's incomplete, leading to multi-factor models.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-4">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 5</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-4-0">
+      <div class="kq-text">1. The value factor underperformed the market for the entire decade 2010–2020. A factor investor should:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,0,0,0)">A. Abandon value — academic factors only work in theory</button>
+        <button class="kq-opt" onclick="answerQ(4,0,1,1)">B. Maintain conviction — a decade of underperformance is within the expected range and does not disprove the factor's long-run validity</button>
+        <button class="kq-opt" onclick="answerQ(4,0,2,0)">C. Switch immediately to momentum — it's clearly superior</button>
+        <button class="kq-opt" onclick="answerQ(4,0,3,0)">D. The value factor only works in emerging markets</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-0"></div>
+    </div>
+    <div class="kq" id="kq-4-1">
+      <div class="kq-text">2. The "low volatility anomaly" is described as a paradox because:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,1,0,0)">A. Low volatility stocks are somehow riskier than high volatility ones</button>
+        <button class="kq-opt" onclick="answerQ(4,1,1,1)">B. Investors systematically overpay for exciting high-volatility stocks, creating mispricings that make boring low-volatility stocks the better risk-adjusted investment</button>
+        <button class="kq-opt" onclick="answerQ(4,1,2,0)">C. Low volatility stocks only exist in bond-like sectors</button>
+        <button class="kq-opt" onclick="answerQ(4,1,3,0)">D. CAPM predicts low volatility should outperform, so it's not actually anomalous</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-1"></div>
+    </div>
+    <div class="kq" id="kq-4-2">
+      <div class="kq-text">3. What did Fama and French's research prove about CAPM?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,2,0,0)">A. CAPM was entirely correct — Beta is the only explanatory factor</button>
+        <button class="kq-opt" onclick="answerQ(4,2,1,0)">B. Past returns perfectly predict future returns</button>
+        <button class="kq-opt" onclick="answerQ(4,2,2,1)">C. CAPM is incomplete — Value and Size independently explain stock returns beyond what Beta alone predicts</button>
+        <button class="kq-opt" onclick="answerQ(4,2,3,0)">D. Active management consistently beats the market</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-4"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(3)">← Lesson 4</button>
+    <div class="lnav-mid" id="lnav-mid-4">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-4" disabled onclick="goLesson(5)">Lesson 6: Tax-Efficient Investing →</button>
+  </div>
+</div>
+
+<!-- ═══ L6: TAX-EFFICIENT INVESTING ═══ -->
+<div class="lesson-panel" id="lesson-5">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 6 of 8</div>
+    <h1 class="lesson-title">Tax-Efficient Investing: <em>The Return You Keep</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 12 min</span><span class="lmeta">📊 Tax drag over time</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Two investors can hold identical portfolios and end up with dramatically different wealth after 30 years — purely because of tax efficiency. Every percentage point of tax drag compounds against you invisibly over decades.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Compounding Destruction of Tax Drag</h2>
+    <p class="ls-body"><span class="def" data-word="Tax Drag" data-def="The reduction in investment returns from taxes paid on dividends, interest, and capital gains. Compounds over time — 1% annual tax drag over 30 years at 8% gross return reduces £100,000 from £1,006,000 to £761,000 — a £245,000 loss from just 1% drag." data-ex="Example: Index fund at 8% gross in a taxable account with 1% annual tax drag = 7% net. £100k at 8% for 30 years = £1,006k. £100k at 7% = £761k. Tax costs £245,000 — more than double the original investment.">Tax drag</span> is invisible year-to-year but catastrophic over decades. The strategies below are not complex — they simply require knowing they exist and acting on them.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">💷 Tax Efficiency Strategies — Impact and Implementation Effort</div>
+      <table class="data-table">
+        <thead><tr><th>Strategy</th><th>Annual Saving</th><th>Effort</th><th>How It Works</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>Use ISA / Roth first</td><td>0.5–2%/yr</td><td>Very low</td><td>All growth permanently sheltered from tax — including on withdrawal</td></tr>
+          <tr><td>Hold index funds</td><td>0.3–1%/yr</td><td>Zero</td><td>Index funds rarely distribute capital gains; active funds do constantly</td></tr>
+          <tr><td>Tax-loss harvesting</td><td>0.5–1.5%/yr</td><td>Moderate</td><td>Sell losers to crystallise losses that offset gains elsewhere</td></tr>
+          <tr><td>Long-term holding</td><td>0.5–2% on gains</td><td>None</td><td>Long-term CGT rates lower than short-term in most jurisdictions</td></tr>
+          <tr><td>Asset location</td><td>0.3–0.8%/yr</td><td>Moderate</td><td>Tax-inefficient assets (bonds, REITs) in ISA; index funds in taxable</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Tax-Loss Harvesting</h2>
+    <p class="ls-body"><span class="def" data-word="Tax-Loss Harvesting" data-def="Selling investments with unrealised losses to crystallise a capital loss, which offsets capital gains elsewhere. The position is immediately replaced with a similar (not identical) investment to maintain market exposure. The tax loss is real; the investment position is maintained." data-ex="Example: You hold a FTSE tracker down £8,000. Sell it, immediately buy a similar global tracker with a different underlying index. You have £8,000 of capital losses to offset gains — saving capital gains tax — while your market exposure is maintained.">Tax-loss harvesting</span> turns paper losses into a genuine tax asset. Sell a fallen position, realise the capital loss, immediately buy a similar but not identical fund — maintaining your market exposure while creating a tax credit.</p>
+    <div class="callout red">
+      <div class="callout-title">⚠️ The 30-Day Rule (UK) / Wash Sale Rule (US)</div>
+      <p>In the UK, if you sell and repurchase the same fund within 30 days, HMRC ignores the loss. Solution: sell your FTSE All-World ETF → immediately buy a different global tracker (different provider, different underlying index). Loss is preserved; exposure is maintained. Same rule applies in the US under "wash sale" regulations.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📍</div><div><div class="cs-meta">Case Study · Asset Location — Same Portfolio, Different Outcomes</div><div class="cs-title">0.5% Per Year From Placement Alone</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Asset location means holding different investments in different account types based on tax efficiency. Tax-inefficient assets belong in ISAs/SIPPs/401(k)s. Tax-efficient assets can go in taxable accounts without meaningful drag.</p>
+        <p style="margin-bottom:.75rem">Tax-inefficient (put in ISA): bonds (regular interest taxed as income), REITs (high dividends taxed as income), high-turnover active funds (frequent capital gain distributions). Tax-efficient (fine in taxable): global index ETFs (rarely distribute gains), growth stocks held long-term, ETFs (very low distribution rates).</p>
+        <p>Two investors, identical holdings, different placement: the optimised investor captures an additional 0.3–0.8% per year from asset location alone — no extra risk, no extra work after the initial one-time planning decision.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Asset location benefit: 0.3–0.8%/yr</span><span class="cs-stat">On £500k over 30 years: £50–130k difference</span><span class="cs-stat">Effort: one-time planning</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 6</div>
+    <ul>
+      <li>Tax drag of just 1% annually costs £245,000 on a £100,000 portfolio over 30 years at 8% — invisible but catastrophic.</li>
+      <li>ISA first: all growth and withdrawals are permanently tax-free — the most powerful tax tool available to UK investors.</li>
+      <li>Tax-loss harvesting turns paper losses into real tax assets by selling losers and immediately buying similar alternatives.</li>
+      <li>Asset location — placing tax-inefficient assets in sheltered accounts — adds 0.3–0.8% annually with no extra risk.</li>
+      <li>Index funds are inherently tax-efficient; active funds are not — this is another reason passive investing wins over time.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-5">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 6</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-5-0">
+      <div class="kq-text">1. You have bonds, REITs, and global index funds. Using asset location, where should the bonds and REITs go?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,0,0,1)">A. Inside the ISA — their regular income distributions would otherwise be taxed as income each year</button>
+        <button class="kq-opt" onclick="answerQ(5,0,1,0)">B. In the taxable account — they are less risky so don't need the ISA protection</button>
+        <button class="kq-opt" onclick="answerQ(5,0,2,0)">C. Bonds in ISA, REITs in taxable — REITs are tax-efficient enough for taxable accounts</button>
+        <button class="kq-opt" onclick="answerQ(5,0,3,0)">D. Asset location doesn't matter — the overall return is what counts</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-0"></div>
+    </div>
+    <div class="kq" id="kq-5-1">
+      <div class="kq-text">2. You sell a FTSE All-World ETF at a £6,000 loss for tax-loss harvesting. To comply with HMRC's 30-day rule you should:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,1,0,0)">A. Wait 30 days in cash before reinvesting — missing 30 days of market exposure</button>
+        <button class="kq-opt" onclick="answerQ(5,1,1,1)">B. Immediately buy a similar-but-different global tracker from a different provider — maintaining market exposure while preserving the tax loss</button>
+        <button class="kq-opt" onclick="answerQ(5,1,2,0)">C. Repurchase the same FTSE All-World ETF immediately — the 30-day rule doesn't apply to ETFs</button>
+        <button class="kq-opt" onclick="answerQ(5,1,3,0)">D. The tax loss is crystallised regardless — no replacement purchase needed</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-1"></div>
+    </div>
+    <div class="kq" id="kq-5-2">
+      <div class="kq-text">3. Why are index funds inherently more tax-efficient than most actively managed funds?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,2,0,0)">A. Index funds are exempt from capital gains tax by law</button>
+        <button class="kq-opt" onclick="answerQ(5,2,1,0)">B. Active funds deliberately generate capital gains to show performance</button>
+        <button class="kq-opt" onclick="answerQ(5,2,2,1)">C. Index funds have very low portfolio turnover so rarely realise and distribute capital gains — active funds trade constantly, generating taxable distributions</button>
+        <button class="kq-opt" onclick="answerQ(5,2,3,0)">D. Index fund dividends are tax-free</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-5"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(4)">← Lesson 5</button>
+    <div class="lnav-mid" id="lnav-mid-5">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-5" disabled onclick="goLesson(6)">Lesson 7: Portfolio Construction →</button>
+  </div>
+</div>
+
+<!-- ═══ L7: PORTFOLIO CONSTRUCTION ═══ -->
+<div class="lesson-panel" id="lesson-6">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 7 of 8</div>
+    <h1 class="lesson-title">Portfolio Construction: <em>Putting It All Together</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min</span><span class="lmeta">📊 Step-by-step framework</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Portfolio construction is where all previous lessons converge into a single coherent system. From investment policy statement to position sizing to implementation — this lesson gives you a repeatable process for building any portfolio from scratch.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">Step 1: Write Your Investment Policy Statement</h2>
+    <p class="ls-body">A professional portfolio always begins with an <span class="def" data-word="Investment Policy Statement (IPS)" data-def="A written document specifying an investor's goals, time horizon, risk tolerance, constraints, and asset allocation targets. Written when calm and rational, it becomes the rulebook to follow when markets are volatile and emotions run high." data-ex="Example: 'Goal: £1.5M retirement fund by age 65. Time horizon: 28 years. Risk tolerance: can tolerate −40% drawdown without panic selling. Allocation: 80% global equities / 15% bonds / 5% gold. Rebalance: 5% band trigger. Review: annually.'">Investment Policy Statement (IPS)</span>. Written when calm, it governs decisions when fearful. It prevents you from making terrible decisions at market bottoms by pre-committing to a rulebook when your System 2 is fully engaged.</p>
+    <div class="callout green">
+      <div class="callout-title">✅ Your IPS Should Answer These 6 Questions</div>
+      <p><strong>1. What is my goal?</strong> (retirement, house, financial independence, income)<br>
+      <strong>2. What is my time horizon?</strong> (years until I need this money)<br>
+      <strong>3. What drawdown can I genuinely stomach?</strong> (not what sounds rational — what would make me panic sell)<br>
+      <strong>4. What is my target asset allocation?</strong> (specific percentages by asset class)<br>
+      <strong>5. When do I rebalance?</strong> (method and trigger)<br>
+      <strong>6. What are my investment restrictions?</strong> (ethical screens, liquidity needs, tax situation)</p>
+    </div>
+    <h2 class="ls-heading">Step 2: Position Sizing</h2>
+    <p class="ls-body"><span class="def" data-word="Position Sizing" data-def="The process of determining how much of the portfolio to allocate to each investment. Systematic position sizing controls risk and prevents any single position from causing catastrophic portfolio damage." data-ex="Example: If you run a 20-stock portfolio with 5% average position size, even a complete failure of one company results in only a 5% portfolio loss — painful but not catastrophic. Running a 3-stock portfolio means each failure risks 33% of wealth.">Position sizing</span> is one of the most underappreciated decisions in portfolio management. Most retail investors size positions by conviction level — their highest-conviction ideas get the most money. Professionals size positions by risk contribution — ensuring each position contributes roughly equal risk to the total portfolio, not equal capital.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📐 Position Sizing Frameworks</div>
+      <table class="data-table">
+        <thead><tr><th>Method</th><th>How It Works</th><th>Best For</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr><td>Equal Weight</td><td>Same % in every holding</td><td>Simple diversified portfolios</td><td>Ignores volatility differences between positions</td></tr>
+          <tr class="hl"><td>Risk Parity</td><td>Equal risk contribution from each asset</td><td>Multi-asset portfolios</td><td>Requires volatility estimates — complex to implement</td></tr>
+          <tr><td>Conviction Weighted</td><td>More capital in highest-conviction ideas</td><td>Concentrated stock portfolios</td><td>Over-concentration if conviction is overconfidence</td></tr>
+          <tr><td>Kelly Criterion</td><td>Optimises bet size based on edge and odds</td><td>Quantitative strategies</td><td>Full Kelly is extremely aggressive — most use half-Kelly</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">The Complete Portfolio Construction Checklist</h2>
+    <div class="chart-wrap">
+      <div class="chart-title">✅ From Zero to Deployed — The 8-Step Process</div>
+      <table class="data-table">
+        <thead><tr><th>Step</th><th>Action</th><th>Output</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Write Investment Policy Statement</td><td>Goals, time horizon, risk tolerance documented</td></tr>
+          <tr><td>2</td><td>Determine target asset allocation</td><td>% in stocks, bonds, alternatives, cash</td></tr>
+          <tr><td>3</td><td>Open tax-advantaged accounts first</td><td>ISA, SIPP, or relevant account for your country</td></tr>
+          <tr><td>4</td><td>Select core funds/ETFs</td><td>Global index for equities, bond fund, any factor tilts</td></tr>
+          <tr><td>5</td><td>Determine position sizes</td><td>% allocation to each fund/stock</td></tr>
+          <tr><td>6</td><td>Implement asset location</td><td>Tax-inefficient assets in sheltered accounts</td></tr>
+          <tr class="hl"><td>7</td><td>Set rebalancing rules</td><td>Method (band/calendar), trigger levels, calendar reminder</td></tr>
+          <tr><td>8</td><td>Schedule annual review</td><td>Reassess goals, allocation, performance — once per year maximum</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏗️</div><div><div class="cs-meta">Case Study · David Swensen — The Yale Endowment Model</div><div class="cs-title">The Portfolio That Changed Institutional Investing</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">David Swensen managed Yale's endowment from 1985 until his death in 2021. Under his stewardship, Yale grew from $1.3 billion to $42 billion — generating 13.7% annualised returns vs the 60/40 portfolio's ~8.5%. His secret was not stock picking but radical asset allocation innovation.</p>
+        <p style="margin-bottom:.75rem">His model: heavy allocation to illiquid alternatives — private equity, venture capital, real assets, absolute return funds — that were systematically underexploited because most institutions were constrained to public markets. By accepting illiquidity risk, Yale captured the illiquidity premium — extra return available to investors who don't need to sell.</p>
+        <p>For individual investors, the Swensen lesson is: think carefully about your liquidity needs. If you have a genuine long time horizon and don't need the money for 10+ years, you can accept some illiquidity and potentially earn the premium. His book "Pioneering Portfolio Management" is required reading for any serious investor.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Yale endowment: $1.3B → $42B</span><span class="cs-stat">Annualised: 13.7%</span><span class="cs-stat">vs 60/40: ~8.5%</span><span class="cs-stat">Key: illiquidity premium + alternatives</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 7</div>
+    <ul>
+      <li>An Investment Policy Statement, written when calm, provides the rulebook to follow when markets are volatile and emotions run high.</li>
+      <li>Position sizing by risk contribution — not conviction level — prevents any single idea from causing catastrophic damage.</li>
+      <li>The 8-step construction process: IPS → allocation → tax accounts → fund selection → sizing → location → rebalancing rules → annual review.</li>
+      <li>Swensen's Yale model achieved 13.7% vs 8.5% for 60/40 by accepting illiquidity premium through alternatives.</li>
+      <li>Individual investors with 10+ year horizons can earn the illiquidity premium — if they genuinely won't need the money.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-6">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 7</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-6-0">
+      <div class="kq-text">1. Why should an Investment Policy Statement be written when markets are calm, not during a crash?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,0,0,0)">A. Tax rules change during crashes making the document less valid</button>
+        <button class="kq-opt" onclick="answerQ(6,0,1,1)">B. It serves as a pre-committed rulebook — your rational System 2 decisions govern what you do when emotional System 1 wants to panic sell</button>
+        <button class="kq-opt" onclick="answerQ(6,0,2,0)">C. Regulators require it to be written before investing begins</button>
+        <button class="kq-opt" onclick="answerQ(6,0,3,0)">D. Returns are higher when portfolios are set up during bull markets</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-0"></div>
+    </div>
+    <div class="kq" id="kq-6-1">
+      <div class="kq-text">2. David Swensen's Yale endowment achieved 13.7% vs 60/40's 8.5% primarily by:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,1,0,0)">A. Superior stock selection within public equity markets</button>
+        <button class="kq-opt" onclick="answerQ(6,1,1,1)">B. Heavily allocating to illiquid alternatives — capturing the illiquidity premium most institutions couldn't access</button>
+        <button class="kq-opt" onclick="answerQ(6,1,2,0)">C. Using leverage to amplify stock market returns</button>
+        <button class="kq-opt" onclick="answerQ(6,1,3,0)">D. Timing market cycles and rotating between sectors</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-1"></div>
+    </div>
+    <div class="kq" id="kq-6-2">
+      <div class="kq-text">3. In a 20-stock portfolio where each position is 5%, what is the maximum loss from a single company going to zero?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,2,0,0)">A. 20% — it represents 1 in 20 positions</button>
+        <button class="kq-opt" onclick="answerQ(6,2,1,1)">B. 5% — the position size directly limits the catastrophic downside of any single failure</button>
+        <button class="kq-opt" onclick="answerQ(6,2,2,0)">C. 100% — if one fails they all fail through contagion</button>
+        <button class="kq-opt" onclick="answerQ(6,2,3,0)">D. 0% — diversification means single company failures don't affect the portfolio</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-6"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(5)">← Lesson 6</button>
+    <div class="lnav-mid" id="lnav-mid-6">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-6" disabled onclick="goLesson(7)">Lesson 8: Performance Measurement →</button>
+  </div>
+</div>
+
+<!-- ═══ L8: PERFORMANCE MEASUREMENT ═══ -->
+<div class="lesson-panel" id="lesson-7">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 3 · Lesson 8 of 8</div>
+    <h1 class="lesson-title">Performance Measurement: <em>Knowing If You're Actually Winning</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min</span><span class="lmeta">📊 Key metrics explained</span><span class="lmeta">🧠 Final knowledge check</span></div>
+    <p class="lesson-intro">Most investors don't know if they're actually outperforming — they just know if their absolute return is positive. Measuring performance correctly, against the right benchmarks and risk metrics, is what separates self-awareness from dangerous overconfidence.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Three Essential Performance Metrics</h2>
+    <p class="ls-body"><span class="def" data-word="Alpha" data-def="Return above what would be expected given the portfolio's risk level (Beta). Positive alpha means you added value beyond what the market gave you for the risk taken. Negative alpha means you underperformed on a risk-adjusted basis — common among active managers after fees." data-ex="Example: If the market returned 10% and your Beta is 1.2, your expected return would be 12%. If you returned 14%, your alpha is +2%. If you returned 10%, your alpha is −2% — you underperformed despite being right about the market direction.">Alpha</span> measures genuine skill — returns above what would be expected given the risk taken. <span class="def" data-word="Sharpe Ratio" data-def="(Return − Risk Free Rate) ÷ Standard Deviation. Measures return earned per unit of risk. A Sharpe of 1.0 means you earn 1% of excess return for every 1% of volatility. Above 1.0 is good; above 2.0 is excellent." data-ex="Example: Portfolio returned 12%, risk-free rate 4%, standard deviation 8%. Sharpe = (12−4)/8 = 1.0 — good. A hedge fund returning 18% with 30% volatility has Sharpe (18−4)/30 = 0.47 — actually worse despite higher returns.">Sharpe Ratio</span> measures return per unit of risk. <span class="def" data-word="Maximum Drawdown" data-def="The largest peak-to-trough decline experienced by a portfolio over a given period. Critical for understanding the worst-case loss experience. A portfolio with 20% max drawdown is much less psychologically demanding than one with 50% — even if both average the same return." data-ex="Example: Portfolio goes: £100k → £150k → £80k → £120k. Maximum drawdown = from peak £150k to trough £80k = −46.7%. This is the worst loss an investor experienced holding this portfolio from peak.">Maximum Drawdown</span> measures the worst loss an investor actually experienced.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Performance Metrics — How to Calculate and Interpret</div>
+      <table class="data-table">
+        <thead><tr><th>Metric</th><th>Formula</th><th>Good Score</th><th>What It Reveals</th></tr></thead>
+        <tbody>
+          <tr><td>Total Return</td><td>(End Value − Start) / Start</td><td>Context-dependent</td><td>Raw performance — useless without benchmark comparison</td></tr>
+          <tr><td>Alpha</td><td>Actual Return − (Risk-Free + Beta × Market Premium)</td><td>Positive</td><td>Genuine skill beyond market exposure</td></tr>
+          <tr class="hl"><td>Sharpe Ratio</td><td>(Return − Risk Free) ÷ Std Dev</td><td>Above 1.0</td><td>Return earned per unit of risk — the primary comparison metric</td></tr>
+          <tr><td>Maximum Drawdown</td><td>Largest peak-to-trough % decline</td><td>Below 20% for moderate</td><td>Worst loss experience — drives behavioural decisions</td></tr>
+          <tr><td>Calmar Ratio</td><td>Annual Return ÷ Max Drawdown</td><td>Above 1.0</td><td>Return relative to worst-case loss experience</td></tr>
+          <tr><td>Information Ratio</td><td>Active Return ÷ Tracking Error</td><td>Above 0.5</td><td>Consistency of outperformance vs benchmark</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Benchmarking — Comparing Against the Right Yardstick</h2>
+    <p class="ls-body">Benchmarking is where most amateur investors deceive themselves. If your 80% stock portfolio returned 15% in a year when the S&P 500 returned 25%, you underperformed — even though 15% sounds great in absolute terms. If your balanced 60/40 portfolio returned 8% when the index returned 10%, you underperformed — by 2% every year, compounding against you.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Right Benchmark for Your Portfolio</div>
+      <p><strong>100% global equities:</strong> compare to MSCI World or FTSE All-World index.<br>
+      <strong>60/40 portfolio:</strong> compare to a blended 60% MSCI World / 40% Bloomberg Global Aggregate Bond benchmark.<br>
+      <strong>UK-focused investor:</strong> compare to FTSE All-Share for equity portion.<br>
+      <strong>Rule:</strong> your benchmark should match your actual asset allocation — not the headline index you hear on the news.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📉</div><div><div class="cs-meta">Case Study · Why Most Investors Overestimate Their Performance</div><div class="cs-title">The DALBAR Study — The Gap Between Market and Investor Returns</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">DALBAR's annual Quantitative Analysis of Investor Behaviour has studied the gap between market returns and actual investor returns since 1984. The consistent finding: the average equity fund investor earns significantly less than the equity fund itself — year after year, decade after decade.</p>
+        <p style="margin-bottom:.75rem">Over a 30-year period to 2022: the S&P 500 returned approximately 10.65% annualised. The average equity investor in S&P 500 funds returned approximately 6.81% — a gap of nearly 4% per year. On a £100,000 investment, that gap translates to over £1.7 million in missed wealth over 30 years.</p>
+        <p>The cause: behavioural timing errors. Investors pile in after markets rise and flee after markets fall — buying high and selling low repeatedly. The fund performed well. The investor in the fund performed poorly because they traded it at the wrong times. Systematic investing and staying the course closes this gap entirely.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">S&P 500 30yr return: 10.65%/yr</span><span class="cs-stat">Average investor: 6.81%/yr</span><span class="cs-stat">Gap: ~3.84%/yr</span><span class="cs-stat">Cost on £100k over 30yr: £1.7M</span></div>
+    </div>
+    <div class="callout green">
+      <div class="callout-title">🎓 Phase 3 Complete — What You Can Now Do</div>
+      <p>You understand the mathematics of diversification, can build any allocation model, know how and when to rebalance, can identify and manage the six key risk types, can exploit factor premiums, optimise for tax efficiency, construct a portfolio from scratch using the IPS framework, and measure performance correctly against the right benchmarks. <strong>Phase 4: Hedge Fund Strategies</strong> is where investing becomes advanced.</p>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 8 & Phase 3 Complete</div>
+    <ul>
+      <li>Alpha measures genuine skill above market-expected return. Most active managers have negative alpha after fees.</li>
+      <li>Sharpe Ratio (return ÷ risk) is the primary comparison metric — a high return with excessive volatility is inferior to moderate return with low volatility.</li>
+      <li>Benchmark against your actual allocation — comparing an 80% stock portfolio to a 60/40 benchmark deceives you about true performance.</li>
+      <li>DALBAR: the average investor earns ~3.84% less per year than the funds they're in — purely from behavioural timing errors.</li>
+      <li>Systematic investing eliminates the behavioural performance gap — the gap that costs the average investor £1.7M+ over 30 years.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-7">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Final Knowledge Check — Lesson 8</div><div class="kcheck-sub">3 questions · Complete Phase 3</div></div></div>
+    <div class="kq" id="kq-7-0">
+      <div class="kq-text">1. Your 80% equity portfolio returned 12% in a year when the MSCI World returned 18%. How should you interpret this?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,0,0,0)">A. Excellent — 12% absolute return is always good</button>
+        <button class="kq-opt" onclick="answerQ(7,0,1,1)">B. Underperformance — your equity allocation underperformed its benchmark by 6%, and this compounds against you over time</button>
+        <button class="kq-opt" onclick="answerQ(7,0,2,0)">C. Neutral — the difference is within normal variance and doesn't matter</button>
+        <button class="kq-opt" onclick="answerQ(7,0,3,0)">D. Outperformance — 12% is above the typical 8–10% long-run equity average</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-0"></div>
+    </div>
+    <div class="kq" id="kq-7-1">
+      <div class="kq-text">2. Portfolio A returned 20% with 30% standard deviation. Portfolio B returned 13% with 8% standard deviation. Risk-free rate is 4%. Which performed better on a risk-adjusted basis?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,1,0,0)">A. Portfolio A — higher absolute return always wins</button>
+        <button class="kq-opt" onclick="answerQ(7,1,1,1)">B. Portfolio B — Sharpe of 1.13 vs Portfolio A's Sharpe of 0.53 means B earned more return per unit of risk</button>
+        <button class="kq-opt" onclick="answerQ(7,1,2,0)">C. They are equal — both beat the risk-free rate</button>
+        <button class="kq-opt" onclick="answerQ(7,1,3,0)">D. Portfolio A — the higher return justifies the higher volatility</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-1"></div>
+    </div>
+    <div class="kq" id="kq-7-2">
+      <div class="kq-text">3. The DALBAR study shows the average investor earns ~3.84% less per year than the funds they're in. The primary cause is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,2,0,0)">A. Fund managers charging excessive fees</button>
+        <button class="kq-opt" onclick="answerQ(7,2,1,0)">B. Investors choosing the wrong funds</button>
+        <button class="kq-opt" onclick="answerQ(7,2,2,1)">C. Behavioural timing errors — buying after markets rise and selling after they fall, repeatedly missing the best return periods</button>
+        <button class="kq-opt" onclick="answerQ(7,2,3,0)">D. Tax drag consuming the difference between fund and investor returns</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-7"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(6)">← Lesson 7</button>
+    <div class="lnav-mid" id="lnav-mid-7">Complete the final quiz to finish Phase 3!</div>
+    <button class="btn-lnav btn-next" id="next-btn-7" disabled onclick="window.location='phase4-chapter.html'">🎓 Start Phase 4: Hedge Funds →</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// Dictionary
+document.querySelectorAll('.def').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    document.getElementById('dict-word').textContent=el.dataset.word;
+    document.getElementById('dict-def').textContent=el.dataset.def;
+    document.getElementById('dict-example').textContent=el.dataset.ex||'';
+    const rect=el.getBoundingClientRect();
+    let top=rect.bottom+8+window.scrollY,left=rect.left;
+    if(left+320>window.innerWidth)left=window.innerWidth-325;
+    if(left<8)left=8;
+    const p=document.getElementById('dict-popup');
+    p.style.top=top+'px';p.style.left=left+'px';
+    p.classList.add('visible');
+    document.getElementById('dict-overlay').classList.add('visible');
+  });
+});
+document.getElementById('dict-close').onclick=closeDict;
+document.getElementById('dict-overlay').onclick=closeDict;
+function closeDict(){
+  document.getElementById('dict-popup').classList.remove('visible');
+  document.getElementById('dict-overlay').classList.remove('visible');
+}
+
+// Quiz answers with full explanations
+const answers={
+  '0-0':{c:1,e:{0:"Idiosyncratic risk is company-specific risk — bad earnings, CEO scandal, product failure. It can be eliminated through diversification. A recession hitting all 35 stocks simultaneously is market-wide, not company-specific.",1:"Correct! Systematic risk is market-wide risk that affects all stocks regardless of diversification. Recessions, pandemics, financial crises — these hit all companies simultaneously. No amount of stock diversification can protect against this. To reduce it you need bonds, gold, or other non-correlated asset classes.",2:"Correlation risk is a real concept but not the standard term here. When all 35 diversified stocks fall together in a recession, it's because they all have exposure to the same underlying market factor — systematic risk.",3:"30+ stocks is generally considered sufficient diversification. Adding more stocks beyond 30 barely reduces risk further. The 38% fall reflects systematic market risk, not insufficient diversification."}},
+  '0-1':{c:1,e:{0:"Adding a negatively correlated asset reduces portfolio volatility — it doesn't necessarily reduce expected return. This is the free lunch of diversification.",1:"Correct! An asset with −0.3 correlation moves somewhat opposite to your stocks. When your stocks fall, this asset tends to rise (or fall less). This reduces total portfolio volatility — and if the asset has positive expected return, you lose nothing in expected return. This is the free lunch Markowitz discovered.",2:"Correlation between assets is the key variable in Markowitz's framework — it's actually more important than just the number of holdings. A portfolio of 100 perfectly correlated assets provides zero diversification benefit.",3:"Negative correlation does not mean the asset has negative expected return. Gold, for example, has a slightly negative correlation to stocks but positive expected return. Negative correlation means the asset zigs when stocks zag — exactly what you want for diversification."}},
+  '0-2':{c:0,e:{0:"Correct! A portfolio below the efficient frontier is suboptimal by definition. Markowitz proved that for any given risk level, there exists a portfolio with higher expected return — and for any given return level, there exists a portfolio with lower risk. Being below the frontier means you could improve on at least one dimension without worsening the other.",1:"A portfolio below the efficient frontier is not maximally safe — it's suboptimal. The safest portfolio (100% cash) is actually ON the frontier at the extreme left.",2:"Being below the frontier says nothing about your risk level relative to average investors. It simply means you're not optimising the risk/return trade-off.",3:"Below the efficient frontier means underperformance relative to what's achievable for the risk taken — not outperformance."}},
+  '1-0':{c:2,e:{0:"The Brinson study found the opposite — stock selection explained less than 7% of return variation. Asset allocation utterly dominates.",1:"55% would still mean stock selection explains nearly half of returns. The research found stock selection and timing together explained less than 7% of variation — asset allocation explained the rest.",2:"Correct! Brinson, Hood, and Beebower's landmark 1986 study of 91 pension funds found that 93.6% of return variation across portfolios was explained by asset allocation policy. Stock selection, market timing, and other active decisions combined to explain less than 7%.",3:"100% is too strong — individual security selection can add marginal value, and the study showed ~6.4% unexplained. But the dominant factor is overwhelmingly allocation."}},
+  '1-1':{c:1,e:{0:"The correlation between stocks and bonds is not permanent — it shifts based on the macro environment. It was historically negative during normal recessions but turned positive in the inflationary 2022 environment. This is why adding inflation hedges is important.",1:"Correct! In the typical recession scenario, central banks CUT rates — which pushes bond prices UP, providing the cushion for the 60/40. But in 2022, inflation was so high that the Fed had to RAISE rates aggressively — which simultaneously hammered stocks (higher discount rates) AND bonds (existing bonds worth less when new ones pay more). The hedge broke.",2:"60/40 is a flawed concept only in specific inflationary environments. It has worked extremely well for most of its history and will likely continue to work in deflation/normal recession scenarios.",3:"US long bonds fell approximately 27% in 2022 — one of the worst bond years in history. The 60/40 lost from both sides simultaneously."}},
+  '1-2':{c:2,e:{0:"While bonds do produce coupon income, that is not the primary reason Dalio allocates 40% to them in the All Weather portfolio. The income is incidental to the strategic purpose.",1:"Bonds do not consistently outperform stocks over the long run — stocks have higher long-run expected returns. The large bond allocation is about risk management, not return maximisation.",2:"Correct! In falling-growth environments (recessions, deflationary crises), investors flee to the safety of government bonds, pushing prices up sharply. Long-duration bonds provide the greatest price appreciation in these scenarios. Dalio allocates 40% to capture this hedge across all possible economic environments.",3:"Fee levels are not the reason for the bond allocation — this is strategic risk management, not cost optimisation."}},
+  '2-0':{c:1,e:{0:"Letting drift continue is how investors end up holding 78% stocks heading into a market crash — taking far more risk than intended when they can least afford it. The whole point of having a target allocation is maintaining it.",1:"Correct! Your 60/40 target was set deliberately — it reflects your risk tolerance and goals. At 78% stocks you're carrying substantially more risk than intended. Rebalancing is not market timing — it's maintaining the risk profile you deliberately chose. It also mechanically sells stocks (which have risen) and buys bonds (which have underperformed) — enforcing buy-low-sell-high discipline.",2:"Changing your target allocation based on recent market performance is recency bias — assuming recent trends will continue. Your allocation target should be based on your time horizon and risk tolerance, not recent performance.",3:"Selling all stocks and moving to cash is extreme market timing — exactly the kind of emotional decision that the IPS and rebalancing rules are designed to prevent."}},
+  '2-1':{c:1,e:{0:"Cash earns interest but this has nothing to do with tax efficiency in the context of rebalancing. The tax efficiency comes from avoiding capital gains triggers.",1:"Correct! Traditional rebalancing requires selling overweight assets — which triggers capital gains tax on any profits. Cash flow rebalancing directs new contributions (salary, savings) to buy underweight assets instead of selling winners. No selling means no capital gains realised, no tax owed. Pure gain from smart direction of new money.",2:"Government tax relief is for pensions (SIPP/401k) — not for rebalancing transactions generally.",3:"Cash flow rebalancing doesn't inherently generate higher returns than other methods — its advantage is tax efficiency, not return enhancement."}},
+  '2-2':{c:2,e:{0:"Rebalancing doesn't guarantee higher returns than buy-and-hold — it sometimes reduces absolute returns by selling winners. Its primary benefit is maintaining the intended risk profile and enforcing buy/sell discipline.",1:"Rebalancing does not eliminate investment risk — it manages it by keeping your allocation within your intended risk tolerance. Market risk, inflation risk, and other risks remain.",2:"Correct! The beauty of systematic rebalancing is that it turns a rational portfolio management rule into an automatic behaviour. When stocks crash, the rule says 'buy stocks.' When stocks surge, the rule says 'sell stocks.' No judgment needed. No fighting your emotions. The discipline is pre-built into the system — eliminating the need for rational thinking when emotions are at their strongest.",3:"Rebalancing actually increases transaction costs compared to pure buy-and-hold (which has zero ongoing transaction costs). Cash flow rebalancing minimises this, but traditional rebalancing does involve selling and buying."}},
+  '3-0':{c:0,e:{0:"Correct! Amazon fell 95% and recovered to generate extraordinary long-run returns. The fall was large and terrifying but temporary — the underlying business was real and valuable. Investors who sold at the bottom suffered permanent capital loss (they never got those shares back). Investors who held experienced volatility risk, not permanent loss.",1:"A 95% fall is extremely large but 'permanent' requires the loss to be unrecoverable. Amazon recovered and went on to generate 100,000%+ returns. Permanent capital loss requires the value to never come back — which happens in fraud, bankruptcy, or structural business failure (Enron, not Amazon).",2:"Sequence risk is about the timing of returns relative to withdrawals. An investor simply holding Amazon through the crash — with no withdrawals — experienced volatility risk, not sequence risk.",3:"Amazon shares were highly liquid throughout the crash. Liquidity risk involves being unable to sell at a fair price. Amazon was tradeable at all times — just at a deeply depressed price."}},
+  '3-1':{c:1,e:{0:"Higher fees would reduce returns for both investors equally since the scenario specifies identical average returns. Fees are not the differentiating factor here.",1:"Correct! Sequence of returns risk means the order of good and bad years matters enormously when you're withdrawing money. Investor B, experiencing bad years early while making withdrawals, is forced to sell shares at their lowest prices. Those sold shares never participate in the recovery. By the time markets recover, Investor B has a much smaller base to grow from — even if the average return over the full 20 years is identical.",2:"The scenario specifies identical average returns — spending differences are not the variable being isolated here. Sequence risk operates purely through the timing effect.",3:"6% average return can absolutely sustain retirement withdrawals — many models use 4–6% as the sustainable withdrawal rate. The problem is specifically sequence risk, not the return level."}},
+  '3-2':{c:1,e:{0:"A 25% single-stock position means a complete business failure costs you 25% of total wealth — a potentially devastating and portfolio-altering loss for what is an avoidable risk.",1:"Correct! At 5–10% maximum position size, even the complete failure of a company — going to zero — results in only a 5–10% portfolio loss. Painful, memorable, but survivable and recoverable. The Enron employees who held 80%+ in their employer stock were wiped out entirely. Position sizing is the most direct tool for capping downside from any single investment failure.",2:"1% positions make individual stock selection essentially meaningless — if you hold 100 stocks at 1% each, your returns will almost exactly mirror the index anyway, but you'll pay more in research time and transaction costs. Some concentration is necessary for individual stock selection to add value.",3:"Conviction should influence where within the 5–10% range you size a position, but no conviction — however high — justifies betting your financial future on any single company's survival."}},
+  '4-0':{c:1,e:{0:"A decade of underperformance does not prove a factor is 'dead' — it's within the expected range given factor premium volatility. Value's 10-year drought was eventually followed by strong outperformance (2021–2022). Abandoning at the trough would have been exactly the wrong decision.",1:"Correct! Academic research shows factor premiums are genuine but highly variable over medium-term periods. A decade of underperformance is not evidence the factor has been arbitraged away — it's consistent with the known cycle of factor premiums. Investors who maintained conviction and held through the 2010–2020 value drought were rewarded when value strongly outperformed in 2021–2022.",2:"Momentum is indeed a strong factor, but switching between factors based on recent performance is precisely the recency bias and market timing behaviour that reduces long-run returns.",3:"Value has been documented globally including in developed markets. If anything, it's been more persistent in less efficient markets, but the original Fama-French research was conducted primarily in US markets."}},
+  '4-1':{c:1,e:{0:"Low volatility stocks are NOT riskier — they have lower risk by definition (lower price fluctuations). The paradox is that despite being less risky, they deliver better risk-adjusted returns, contradicting CAPM's prediction that more risk = more return.",1:"Correct! Standard finance theory (CAPM) predicts higher risk = higher return. But investors have a documented preference for high-volatility, exciting stocks — like lottery tickets, people pay a premium for the chance of a big win. This overpaying for excitement creates systematic mispricing: the boring, stable low-volatility stocks become underpriced relative to their quality, generating above-market risk-adjusted returns.",2:"Low volatility stocks span many sectors — consumer staples, healthcare, utilities have low volatility but so do many individual companies across other sectors. It's not sector-specific.",3:"CAPM actually predicts the OPPOSITE — it says higher volatility stocks should earn higher returns (compensation for risk). The low-volatility anomaly directly contradicts CAPM predictions."}},
+  '4-2':{c:2,e:{0:"CAPM was proven incomplete — not entirely correct. The consistent outperformance of value stocks and small-cap stocks with the same Beta cannot be explained by CAPM, which predicts they should earn the same expected return.",1:"If past returns perfectly predicted future returns, everyone would be rich. Fama and French's research showed that certain characteristics (cheap valuation, small size) predict future returns — but imperfectly and over long periods only.",2:"Correct! Fama and French found that two factors — Value (cheap P/B stocks outperform expensive ones) and Size (small-cap stocks outperform large-cap ones) — independently explain returns beyond what market Beta alone predicts. This was a major blow to CAPM's completeness and led to the three-factor model, later expanded to five factors.",3:"Fama's own research on the Efficient Market Hypothesis actually supports the view that it's very difficult for active managers to consistently outperform after fees. His factor work explains HOW to capture systematic premiums passively, not through active stock picking."}},
+  '5-0':{c:0,e:{0:"Correct! Bonds generate regular interest income taxed as ordinary income (typically higher rate than capital gains). REITs are required to distribute 90%+ of taxable income as dividends — generating high regular income distributions that are also taxed as income. Holding them in an ISA/SIPP where income is sheltered means paying zero tax on these distributions annually. The index ETFs generate very little current income and can go in the taxable account without meaningful drag.",1:"The riskiness of an investment has nothing to do with where it should go for tax efficiency purposes. Placement decisions are based entirely on the tax treatment of income and gains, not the risk profile.",2:"REITs are actually MORE tax-inefficient than bonds — they distribute even higher income yields that would be taxed as income. Both should be in the ISA.",3:"Asset location absolutely matters — it can add 0.3–0.8% per year in after-tax returns with no additional risk. Ignoring it is leaving real money on the table."}},
+  '5-1':{c:1,e:{0:"Waiting 30 days in cash defeats much of the purpose of tax-loss harvesting — you miss 30 days of market exposure and the funds you need to be invested are sitting idle. The 30-day rule applies to buying back the SAME fund, not to all investing.",1:"Correct! The 30-day rule only prevents you from buying back the EXACT same fund. Buying a similar-but-different fund (different provider, different underlying index tracking the same broad market) maintains your market exposure completely while the loss remains crystallised. HMRC considers funds with different ISINs as different securities even if they track similar indices.",2:"The 30-day rule absolutely applies to ETFs. Any disposal and repurchase of the same fund (same ISIN) within 30 days will have the loss disallowed by HMRC.",3:"You must actually sell the position to crystallise the loss — merely holding a paper loss has no tax effect. The loss only becomes real (and usable) when you sell."}},
+  '5-2':{c:2,e:{0:"Index funds are not exempt from capital gains tax — if you sell an index fund at a profit, you pay CGT. The tax efficiency is about the fund's internal capital gains distributions, not the tax treatment of your own gains when selling.",1:"Active funds don't deliberately generate capital gains to show performance — they generate capital gains as a consequence of the trading required to implement their strategy. It's a structural cost, not an intentional one.",2:"Correct! Index funds simply hold the index components in proportion and make minimal changes — only when the index composition changes. This results in very low portfolio turnover and almost no internal capital gains distributions. Active funds constantly buy and sell to implement their investment decisions, generating taxable capital gains distributions to fund holders each year, even if you haven't sold any units yourself.",3:"Index fund dividends are not tax-free — they are subject to income tax or dividend tax just like any other dividends. The tax efficiency is specifically about capital gains distributions, not dividend treatment."}},
+  '6-0':{c:1,e:{0:"Tax rules don't change specifically during crashes. This is not the reason to write an IPS in advance.",1:"Correct! The Investment Policy Statement is written during calm, rational periods when your System 2 (slow, deliberate, rational thinking) is fully engaged and not being overwhelmed by fear or greed. During a crash, System 1 (fast, emotional) screams 'SELL EVERYTHING.' The IPS says 'hold and rebalance as planned.' Without the pre-commitment document, the rational decision you made when calm can easily be overridden by emotion when it matters most.",2:"There is no regulatory requirement for individual investors to have an IPS — though institutional investors and advisors may be required to document client investment policies.",3:"Portfolio returns are not meaningfully higher or lower based on when the IPS was written. The value is in the governance and decision-making framework it provides."}},
+  '6-1':{c:1,e:{0:"Yale's equity allocation was actually smaller than a typical 60/40 portfolio — Swensen was famous for REDUCING public equity exposure, not for picking better stocks within it.",1:"Correct! Swensen's innovation was recognising that institutional constraints prevented most investors from accessing illiquid alternative assets — private equity, venture capital, absolute return funds, real assets. By accepting illiquidity risk (Yale as an endowment doesn't need to sell), he captured the illiquidity premium — the extra return available to patient investors who don't need liquidity.",2:"Yale did not use significant leverage on its portfolio. The excess returns came from alternative asset exposure and manager selection, not leverage.",3:"Swensen was explicitly opposed to market timing. He maintained stable target allocations and criticised investors who tried to rotate between assets based on market predictions."}},
+  '6-2':{c:1,e:{0:"20% would be the loss if you had 1 position in a 5-stock portfolio. In a 20-stock portfolio, each position is 5% — not 20%.",1:"Correct! In a 20-stock portfolio with equal 5% position sizes, if one company goes completely to zero, you lose 5% of total portfolio value. That's a painful but manageable setback — you'll recover in less than a year at typical market returns. This is the mechanical magic of position sizing: it caps the maximum damage any single investment can inflict regardless of how catastrophically wrong the thesis turns out to be.",2:"Stocks don't automatically cause contagion to other holdings. Unless you're heavily invested in a single sector, a company going to zero doesn't pull down your other positions.",3:"Diversification reduces idiosyncratic risk but doesn't reduce it to zero. A company in your portfolio going to zero does affect your portfolio — by exactly its position size weight."}},
+  '7-0':{c:1,e:{0:"Absolute returns are meaningless without context. 12% sounds good — but if you took 80% equity risk to get there while the market was up 18%, you materially underperformed. An investor in a passive MSCI World ETF with the same equity allocation would have captured the full 18%.",1:"Correct! Performance must always be measured relative to the appropriate benchmark for your risk level. Your equity allocation underperformed the MSCI World by 6 percentage points — meaning you accepted full equity risk but didn't capture the equity return. Over time, a 6% annual underperformance compounds into enormous wealth destruction: on £100k, that gap is over £1M over 20 years.",2:"6% underperformance is not within 'normal variance' for a passive index-tracking portfolio. For active management it's meaningful underperformance that, if persistent, strongly suggests moving to passive indexing.",3:"Comparing to the historical average ('typical 8-10%') rather than what the benchmark actually returned this year is how investors deceive themselves about their true relative performance."}},
+  '7-1':{c:1,e:{0:"Higher absolute return does not always win on a risk-adjusted basis — this is exactly the insight the Sharpe Ratio provides. Portfolio A earned more but took dramatically more risk to get there.",1:"Correct! Sharpe Ratio = (Return − Risk-Free) ÷ Standard Deviation. Portfolio A: (20−4)/30 = 0.53. Portfolio B: (13−4)/8 = 1.13. Portfolio B earned 1.13 units of excess return for every unit of risk taken vs Portfolio A's 0.53. On a risk-adjusted basis, Portfolio B is more than twice as efficient. This is why Sharpe Ratio matters — a hedge fund returning 30% with 60% volatility may be a worse investment than an index fund returning 10% with 15% volatility.",2:"Both beating the risk-free rate is a very low bar. The question is how efficiently each portfolio converts risk into return.",3:"The justification for higher volatility is precisely what Sharpe measures — did you get enough extra return to compensate for the extra volatility? Portfolio A's answer is no (0.53 Sharpe vs Portfolio B's 1.13)."}},
+  '7-2':{c:2,e:{0:"Fees are a real drag on returns — but the DALBAR study specifically controls for fund performance vs investor performance in the same funds. The fund return is measured before the investor's behaviour affects it. Fees affect both equally.",1:"Fund choice is a factor in long-term returns, but DALBAR specifically measures the gap between the fund's return and the return earned by investors IN that fund. The fund choice is held constant — what varies is when investors buy and sell.",2:"Correct! DALBAR consistently finds that investors systematically buy after markets rise (chasing performance) and sell after markets fall (panic selling). This means they buy at relative highs and sell at relative lows — the exact opposite of optimal behaviour. The fund performs fine. The investor who trades it based on recent performance captures far less than the fund's return. Systematic, automated investing at regular intervals completely closes this gap.",3:"Tax drag affects investors in taxable accounts, but DALBAR measures the gap in accounts like 401(k)s where tax is not the differentiating factor. The gap is behavioural, not tax-related."}}
+};
+
+const quizState={};
+function answerQ(L,Q,opt,isC){
+  const qId=`kq-${L}-${Q}`,fbId=`kqf-${L}-${Q}`;
+  document.querySelectorAll(`#${qId} .kq-opt`).forEach((b,i)=>{
+    b.classList.add('locked');b.onclick=null;
+    if(i===answers[`${L}-${Q}`].c)b.classList.add('correct');
+    else if(i===opt&&!isC)b.classList.add('wrong');
+  });
+  const fb=document.getElementById(fbId);
+  fb.textContent=(answers[`${L}-${Q}`].e||{})[opt]||(isC?'✓ Correct!':'✗ Incorrect.');
+  fb.className='kq-feedback show '+(isC?'ok':'bad');
+  if(!quizState[L])quizState[L]={answered:0,correct:0,total:3};
+  if(!quizState[L][Q]){
+    quizState[L][Q]=true;quizState[L].answered++;
+    if(isC)quizState[L].correct++;
+    checkDone(L);
+  }
+}
+function checkDone(L){
+  const s=quizState[L];
+  if(s.answered<s.total)return;
+  const pass=s.correct>=2;
+  const r=document.getElementById(`kcheck-result-${L}`);
+  r.textContent=pass?`🎉 ${s.correct}/${s.total} correct — Next lesson unlocked!`:`${s.correct}/${s.total} — Review the lesson above and continue when ready.`;
+  r.className='kcheck-result show '+(pass?'pass':'fail');
+  const nb=document.getElementById(`next-btn-${L}`);
+  if(nb)nb.disabled=false;
+  const mid=document.getElementById(`lnav-mid-${L}`);
+  if(mid)mid.textContent=pass?'✓ Passed!':'📖 Complete — continue when ready';
+  document.querySelectorAll('.sb-item')[L]?.classList.add('done');
+  updateProgress(L+1);
+}
+function goLesson(i){
+  document.querySelectorAll('.lesson-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`lesson-${i}`).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach((el,j)=>{
+    el.classList.remove('active');
+    if(j===i)el.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateProgress(i);
+}
+function updateProgress(n){
+  const pct=Math.max(Math.round((n/8)*100),12);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=`${n} / 8 lessons`;
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{
+        const w=b.style.width;b.style.width='0';
+        setTimeout(()=>b.style.width=w,100);
+      });
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.chart-wrap').forEach(c=>obs.observe(c));
+</script>
+<!-- ═══ STUDYCOACH AI ASSISTANT ═══ -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+#sc-assistant-btn{position:fixed;bottom:24px;right:24px;z-index:9000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;font-size:1.4rem}
+#sc-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(168,85,247,.7)}
+.sc-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#00d4a0;border-radius:50%;border:2px solid #070709}
+#sc-chat-panel{position:fixed;bottom:90px;right:24px;z-index:9000;width:360px;max-height:520px;background:#0e0e12;border:1px solid #1e1e2e;border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+#sc-chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.sc-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:#13131a;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.sc-hname{font-weight:600;font-size:.88rem;color:#e8e8f0}
+.sc-hstatus{font-size:.72rem;color:#00d4a0}
+.sc-close{background:none;border:none;color:#7a7a9a;cursor:pointer;font-size:1rem;padding:.2rem;line-height:1;margin-left:auto}
+.sc-close:hover{color:#e8e8f0}
+.sc-ctx{padding:.5rem 1rem;background:#070709;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-ctx-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:.25rem .7rem;font-size:.72rem;color:#a855f7;font-family:'DM Mono',monospace}
+.sc-msgs{flex:1;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.sc-msgs::-webkit-scrollbar{width:4px}.sc-msgs::-webkit-scrollbar-thumb{background:#1e1e2e;border-radius:2px}
+.sc-m{max-width:85%;display:flex;flex-direction:column;gap:.2rem}
+.sc-m.u{align-self:flex-end;align-items:flex-end}.sc-m.a{align-self:flex-start;align-items:flex-start}
+.sc-b{padding:.6rem .85rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.sc-m.u .sc-b{background:linear-gradient(135deg,#a855f7,#7c4dff);color:#fff;border-radius:12px 12px 2px 12px}
+.sc-m.a .sc-b{background:#13131a;color:#e8e8f0;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px}
+.sc-t{font-size:.65rem;color:#7a7a9a;font-family:'DM Mono',monospace}
+.sc-typing{display:flex;gap:.3rem;padding:.6rem .85rem;background:#13131a;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px;width:fit-content}
+.sc-typing span{width:6px;height:6px;border-radius:50%;background:#a855f7;animation:scB 1.2s infinite}
+.sc-typing span:nth-child(2){animation-delay:.2s}.sc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes scB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.sc-sugg{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;flex-shrink:0;border-top:1px solid #1e1e2e}
+.sc-s{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2);border-radius:20px;padding:.3rem .75rem;font-size:.75rem;color:#4f8cff;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sc-s:hover{background:rgba(79,140,255,.18)}
+.sc-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid #1e1e2e;flex-shrink:0;background:#13131a}
+.sc-in{flex:1;background:#0e0e12;border:1px solid #1e1e2e;border-radius:8px;padding:.55rem .85rem;color:#e8e8f0;font-size:.84rem;font-family:'DM Sans',sans-serif;resize:none;outline:none;transition:border-color .2s;min-height:36px;max-height:100px;line-height:1.4}
+.sc-in::placeholder{color:#7a7a9a}.sc-in:focus{border-color:#a855f7}
+.sc-send{background:#a855f7;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.sc-send:hover{opacity:.85}.sc-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:480px){#sc-chat-panel{width:calc(100vw - 20px);right:10px;bottom:80px}#sc-assistant-btn{right:16px;bottom:16px}}
+</style>
+<button id="sc-assistant-btn" onclick="scToggle()" title="Ask your AI tutor">🎓<div class="sc-badge"></div></button>
+<div id="sc-chat-panel">
+  <div class="sc-header"><div class="sc-avatar">🎓</div><div><div class="sc-hname">StudyCoach AI</div><div class="sc-hstatus">● Online</div></div><button class="sc-close" onclick="scToggle()">✕</button></div>
+  <div class="sc-ctx"><div class="sc-ctx-pill" id="sc-pill">📚 Investor's Academy</div></div>
+  <div class="sc-msgs" id="sc-msgs"><div class="sc-m a"><div class="sc-b">Hi! I'm your AI tutor 👋 Ask me anything about the course — concepts, examples, or quiz help!</div><div class="sc-t">Now</div></div></div>
+  <div class="sc-sugg" id="sc-sugg"><button class="sc-s" onclick="scSug(this)">Explain this simply</button><button class="sc-s" onclick="scSug(this)">Real-world example</button><button class="sc-s" onclick="scSug(this)">Quiz me</button></div>
+  <div class="sc-row"><textarea class="sc-in" id="sc-in" placeholder="Ask anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();scSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea><button class="sc-send" id="sc-btn" onclick="scSend()">↑</button></div>
+</div>
+<script>
+(function(){
+  let open=false,hist=[],busy=false;
+  const sys=`You are a friendly expert tutor for StudyCoach Academy, an investment education platform. Answer questions clearly as a knowledgeable friend — use real examples, keep responses concise (2-4 sentences for simple questions), and make learning enjoyable. Current lesson context: the student is studying investing and financial markets. Never give personal investment advice — keep it educational.`;
+  window.scToggle=function(){open=!open;document.getElementById('sc-chat-panel').classList.toggle('open',open);if(open){const ey=document.querySelector('.lesson-eyebrow');if(ey)document.getElementById('sc-pill').textContent='📚 '+ey.textContent.trim();document.getElementById('sc-in').focus();}};
+  window.scSug=function(b){document.getElementById('sc-in').value=b.textContent;document.getElementById('sc-sugg').style.display='none';scSend();};
+  window.scSend=async function(){
+    const inp=document.getElementById('sc-in'),txt=inp.value.trim();
+    if(!txt||busy)return;
+    inp.value='';inp.style.height='auto';
+    document.getElementById('sc-sugg').style.display='none';
+    scMsg('u',txt);hist.push({role:'user',content:txt});
+    busy=true;document.getElementById('sc-btn').disabled=true;
+    const msgs=document.getElementById('sc-msgs');
+    const typ=document.createElement('div');typ.className='sc-m a';
+    typ.innerHTML='<div class="sc-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typ);msgs.scrollTop=msgs.scrollHeight;
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist})});
+      const d=await r.json();typ.remove();
+      const reply=d.content?.[0]?.text||'Sorry, try again!';
+      scMsg('a',reply);hist.push({role:'assistant',content:reply});
+      if(hist.length>20)hist=hist.slice(-16);
+    }catch(e){typ.remove();scMsg('a','Connection issue — please try again.');}
+    busy=false;document.getElementById('sc-btn').disabled=false;document.getElementById('sc-in').focus();
+  };
+  function scMsg(role,text){
+    const c=document.getElementById('sc-msgs'),now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');el.className='sc-m '+role;
+    const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,.15);padding:.1rem .3rem;border-radius:3px;font-size:.8em">$1</code>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    el.innerHTML=`<div class="sc-b">${fmt}</div><div class="sc-t">${now}</div>`;
+    c.appendChild(el);c.scrollTop=c.scrollHeight;
+  }
+})();
+</script>
+
+</body>
+</html>

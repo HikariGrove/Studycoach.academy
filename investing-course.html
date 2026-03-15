@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/>
+<title>The Investor's Academy — From Zero to Firm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #070709;
+  --surface: #0e0e12;
+  --card: #13131a;
+  --border: #1e1e2e;
+  --accent: #c8a96e;
+  --accent2: #4f8cff;
+  --accent3: #00d4a0;
+  --text: #e8e8f0;
+  --muted: #8888aa;
+  --display: 'Cormorant Garamond', serif;
+  --mono: 'DM Mono', monospace;
+  --body: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: .4;
+}
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes shimmer { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
+@keyframes ticker { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 500;
+  background: rgba(7,7,9,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: .02em;
+}
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a {
+  color: var(--muted); text-decoration: none; font-size: .85rem;
+  letter-spacing: .05em; text-transform: uppercase;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  background: var(--accent); color: #000;
+  border: none; border-radius: 4px;
+  padding: .45rem 1.1rem;
+  font-size: .82rem; font-weight: 500; letter-spacing: .05em; text-transform: uppercase;
+  cursor: pointer; transition: opacity .2s;
+}
+.nav-cta:hover { opacity: .85; }
+
+/* ── TICKER ── */
+.ticker-wrap {
+  overflow: hidden;
+  background: #0a0a10;
+  border-bottom: 1px solid var(--border);
+  padding: .4rem 0;
+}
+.ticker-track {
+  display: flex; gap: 3rem;
+  width: max-content;
+  animation: ticker 30s linear infinite;
+  font-family: var(--mono);
+  font-size: .75rem;
+}
+.tick-item { white-space: nowrap; }
+.tick-up { color: var(--accent3); }
+.tick-down { color: #ff4d6d; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 88vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(200,169,110,.08) 0%, transparent 70%);
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  animation: fadeUp .7s ease both;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  animation: fadeUp .7s ease .1s both;
+}
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--accent) 0%, #e8c88a 50%, var(--accent) 100%);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+.hero p {
+  font-size: 1.1rem; color: var(--muted); max-width: 580px;
+  margin: 0 auto 2.5rem;
+  animation: fadeUp .7s ease .2s both;
+}
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  animation: fadeUp .7s ease .3s both;
+}
+.btn-primary {
+  background: var(--accent); color: #000;
+  border: none; border-radius: 4px;
+  padding: .8rem 2rem;
+  font-size: .9rem; font-weight: 600; letter-spacing: .03em;
+  cursor: pointer; transition: all .2s;
+}
+.btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); border-radius: 4px;
+  padding: .8rem 2rem;
+  font-size: .9rem; cursor: pointer; transition: all .2s;
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-stats {
+  display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;
+  margin-top: 4rem;
+  animation: fadeUp .7s ease .4s both;
+}
+.hstat { text-align: center; }
+.hstat-val {
+  font-family: var(--display);
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--accent);
+  display: block;
+}
+.hstat-lbl { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+
+/* ── SECTION SHARED ── */
+section { padding: 5rem 2rem; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-family: var(--mono);
+  font-size: .72rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: .75rem;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.section-sub { color: var(--muted); max-width: 560px; margin-bottom: 3rem; }
+
+/* ── CURRICULUM PATH ── */
+.curriculum { background: var(--surface); }
+.phases { display: flex; flex-direction: column; gap: 0; }
+.phase {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: var(--card);
+  transition: border-color .3s;
+}
+.phase:hover { border-color: rgba(200,169,110,.4); }
+.phase-header {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+}
+.phase-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: .85rem; font-weight: 500;
+  flex-shrink: 0;
+}
+.phase-num.p1 { background: rgba(200,169,110,.15); color: var(--accent); border: 1px solid rgba(200,169,110,.3); }
+.phase-num.p2 { background: rgba(79,140,255,.15); color: var(--accent2); border: 1px solid rgba(79,140,255,.3); }
+.phase-num.p3 { background: rgba(0,212,160,.15); color: var(--accent3); border: 1px solid rgba(0,212,160,.3); }
+.phase-num.p4 { background: rgba(200,100,255,.15); color: #c864ff; border: 1px solid rgba(200,100,255,.3); }
+.phase-num.p5 { background: rgba(255,160,50,.15); color: #ffa032; border: 1px solid rgba(255,160,50,.3); }
+.phase-info { flex: 1; }
+.phase-tag { font-family: var(--mono); font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+.phase-title { font-size: 1.1rem; font-weight: 600; margin-top: .1rem; }
+.phase-dur { font-size: .78rem; color: var(--muted); margin-top: .2rem; }
+.phase-chevron { color: var(--muted); font-size: 1.2rem; transition: transform .3s; }
+.phase.open .phase-chevron { transform: rotate(180deg); }
+.phase-body {
+  display: none;
+  padding: 0 2rem 2rem;
+  border-top: 1px solid var(--border);
+}
+.phase.open .phase-body { display: block; }
+.lessons { list-style: none; margin-top: 1.25rem; }
+.lesson {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: .9rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.lesson:last-child { border-bottom: none; }
+.lesson-icon { font-size: 1.1rem; margin-top: .1rem; flex-shrink: 0; }
+.lesson-content {}
+.lesson-title { font-weight: 500; margin-bottom: .2rem; }
+.lesson-desc { font-size: .83rem; color: var(--muted); }
+.lesson-tags { display: flex; gap: .4rem; margin-top: .4rem; flex-wrap: wrap; }
+.ltag {
+  font-family: var(--mono);
+  font-size: .65rem; letter-spacing: .05em; text-transform: uppercase;
+  padding: .2rem .5rem; border-radius: 3px;
+  background: rgba(255,255,255,.06); color: var(--muted);
+}
+
+/* ── RAY DALIO SECTION ── */
+.dalio { background: var(--bg); position: relative; overflow: hidden; }
+.dalio::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(79,140,255,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.dalio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.dalio-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  transition: all .3s;
+}
+.dalio-card:hover { border-color: rgba(79,140,255,.4); transform: translateY(-2px); }
+.dalio-card-icon { font-size: 2rem; margin-bottom: 1rem; }
+.dalio-card-title { font-family: var(--display); font-size: 1.3rem; font-weight: 600; margin-bottom: .5rem; }
+.dalio-card-text { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+.principle-list { list-style: none; margin-top: 1rem; }
+.principle-list li {
+  padding: .5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  font-size: .85rem; color: var(--muted);
+  display: flex; gap: .6rem; align-items: flex-start;
+}
+.principle-list li::before { content: '→'; color: var(--accent2); flex-shrink: 0; margin-top: .05rem; }
+.principle-list li:last-child { border-bottom: none; }
+
+/* ── ALL WEATHER ── */
+.weather-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+.weather-cell {
+  border-radius: 10px; padding: 1.25rem;
+  text-align: center; border: 1px solid var(--border);
+}
+.weather-cell.w1 { background: rgba(200,169,110,.08); border-color: rgba(200,169,110,.2); }
+.weather-cell.w2 { background: rgba(79,140,255,.08); border-color: rgba(79,140,255,.2); }
+.weather-cell.w3 { background: rgba(0,212,160,.08); border-color: rgba(0,212,160,.2); }
+.weather-cell.w4 { background: rgba(255,100,100,.08); border-color: rgba(255,100,100,.2); }
+.weather-pct { font-family: var(--display); font-size: 2.2rem; font-weight: 700; display: block; }
+.weather-pct.c1 { color: var(--accent); }
+.weather-pct.c2 { color: var(--accent2); }
+.weather-pct.c3 { color: var(--accent3); }
+.weather-pct.c4 { color: #ff6464; }
+.weather-label { font-size: .78rem; color: var(--muted); margin-top: .25rem; display: block; }
+.weather-asset { font-size: .72rem; color: var(--muted); margin-top: .3rem; font-family: var(--mono); }
+
+/* ── RESEARCH PAPERS ── */
+.research { background: var(--surface); }
+.research-steps { display: flex; flex-direction: column; gap: 1.5rem; }
+.rstep {
+  display: grid; grid-template-columns: 60px 1fr;
+  gap: 1.5rem; align-items: start;
+}
+.rstep-num {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 1rem; font-weight: 500;
+  color: var(--accent); flex-shrink: 0;
+}
+.rstep-content {}
+.rstep-title { font-weight: 600; font-size: 1rem; margin-bottom: .4rem; }
+.rstep-text { font-size: .87rem; color: var(--muted); line-height: 1.7; }
+.rstep-box {
+  margin-top: .75rem;
+  background: var(--card); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent2);
+  border-radius: 0 8px 8px 0;
+  padding: .9rem 1rem;
+  font-family: var(--mono); font-size: .78rem; color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ── KALKINE SECTION ── */
+.kalkine { background: var(--bg); }
+.kalkine-table {
+  width: 100%; border-collapse: collapse; margin-top: 2rem;
+  font-size: .87rem;
+}
+.kalkine-table th {
+  text-align: left; padding: .75rem 1rem;
+  background: var(--card); border: 1px solid var(--border);
+  font-weight: 500; color: var(--muted);
+  font-family: var(--mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
+}
+.kalkine-table td {
+  padding: .85rem 1rem;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text);
+}
+.kalkine-table tr:hover td { background: rgba(255,255,255,.02); }
+.badge {
+  display: inline-block;
+  padding: .2rem .5rem; border-radius: 4px;
+  font-family: var(--mono); font-size: .67rem; text-transform: uppercase; letter-spacing: .05em;
+}
+.badge.green { background: rgba(0,212,160,.15); color: var(--accent3); }
+.badge.blue { background: rgba(79,140,255,.15); color: var(--accent2); }
+.badge.gold { background: rgba(200,169,110,.15); color: var(--accent); }
+.badge.red { background: rgba(255,100,100,.15); color: #ff6464; }
+
+/* ── CHECKLIST ── */
+.checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+.checklist-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.5rem;
+}
+.checklist-card-title { font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: .6rem; }
+.checklist-items { list-style: none; }
+.checklist-items li {
+  display: flex; gap: .75rem; align-items: flex-start;
+  padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.04);
+  font-size: .84rem; color: var(--muted);
+}
+.checklist-items li:last-child { border-bottom: none; }
+.check { color: var(--accent3); flex-shrink: 0; margin-top: .1rem; }
+
+/* ── GLOSSARY ── */
+.glossary { background: var(--surface); }
+.glossary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+.gterm {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 1.1rem;
+}
+.gterm-word { font-family: var(--mono); font-size: .8rem; color: var(--accent); margin-bottom: .4rem; }
+.gterm-def { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+/* ── ROADMAP ── */
+.roadmap { background: var(--bg); }
+.rm-items { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; position: relative; margin-top: 2.5rem; }
+.rm-items::before {
+  content: '';
+  position: absolute;
+  top: 32px; left: 10%; right: 10%;
+  height: 1px; background: var(--border);
+  z-index: 0;
+}
+.rm-item { text-align: center; position: relative; z-index: 1; }
+.rm-dot {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  border: 2px solid var(--border);
+  background: var(--card);
+}
+.rm-item.active .rm-dot { border-color: var(--accent); background: rgba(200,169,110,.1); }
+.rm-year { font-family: var(--mono); font-size: .72rem; color: var(--accent); margin-bottom: .3rem; }
+.rm-label { font-size: .82rem; font-weight: 600; margin-bottom: .3rem; }
+.rm-sub { font-size: .75rem; color: var(--muted); }
+
+/* ── CTA ── */
+.final-cta {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.final-cta h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700; margin-bottom: 1rem;
+}
+.final-cta p { color: var(--muted); max-width: 500px; margin: 0 auto 2rem; }
+
+/* ── QUIZ ── */
+.quiz-section { background: var(--surface); }
+.quiz-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2rem; max-width: 700px; margin: 0 auto;
+}
+.quiz-q { font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem; }
+.quiz-opts { display: flex; flex-direction: column; gap: .6rem; }
+.quiz-opt {
+  padding: .8rem 1.1rem;
+  border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: .88rem; color: var(--muted);
+  background: var(--surface);
+  transition: all .2s;
+}
+.quiz-opt:hover { border-color: var(--accent2); color: var(--text); }
+.quiz-opt.correct { border-color: var(--accent3); background: rgba(0,212,160,.1); color: var(--accent3); }
+.quiz-opt.wrong { border-color: #ff4d6d; background: rgba(255,77,109,.1); color: #ff4d6d; }
+.quiz-feedback {
+  margin-top: 1rem; padding: .85rem 1rem;
+  border-radius: 6px; font-size: .85rem; display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: rgba(0,212,160,.1); color: var(--accent3); border: 1px solid rgba(0,212,160,.2); }
+.quiz-feedback.bad { background: rgba(255,77,109,.1); color: #ff4d6d; border: 1px solid rgba(255,77,109,.2); }
+.quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+.quiz-counter { font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .dalio-grid { grid-template-columns: 1fr; }
+  .weather-grid { grid-template-columns: 1fr 1fr; }
+  .checklist-grid { grid-template-columns: 1fr; }
+  .glossary-grid { grid-template-columns: 1fr 1fr; }
+  .rm-items { grid-template-columns: 1fr; }
+  .rm-items::before { display: none; }
+  nav .nav-links { display: none; }
+  .kalkine-table { font-size: .78rem; }
+}
+@media (max-width: 480px) {
+  .glossary-grid { grid-template-columns: 1fr; }
+  .weather-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">📈 Investor's Academy</div>
+  <div class="nav-links">
+    <a href="#curriculum">Curriculum</a>
+    <a href="#dalio">Ray Dalio</a>
+    <a href="#research">Research Papers</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('curriculum').scrollIntoView({behavior:'smooth'})">Start Learning</button>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="tick-item">SPY <span class="tick-up">+0.84%</span></span>
+    <span class="tick-item">BRK.B <span class="tick-up">+1.2%</span></span>
+    <span class="tick-item">AAPL <span class="tick-down">-0.34%</span></span>
+    <span class="tick-item">MSFT <span class="tick-up">+0.61%</span></span>
+    <span class="tick-item">Gold <span class="tick-up">+0.92%</span></span>
+    <span class="tick-item">10Y UST <span class="tick-down">-0.12%</span></span>
+    <span class="tick-item">BTC <span class="tick-up">+2.1%</span></span>
+    <span class="tick-item">VIX <span class="tick-down">-3.2%</span></span>
+    <span class="tick-item">OIL <span class="tick-up">+0.55%</span></span>
+    <span class="tick-item">EUR/USD <span class="tick-down">-0.21%</span></span>
+    <!-- repeated for seamless loop -->
+    <span class="tick-item">SPY <span class="tick-up">+0.84%</span></span>
+    <span class="tick-item">BRK.B <span class="tick-up">+1.2%</span></span>
+    <span class="tick-item">AAPL <span class="tick-down">-0.34%</span></span>
+    <span class="tick-item">MSFT <span class="tick-up">+0.61%</span></span>
+    <span class="tick-item">Gold <span class="tick-up">+0.92%</span></span>
+    <span class="tick-item">10Y UST <span class="tick-down">-0.12%</span></span>
+    <span class="tick-item">BTC <span class="tick-up">+2.1%</span></span>
+    <span class="tick-item">VIX <span class="tick-down">-3.2%</span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">StudyCoach Academy — Investing Track</div>
+  <h1>From First Dollar<br>to <em>Investment Firm</em></h1>
+  <p>Master everything Ray Dalio, Warren Buffett, and top analysts know — from personal investing basics to running a multi-million dollar fund. Includes how to read Kalkine-style research reports.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('curriculum').scrollIntoView({behavior:'smooth'})">Start the Course →</button>
+    <button class="btn-ghost" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Test Your Knowledge</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><span class="hstat-val">5</span><span class="hstat-lbl">Learning Phases</span></div>
+    <div class="hstat"><span class="hstat-val">40+</span><span class="hstat-lbl">Lessons</span></div>
+    <div class="hstat"><span class="hstat-val">3</span><span class="hstat-lbl">Years to Firm</span></div>
+    <div class="hstat"><span class="hstat-val">∞</span><span class="hstat-lbl">Return Potential</span></div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="curriculum" id="curriculum">
+  <div class="container">
+    <div class="section-label">The Full Curriculum</div>
+    <h2 class="section-title">Five Phases to Mastery</h2>
+    <p class="section-sub">Click each phase to expand. Complete in order, or jump to what you need.</p>
+
+    <div class="phases">
+
+      <!-- PHASE 1 -->
+      <div class="phase open" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num p1">01</div>
+          <div class="phase-info">
+            <div class="phase-tag">Phase 1 — Foundation</div>
+            <div class="phase-title">Money Basics & The Investor Mindset</div>
+            <div class="phase-dur">⏱ 2–4 weeks · 8 lessons</div>
+          </div>
+          <div class="phase-chevron">▼</div>
+        </div>
+        <div class="phase-body">
+          <ul class="lessons">
+            <li class="lesson">
+              <span class="lesson-icon">💡</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Why Invest? The Cost of Not Investing</div>
+                <div class="lesson-desc">Inflation erodes cash savings at ~3% per year. A $10,000 savings account earning 0.5% loses purchasing power versus investing in equities averaging 10% historically. Understand opportunity cost, compound interest, and why waiting costs more than starting imperfectly.</div>
+                <div class="lesson-tags"><span class="ltag">Core Concept</span><span class="ltag">Math</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📊</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Asset Classes: What You Can Actually Buy</div>
+                <div class="lesson-desc">Equities (stocks), fixed income (bonds), real assets (real estate, commodities), alternatives (private equity, hedge funds, crypto). Learn the risk/return profile of each, liquidity differences, and how they behave across market cycles.</div>
+                <div class="lesson-tags"><span class="ltag">Asset Classes</span><span class="ltag">Risk</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">⚖️</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Risk vs. Return: The Fundamental Trade-Off</div>
+                <div class="lesson-desc">Higher potential returns require accepting higher volatility. Standard deviation, beta, and Sharpe Ratio measure risk. Learn why a 20% annual return with a 40% drawdown may be worse for most investors than a steady 12% with a 10% drawdown.</div>
+                <div class="lesson-tags"><span class="ltag">Statistics</span><span class="ltag">Portfolio Theory</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🧮</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Compound Interest: The Eighth Wonder of the World</div>
+                <div class="lesson-desc">Einstein allegedly called compound interest the most powerful force in the universe. $1,000 at 10% for 30 years = $17,449. For 40 years = $45,259. Time in the market beats timing the market. We'll model this with real numbers.</div>
+                <div class="lesson-tags"><span class="ltag">Math</span><span class="ltag">Time Value of Money</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🏦</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Account Types: Where to Hold Your Investments</div>
+                <div class="lesson-desc">Brokerage accounts vs tax-advantaged accounts (401k, IRA, Roth IRA in the US; ISA, SIPP in the UK; Super in Australia). Tax-loss harvesting. Asset location strategy — put tax-inefficient assets in tax-advantaged accounts.</div>
+                <div class="lesson-tags"><span class="ltag">Tax</span><span class="ltag">Structure</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🧠</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Behavioural Finance: Your Brain is Your Biggest Enemy</div>
+                <div class="lesson-desc">Loss aversion (losses hurt 2× more than gains feel good), recency bias, confirmation bias, herd mentality, overconfidence. Kahneman's System 1 vs System 2 thinking. How Buffett stays rational when others panic. Build rules to override emotion.</div>
+                <div class="lesson-tags"><span class="ltag">Psychology</span><span class="ltag">Behaviour</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📐</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Building Your First Portfolio: The 3-Fund Simple Start</div>
+                <div class="lesson-desc">A total stock market index fund + international fund + bond fund can outperform 90% of active managers over 20 years. Start here. This is not boring — it's smart. We explain why Vanguard, Fidelity, and BlackRock built empires on this concept.</div>
+                <div class="lesson-tags"><span class="ltag">Indexing</span><span class="ltag">Portfolio</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📅</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Dollar-Cost Averaging vs. Lump Sum</div>
+                <div class="lesson-desc">Research shows lump sum investing outperforms DCA 2/3 of the time — but DCA reduces regret and emotional risk. For most people with regular income, automatic monthly investing wins. Learn the psychology and the math behind both approaches.</div>
+                <div class="lesson-tags"><span class="ltag">Strategy</span><span class="ltag">Psychology</span></div>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+            <span style="font-family:var(--mono);font-size:.72rem;color:var(--muted)">8 lessons · Fully written · AI tutor included</span>
+            <a href="phase1-chapter.html" style="background:var(--accent);color:#1a0a00;padding:.6rem 1.4rem;border-radius:6px;font-weight:600;font-size:.88rem;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Begin Phase 1 →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num p2">02</div>
+          <div class="phase-info">
+            <div class="phase-tag">Phase 2 — Analysis</div>
+            <div class="phase-title">Fundamental & Technical Analysis</div>
+            <div class="phase-dur">⏱ 4–8 weeks · 10 lessons</div>
+          </div>
+          <div class="phase-chevron">▼</div>
+        </div>
+        <div class="phase-body">
+          <ul class="lessons">
+            <li class="lesson">
+              <span class="lesson-icon">📖</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Reading Financial Statements Like a Pro</div>
+                <div class="lesson-desc">Income Statement (revenue → net income), Balance Sheet (assets = liabilities + equity), Cash Flow Statement (the most honest of the three). Red flags: accounts receivable growing faster than revenue, declining free cash flow while EPS rises. We walk through real Apple & Tesla filings.</div>
+                <div class="lesson-tags"><span class="ltag">Accounting</span><span class="ltag">Fundamentals</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🔢</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Key Financial Ratios: The Investor's Toolkit</div>
+                <div class="lesson-desc">P/E, P/B, P/S, EV/EBITDA, PEG ratio, Debt/Equity, Current Ratio, Return on Equity, Gross Margin, Free Cash Flow Yield. Know what each measures, what's "good" by sector, and crucially — where each ratio fails.</div>
+                <div class="lesson-tags"><span class="ltag">Valuation</span><span class="ltag">Ratios</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🏗️</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Discounted Cash Flow (DCF) Valuation</div>
+                <div class="lesson-desc">The foundational valuation method. Project a company's free cash flows 10 years out, then discount them back at the Weighted Average Cost of Capital (WACC). Calculate Terminal Value. Learn why tiny WACC changes create massive valuation swings — "garbage in, garbage out."</div>
+                <div class="lesson-tags"><span class="ltag">DCF</span><span class="ltag">Valuation</span><span class="ltag">Advanced</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🏆</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Competitive Advantages: What Warren Buffett's "Moat" Really Means</div>
+                <div class="lesson-desc">Five types of economic moats: network effects (Visa, Facebook), cost advantages (Costco, Amazon), intangible assets (patents, brands), switching costs (Adobe, Salesforce), efficient scale (monopolies). Learn to identify durability — moats erode over time.</div>
+                <div class="lesson-tags"><span class="ltag">Qualitative</span><span class="ltag">Competitive Strategy</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🌍</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Macro Analysis: Interest Rates, Inflation, and the Business Cycle</div>
+                <div class="lesson-desc">How central bank policy (Fed, ECB) flows through to asset prices. The yield curve as a recession predictor. Sector rotation: which sectors outperform at each stage of the economic cycle (expansion → peak → contraction → recovery).</div>
+                <div class="lesson-tags"><span class="ltag">Macro</span><span class="ltag">Economics</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📉</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Technical Analysis: Charts, Patterns & When They Work</div>
+                <div class="lesson-desc">Support & resistance, trend lines, moving averages (50-day, 200-day MA), MACD, RSI, Bollinger Bands. Important: technical analysis is more useful for timing entries/exits than for stock selection. Understand its limits. How to combine TA with fundamentals.</div>
+                <div class="lesson-tags"><span class="ltag">Technical</span><span class="ltag">Charts</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🏢</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Industry & Sector Analysis</div>
+                <div class="lesson-desc">Porter's Five Forces applied to investing. Understand TAM (Total Addressable Market), industry growth rates, regulatory environments, and competitive dynamics. Why a mediocre company in a great industry can beat a great company in a terrible industry.</div>
+                <div class="lesson-tags"><span class="ltag">Industry</span><span class="ltag">Strategy</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">👔</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Management Quality: Evaluating the People Running the Company</div>
+                <div class="lesson-desc">Capital allocation track record (buybacks, dividends, acquisitions). Insider ownership — do they eat their own cooking? CEO pay vs. performance. Read conference call transcripts to gauge candour. Red flags: frequent guidance changes, CFO turnover, stock-based comp abuses.</div>
+                <div class="lesson-tags"><span class="ltag">Qualitative</span><span class="ltag">Governance</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🔍</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Short Selling & Identifying Frauds</div>
+                <div class="lesson-desc">How short sellers like Jim Chanos identified Enron. Signs of accounting fraud: aggressive revenue recognition, related-party transactions, auditor changes, management selling shares. The Beneish M-Score model. Understanding the risks of shorting.</div>
+                <div class="lesson-tags"><span class="ltag">Advanced</span><span class="ltag">Fraud Detection</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">⚡</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Special Situations: Spinoffs, Mergers & Distressed Assets</div>
+                <div class="lesson-desc">Joel Greenblatt's "You Can Be a Stock Market Genius" framework. Spinoffs often outperform because index funds dump them mechanically — creating mispricings. Merger arbitrage basics. Distressed debt investing. These are edge cases where individual investors can beat institutions.</div>
+                <div class="lesson-tags"><span class="ltag">Special Situations</span><span class="ltag">Advanced</span></div>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+            <span style="font-family:var(--mono);font-size:.72rem;color:var(--muted)">10 lessons · Fully written · AI tutor included</span>
+            <a href="phase2-chapter.html" style="background:#4f8cff;color:#fff;padding:.6rem 1.4rem;border-radius:6px;font-weight:600;font-size:.88rem;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Begin Phase 2 →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num p3">03</div>
+          <div class="phase-info">
+            <div class="phase-tag">Phase 3 — Portfolio Management</div>
+            <div class="phase-title">Building & Managing a Real Portfolio</div>
+            <div class="phase-dur">⏱ 4–8 weeks · 8 lessons</div>
+          </div>
+          <div class="phase-chevron">▼</div>
+        </div>
+        <div class="phase-body">
+          <ul class="lessons">
+            <li class="lesson">
+              <span class="lesson-icon">🎯</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Portfolio Construction: Correlation, Diversification & Position Sizing</div>
+                <div class="lesson-desc">Modern Portfolio Theory (Markowitz). Efficient Frontier. How uncorrelated assets reduce portfolio volatility without reducing returns. Kelly Criterion for position sizing. Concentration vs diversification — Buffett says "diversification is protection against ignorance."</div>
+                <div class="lesson-tags"><span class="ltag">MPT</span><span class="ltag">Position Sizing</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🔄</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Rebalancing: When and How to Rebalance</div>
+                <div class="lesson-desc">Time-based vs threshold-based rebalancing. Rebalancing costs (taxes, transaction costs). How rebalancing forces you to buy low and sell high systematically. Research shows rebalancing adds 0.4–0.5% annualised in risk-adjusted returns over long periods.</div>
+                <div class="lesson-tags"><span class="ltag">Mechanics</span><span class="ltag">Tax</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📏</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Performance Attribution: Did You Actually Beat the Market?</div>
+                <div class="lesson-desc">Benchmark selection. Alpha vs beta. Attribution analysis: what % of returns came from stock selection vs market exposure? Survivorship bias in track records. How to know if your performance is skill or luck — and how many years it takes to tell the difference (hint: longer than you think).</div>
+                <div class="lesson-tags"><span class="ltag">Performance</span><span class="ltag">Statistics</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🛡️</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Risk Management: Drawdowns, Stops & Hedging</div>
+                <div class="lesson-desc">Maximum drawdown, Value at Risk (VaR), Conditional VaR. Using put options for portfolio insurance. Tail risk hedging — how Nassim Taleb made 4,000% in the 2020 crash. Position limits, sector concentration limits, stop-loss discipline.</div>
+                <div class="lesson-tags"><span class="ltag">Risk</span><span class="ltag">Hedging</span><span class="ltag">Options</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">💱</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Factor Investing: Value, Momentum, Quality & Size</div>
+                <div class="lesson-desc">Fama-French factor model. Academic evidence for value premium, size premium, momentum premium. Smart Beta ETFs. How factor investing bridges the gap between passive and active. Factor crowding risks in 2024's market environment.</div>
+                <div class="lesson-tags"><span class="ltag">Factors</span><span class="ltag">Quant</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🌐</span>
+              <div class="lesson-content">
+                <div class="lesson-title">International & Emerging Market Investing</div>
+                <div class="lesson-desc">Currency risk and hedging. Political risk premium in EM. Valuation discounts — should you own cheap Chinese equities? CAPE ratios by country. How to access international markets (ADRs, ETFs, local accounts). The case for and against home country bias.</div>
+                <div class="lesson-tags"><span class="ltag">International</span><span class="ltag">Macro</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🏠</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Alternative Assets: Real Estate, Private Equity & Commodities</div>
+                <div class="lesson-desc">REITs as liquid real estate. Private equity return drivers (leverage, operational improvement, multiple expansion). Why endowments like Yale's allocate 40%+ to alternatives. Commodity super-cycles. Gold as portfolio insurance rather than investment.</div>
+                <div class="lesson-tags"><span class="ltag">Alternatives</span><span class="ltag">REIT</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🤖</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Quantitative Strategies & Algorithmic Approaches</div>
+                <div class="lesson-desc">What quant funds (Renaissance, Two Sigma, D.E. Shaw) actually do. Statistical arbitrage, pairs trading, trend following (CTA strategies). Machine learning in finance — where it works and where it fails. Building simple systematic screens using free data.</div>
+                <div class="lesson-tags"><span class="ltag">Quant</span><span class="ltag">Systematic</span></div>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+            <span style="font-family:var(--mono);font-size:.72rem;color:var(--muted)">8 lessons · Fully written · AI tutor included</span>
+            <a href="phase3-chapter.html" style="background:#00d4a0;color:#003322;padding:.6rem 1.4rem;border-radius:6px;font-weight:600;font-size:.88rem;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Begin Phase 3 →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num p4">04</div>
+          <div class="phase-info">
+            <div class="phase-tag">Phase 4 — Advanced</div>
+            <div class="phase-title">Professional Investing & Hedge Fund Strategies</div>
+            <div class="phase-dur">⏱ 8–12 weeks · 8 lessons</div>
+          </div>
+          <div class="phase-chevron">▼</div>
+        </div>
+        <div class="phase-body">
+          <ul class="lessons">
+            <li class="lesson">
+              <span class="lesson-icon">📝</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Writing an Investment Thesis: The Professional Standard</div>
+                <div class="lesson-desc">What separates amateur and professional investors: the written thesis. Cover: what is the business, why is it mispriced, what's the catalyst for repricing, what are the key risks, what price will you exit. Learn from Pershing Square, Tiger Global, and Baupost Group investment memos.</div>
+                <div class="lesson-tags"><span class="ltag">Professional</span><span class="ltag">Writing</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🏛️</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Hedge Fund Structures: Long/Short, Global Macro, Event-Driven</div>
+                <div class="lesson-desc">Long/short equity (net exposure management). Global macro — trading currencies, rates, commodities based on economic views (Soros's pound bet). Event-driven — merger arb, distressed, activist investing. Multi-strategy funds. 2-and-20 fee structures and alignment of interests.</div>
+                <div class="lesson-tags"><span class="ltag">Hedge Funds</span><span class="ltag">Strategies</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📋</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Options, Derivatives & Structured Products</div>
+                <div class="lesson-desc">Calls and puts — not for gambling, but for expressing precise views with defined risk. The Greeks (Delta, Gamma, Theta, Vega). Covered calls for income generation. Protective puts for hedging. LEAPS for long-term leverage. How Warren Buffett sold puts to buy companies cheaper.</div>
+                <div class="lesson-tags"><span class="ltag">Options</span><span class="ltag">Derivatives</span><span class="ltag">Advanced</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🔗</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Activist Investing: Forcing Change from the Outside</div>
+                <div class="lesson-desc">How Bill Ackman, Carl Icahn, and Dan Loeb create value. Building a stake quietly, then going public. Board seats, strategic alternatives, divestitures, buybacks. When activism works and when it backfires. Proxy battles. Regulatory constraints on accumulating stakes.</div>
+                <div class="lesson-tags"><span class="ltag">Activism</span><span class="ltag">Corporate Governance</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🌊</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Credit Markets: Corporate Bonds, High Yield & Distressed Debt</div>
+                <div class="lesson-desc">Bond math — duration, convexity, yield to maturity. Investment grade vs high yield spreads as economic indicators. Distressed debt investing — buying bonds at 30 cents on the dollar in restructurings. The credit cycle. How Howard Marks built Oaktree Capital on this strategy.</div>
+                <div class="lesson-tags"><span class="ltag">Credit</span><span class="ltag">Bonds</span><span class="ltag">Distressed</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🚀</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Venture Capital & Growth Equity</div>
+                <div class="lesson-desc">Power law returns — why 1 investment in 10 must return the whole fund. Deal sourcing, term sheets, pro-rata rights, liquidation preferences. Portfolio construction for VC. Growth equity — investing in proven businesses scaling up. SAFE notes and convertibles. Cap table management.</div>
+                <div class="lesson-tags"><span class="ltag">Venture Capital</span><span class="ltag">Private Markets</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📡</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Alternative Data: Satellites, Foot Traffic & Web Scraping</div>
+                <div class="lesson-desc">How hedge funds use satellite imagery to count cars at Walmart parking lots before earnings. Credit card transaction data. Web scraping job postings (more engineers hired = growth). App download data. Social sentiment analysis. Where to access affordable alternative data as a small fund.</div>
+                <div class="lesson-tags"><span class="ltag">Data Edge</span><span class="ltag">Quant</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🧾</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Regulatory Compliance & Investment Mandates</div>
+                <div class="lesson-desc">SEC regulations: 13F filings, insider trading rules, Reg FD. Investment advisers vs dealers. CFA ethics code. Know Your Client (KYC) and Anti-Money Laundering (AML). Setting up compliant mandates and investment policy statements (IPS). MNPI (Material Non-Public Information) risks.</div>
+                <div class="lesson-tags"><span class="ltag">Compliance</span><span class="ltag">Legal</span></div>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+            <span style="font-family:var(--mono);font-size:.72rem;color:var(--muted)">8 lessons · Fully written · AI tutor included</span>
+            <a href="phase4-chapter.html" style="background:#a855f7;color:#fff;padding:.6rem 1.4rem;border-radius:6px;font-weight:600;font-size:.88rem;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Begin Phase 4 →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 5 -->
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num p5">05</div>
+          <div class="phase-info">
+            <div class="phase-tag">Phase 5 — Building the Firm</div>
+            <div class="phase-title">Launching & Scaling an Investment Firm</div>
+            <div class="phase-dur">⏱ 12+ weeks · 8 lessons</div>
+          </div>
+          <div class="phase-chevron">▼</div>
+        </div>
+        <div class="phase-body">
+          <ul class="lessons">
+            <li class="lesson">
+              <span class="lesson-icon">🏗️</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Legal Structure: Setting Up the Entity</div>
+                <div class="lesson-desc">Fund structures: Limited Partnership (LP) vs LLC. General Partner (GP) vs Limited Partner (LP) roles. Offshore structures (Cayman Islands feeder funds for international investors). Investment Adviser registration (RIA in the US). Minimum AUM thresholds. Working with a fund lawyer from day one.</div>
+                <div class="lesson-tags"><span class="ltag">Legal</span><span class="ltag">Structure</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📜</span>
+              <div class="lesson-content">
+                <div class="lesson-title">The Private Placement Memorandum (PPM) & Investor Agreements</div>
+                <div class="lesson-desc">The PPM is your legal marketing document. It must disclose all risks, fees, investment strategy, conflicts of interest, and redemption terms. Limited Partnership Agreement (LPA) governs GP/LP relationship. Subscription agreements, side letters for large investors. Never cut corners here.</div>
+                <div class="lesson-tags"><span class="ltag">Legal</span><span class="ltag">Documents</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🤝</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Capital Raising: Finding Your First LPs</div>
+                <div class="lesson-desc">Friends and family round → family offices → RIAs → small institutions. Seed capital deals — trading economics for assets under management (AUM). Seeder platforms like Palico. TIGER 21 networks. Building a 3-year audited track record before approaching institutional investors. Investor relations from day one.</div>
+                <div class="lesson-tags"><span class="ltag">Fundraising</span><span class="ltag">IR</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">⚙️</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Fund Operations: Prime Brokers, Administrators & Tech Stack</div>
+                <div class="lesson-desc">Prime broker (lending, execution, custody) — Goldman, Morgan Stanley, Interactive Brokers for smaller funds. Fund administrator (NAV calculation, investor reporting) — SS&C, Citco. Compliance software. Portfolio management systems (Bloomberg Terminal, FactSet). Cybersecurity requirements. Typical cost: $200K–$500K/year to run a compliant fund.</div>
+                <div class="lesson-tags"><span class="ltag">Operations</span><span class="ltag">Service Providers</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">💼</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Fee Structures & Economics of a Fund</div>
+                <div class="lesson-desc">Management fee (typically 1.5–2% of AUM) covers operating costs. Performance fee (20% of profits above hurdle rate) is where wealth is built. High-water mark protects LPs. With $50M AUM at 2-and-20, you earn $1M management + 20% of gains. What AUM is needed to break even? To be wealthy?</div>
+                <div class="lesson-tags"><span class="ltag">Economics</span><span class="ltag">Fees</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">👥</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Building the Team: Analysts, COO & Risk</div>
+                <div class="lesson-desc">Solo PM vs partnership. When to hire first analyst (usually $20–30M AUM). COO/CFO handles operations so you can focus on investing. Risk manager becomes critical at $100M+. CFA designation value in hiring. Compensation structures: salary + carried interest. The culture that kills funds: ego, poor communication, misaligned incentives.</div>
+                <div class="lesson-tags"><span class="ltag">People</span><span class="ltag">Hiring</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">📈</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Institutional Capital: Endowments, Pension Funds & Sovereign Wealth</div>
+                <div class="lesson-desc">The $10M barrier (minimum institutional check size), $100M AUM threshold, 3-year audited track record, GIPS-compliant performance reporting, robust operational infrastructure, and proper DDQ (Due Diligence Questionnaire) responses. How to get on institutional consultants' approved lists (Mercer, Cambridge Associates).</div>
+                <div class="lesson-tags"><span class="ltag">Institutional</span><span class="ltag">Scale</span></div>
+              </div>
+            </li>
+            <li class="lesson">
+              <span class="lesson-icon">🌱</span>
+              <div class="lesson-content">
+                <div class="lesson-title">Scaling from $10M to $1B: The Growth Stages</div>
+                <div class="lesson-desc">$0–$10M: Personal capital + friends & family. $10M–$50M: Seed investors, emerging manager programs. $50M–$250M: Family offices, smaller RIAs. $250M–$1B: Mid-tier institutions. Each stage requires different infrastructure, strategy capacity constraints, and investor expectations. When to close to new investors. The Bridgewater story as a template.</div>
+                <div class="lesson-tags"><span class="ltag">Growth</span><span class="ltag">Scaling</span><span class="ltag">Roadmap</span></div>
+              </div>
+            </li>
+          </ul>
+          <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
+            <span style="font-family:var(--mono);font-size:.72rem;color:var(--muted)">8 lessons · Fully written · AI tutor included</span>
+            <a href="phase5-chapter.html" style="background:#f59e0b;color:#1a0a00;padding:.6rem 1.4rem;border-radius:6px;font-weight:600;font-size:.88rem;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Begin Phase 5 →</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /phases -->
+  </div>
+</section>
+
+<!-- RAY DALIO -->
+<section class="dalio" id="dalio">
+  <div class="container">
+    <div class="section-label">Master Class</div>
+    <h2 class="section-title">What Ray Dalio Knows</h2>
+    <p class="section-sub">Dalio built Bridgewater Associates into the world's largest hedge fund ($150B+ AUM) using a handful of powerful, repeatable principles. Here's the distilled framework.</p>
+
+    <div class="dalio-grid">
+      <div class="dalio-card">
+        <div class="dalio-card-icon">🌊</div>
+        <div class="dalio-card-title">The Economic Machine</div>
+        <div class="dalio-card-text">Dalio sees the economy as a simple machine with three key drivers: productivity growth (long-term), the short-term debt cycle (5–8 years), and the long-term debt cycle (75–100 years). Most crises happen when debt levels become unsustainable — what he calls "the big debt cycle." Understanding where you are in each cycle is the foundation of macro investing.</div>
+        <ul class="principle-list">
+          <li>Credit expansion drives short cycles; watch central bank policy</li>
+          <li>Productivity drives long-run prosperity — technology is the key lever</li>
+          <li>Debt crises are inevitable, predictable, and navigable if prepared</li>
+          <li>Deleveraging happens four ways: austerity, defaults, money printing, wealth transfer</li>
+        </ul>
+      </div>
+
+      <div class="dalio-card">
+        <div class="dalio-card-icon">⚖️</div>
+        <div class="dalio-card-title">Radical Truth & Radical Transparency</div>
+        <div class="dalio-card-text">Bridgewater's culture operates on ruthless honesty — every meeting is recorded, every decision debated openly, every person rated in real time. Dalio calls this "an idea meritocracy." The goal: eliminate ego and status from decision-making so the best ideas win. For investing, this means writing down your beliefs, stress-testing them publicly, and updating them when wrong.</div>
+        <ul class="principle-list">
+          <li>Write down your beliefs so they can be examined and falsified</li>
+          <li>Seek out people who disagree — they see what you can't</li>
+          <li>Separate your ego from your ideas: being wrong is fine, being dishonest is not</li>
+          <li>Build a "Baseball Card" system — track everyone's strengths, weaknesses, and track records</li>
+        </ul>
+      </div>
+
+      <div class="dalio-card">
+        <div class="dalio-card-icon">🎯</div>
+        <div class="dalio-card-title">The Holy Grail of Investing</div>
+        <div class="dalio-card-text">Dalio's most important investing insight: finding 15 or more uncorrelated return streams is the only free lunch in investing. With 15 uncorrelated assets, you can reduce portfolio risk by ~80% without reducing expected returns. This is the mathematical foundation of the "All Weather" portfolio and most risk-parity strategies.</div>
+        <ul class="principle-list">
+          <li>Diversification across uncorrelated assets is more powerful than picking good assets</li>
+          <li>Return/risk ratio improves dramatically with each uncorrelated stream added (diminishing returns after 15)</li>
+          <li>The challenge: true non-correlation is rare — most assets correlate in crises</li>
+          <li>Build a "portfolio of bets" not a "portfolio of positions"</li>
+        </ul>
+      </div>
+
+      <div class="dalio-card">
+        <div class="dalio-card-icon">🔁</div>
+        <div class="dalio-card-title">The Pain-Reflection-Progress Loop</div>
+        <div class="dalio-card-text">Dalio's formula for personal and professional mastery: Pain + Reflection = Progress. Every loss, mistake, or crisis is a data point. The investor who doesn't learn from losses is doomed to repeat them. Build systematic post-mortems after every significant decision — what did I believe, what happened, why was I wrong, what's the updated model?</div>
+        <ul class="principle-list">
+          <li>Keep an investment journal — write down your thesis before every trade</li>
+          <li>Review closed positions: what would you do differently?</li>
+          <li>Don't paper over losses with rationalisations — diagnose the root cause</li>
+          <li>Over 5+ years, pattern-match your systematic errors</li>
+        </ul>
+      </div>
+
+      <div class="dalio-card" style="grid-column: 1 / -1;">
+        <div class="dalio-card-icon">🌤️</div>
+        <div class="dalio-card-title">The All Weather Portfolio — Asset Allocation for Every Environment</div>
+        <div class="dalio-card-text" style="margin-bottom:1rem;">Dalio designed the All Weather Portfolio to perform in any macroeconomic environment: rising/falling growth, rising/falling inflation. The four quadrants of the economic machine each favour different assets. The portfolio balances risk (not dollars) across these quadrants.</div>
+        <div class="weather-grid">
+          <div class="weather-cell w1">
+            <span class="weather-pct c1">30%</span>
+            <span class="weather-label">Stocks (Equities)</span>
+            <span class="weather-asset">S&P 500, Global Equities<br>→ Rising growth environment</span>
+          </div>
+          <div class="weather-cell w2">
+            <span class="weather-pct c2">40%</span>
+            <span class="weather-label">Long-Term Bonds</span>
+            <span class="weather-asset">20–25yr Treasuries<br>→ Falling growth & inflation</span>
+          </div>
+          <div class="weather-cell w3">
+            <span class="weather-pct c3">15%</span>
+            <span class="weather-label">Medium Bonds</span>
+            <span class="weather-asset">7–10yr Treasuries<br>→ Balanced exposure</span>
+          </div>
+          <div class="weather-cell w4">
+            <span class="weather-pct c4">15%</span>
+            <span class="weather-label">Hard Assets</span>
+            <span class="weather-asset">Gold (7.5%) + Commodities (7.5%)<br>→ Rising inflation hedge</span>
+          </div>
+        </div>
+        <div style="margin-top:1rem; font-size:.82rem; color:var(--muted); font-style:italic;">Note: The All Weather Portfolio is designed for stability across all market cycles, not maximum returns. In bull markets, it will underperform a 100% equity portfolio — that is by design. Rebalance annually.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- READING RESEARCH PAPERS -->
+<section class="research" id="research">
+  <div class="container">
+    <div class="section-label">Research Skills</div>
+    <h2 class="section-title">How to Read an Equity Research Report</h2>
+    <p class="section-sub">Firms like Kalkine Group, Goldman Sachs, Morningstar, and JP Morgan publish analyst reports that contain a goldmine of information — if you know how to extract it.</p>
+
+    <div class="research-steps">
+
+      <div class="rstep">
+        <div class="rstep-num">1</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Start with the Rating and Price Target — Then Be Sceptical</div>
+          <div class="rstep-text">Every Kalkine-style report opens with a recommendation (Buy / Hold / Sell / Speculative Buy) and a 12-month price target. Read this first, then set it aside. Your goal is to understand the logic behind it, not to blindly follow it. Analyst conflicts of interest are real — sell-side analysts rarely issue Sell ratings because their banks want to maintain corporate relationships.</div>
+          <div class="rstep-box">
+            What to note: Rating · Current price · Price target · Implied upside % · Report date<br>
+            Red flag: Price target within 5% of current price despite a "Buy" rating<br>
+            Pro tip: Check the analyst's historical accuracy — many research platforms track this
+          </div>
+        </div>
+      </div>
+
+      <div class="rstep">
+        <div class="rstep-num">2</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Extract the Core Investment Thesis (2–3 Sentences)</div>
+          <div class="rstep-text">A good research report will state clearly WHY the stock should be bought or avoided. Look for the analyst's key reasons: is it a valuation argument (stock is cheap relative to peers), a catalyst argument (upcoming FDA approval, contract win), or a turnaround argument (cost cutting improving margins)? If you can't state the thesis in 2–3 sentences, the report hasn't made a convincing argument.</div>
+          <div class="rstep-box">
+            Questions to answer: What is the company? Why is it mispriced? What's the catalyst? What's the timeline?<br>
+            Watch for: Vague language like "well-positioned" without specifics — this is analyst filler<br>
+            Example thesis: "Kalkine rates XYZ a Buy because trading at 8x EV/EBITDA vs 14x sector average, with margin expansion driven by new automation capex completing in Q2"
+          </div>
+        </div>
+      </div>
+
+      <div class="rstep">
+        <div class="rstep-num">3</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Interrogate the Financial Model & Key Assumptions</div>
+          <div class="rstep-text">The financial projections are the heart of the report. Look at 3–5 year revenue growth assumptions, EBITDA margin expansion, and free cash flow projections. Every report makes assumptions — your job is to identify the most critical ones and stress-test them. If revenue grows 15% instead of the projected 25%, does the investment thesis still work? Build a simple sensitivity table.</div>
+          <div class="rstep-box">
+            Key metrics to extract: Revenue CAGR · EBITDA margin (current vs projected) · FCF yield · Net debt trajectory · CapEx requirements<br>
+            Critical assumptions to question: Revenue growth rate · Margin expansion pace · Discount rate / WACC · Terminal growth rate (in DCF)<br>
+            Bull/base/bear case: Good reports provide 3 scenarios. Read all three — the bear case shows you the downside risk.
+          </div>
+        </div>
+      </div>
+
+      <div class="rstep">
+        <div class="rstep-num">4</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Analyse the Valuation Methodology</div>
+          <div class="rstep-text">How did the analyst arrive at the price target? Common methods: DCF (discounted cash flow), EV/EBITDA multiple, P/E multiple, Sum-of-the-Parts (SOTP), or dividend discount model. Each method has different inputs and weaknesses. Multiple valuation methods converging on a similar number gives more confidence. If only one method is used, be suspicious.</div>
+          <div class="rstep-box">
+            DCF: Check the WACC and terminal growth rate — small changes = huge price target swings<br>
+            Comps / multiples: Is the peer group cherry-picked to support the thesis?<br>
+            SOTP: Used for conglomerates — does the discount or premium to the sum make sense?<br>
+            Rule of thumb: If the implied upside &gt;50%, either it's a great opportunity or the assumptions are heroic
+          </div>
+        </div>
+      </div>
+
+      <div class="rstep">
+        <div class="rstep-num">5</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Read the Risks Section — This Is the Most Honest Part</div>
+          <div class="rstep-text">Analysts must disclose risks, and while they tend to bury them at the back, this section often contains the most realistic analysis. Categorise risks: Execution risk (can management deliver?), Market risk (macro headwinds), Regulatory risk (policy changes), Financial risk (debt levels, covenants), Competition risk. Rank which risk is most likely to derail the thesis.</div>
+          <div class="rstep-box">
+            Key risk categories: Execution · Competition · Macro/Rates · Regulatory · Debt/Liquidity · Valuation contraction<br>
+            Ask: If the #1 risk materialises, what happens to the stock? What's the downside?<br>
+            Dalio principle: The bear case must not be ruinous. Position size accordingly.
+          </div>
+        </div>
+      </div>
+
+      <div class="rstep">
+        <div class="rstep-num">6</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Cross-Reference with Primary Sources</div>
+          <div class="rstep-text">Never make an investment decision based solely on a third-party research report. Use the report as a starting point, then verify with primary sources: the company's latest annual report (10-K/20-F), earnings call transcripts, investor day presentations, and SEC filings. Check if management guidance matches what the analyst is projecting. Read competitor filings to validate market share claims.</div>
+          <div class="rstep-box">
+            Primary sources to always check: Annual Report / 20-F / 10-K · Earnings call transcripts (seeking Alpha, Motley Fool) · Investor Day slides · 13F filings (what institutions own) · SEC EDGAR filings<br>
+            Free databases: EDGAR (SEC), ASIC (Australia), Companies House (UK), SEDAR (Canada)<br>
+            Kalkine reports often reference ASX-listed companies — verify on ASX announcements platform
+          </div>
+        </div>
+      </div>
+
+      <div class="rstep">
+        <div class="rstep-num">7</div>
+        <div class="rstep-content">
+          <div class="rstep-title">Form Your Own Independent View</div>
+          <div class="rstep-text">After reading the report and doing your own research, do you agree with the recommendation? Why or why not? Write this down. If you agree, what would have to be true for you to be wrong? If you disagree, what does the analyst know that you don't? Great investors read research to gather data and perspectives — but they always form independent conclusions.</div>
+          <div class="rstep-box">
+            Your investment memo should cover: Do I agree with the thesis? Why/why not? · What am I paying for growth? · What's my margin of safety? · What's my entry price and exit price? · What would change my mind?
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- KALKINE REPORT ANATOMY -->
+<section class="kalkine" id="kalkine">
+  <div class="container">
+    <div class="section-label">Kalkine-Style Reports</div>
+    <h2 class="section-title">Anatomy of an Equity Research Report</h2>
+    <p class="section-sub">Kalkine Group produces research on ASX, TSX, NYSE, and LSE-listed companies. Here's what every section means and what to look for.</p>
+
+    <table class="kalkine-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>What It Contains</th>
+          <th>What to Look For</th>
+          <th>Quality Signal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Executive Summary</strong></td>
+          <td>Rating, price target, 1-paragraph thesis, key catalysts</td>
+          <td>Specific catalysts with timelines, not vague optimism</td>
+          <td><span class="badge green">Read First</span></td>
+        </tr>
+        <tr>
+          <td><strong>Business Overview</strong></td>
+          <td>Company description, business model, revenue segments, geographies</td>
+          <td>Revenue diversification, customer concentration, recurring vs one-time revenue</td>
+          <td><span class="badge blue">Context</span></td>
+        </tr>
+        <tr>
+          <td><strong>Industry Analysis</strong></td>
+          <td>TAM, market growth rate, competitive landscape, regulatory environment</td>
+          <td>Is the industry growing or contracting? Who are the real competitors?</td>
+          <td><span class="badge blue">Context</span></td>
+        </tr>
+        <tr>
+          <td><strong>Financial Performance</strong></td>
+          <td>Historical P&L, revenue growth trend, margin trajectory, cash generation</td>
+          <td>Revenue quality, margin direction, FCF vs EBITDA gap (capex intensity)</td>
+          <td><span class="badge gold">Critical</span></td>
+        </tr>
+        <tr>
+          <td><strong>Financial Projections</strong></td>
+          <td>3–5 year forecasts for revenue, EBITDA, EPS, FCF</td>
+          <td>Are growth assumptions realistic vs history? What drives the margin expansion?</td>
+          <td><span class="badge gold">Critical</span></td>
+        </tr>
+        <tr>
+          <td><strong>Valuation</strong></td>
+          <td>DCF model, comparable company analysis, price target derivation</td>
+          <td>WACC, terminal growth rate, peer group selection, methodology used</td>
+          <td><span class="badge gold">Critical</span></td>
+        </tr>
+        <tr>
+          <td><strong>Key Catalysts</strong></td>
+          <td>Upcoming events that could re-rate the stock: earnings, contracts, product launches</td>
+          <td>Specific dates and quantifiable impact, not just "positive developments expected"</td>
+          <td><span class="badge green">Actionable</span></td>
+        </tr>
+        <tr>
+          <td><strong>Risk Factors</strong></td>
+          <td>Company-specific and macro risks to the investment thesis</td>
+          <td>Materiality of each risk, which risk kills the thesis if it occurs</td>
+          <td><span class="badge red">Must Read</span></td>
+        </tr>
+        <tr>
+          <td><strong>Technical Analysis</strong></td>
+          <td>Chart patterns, support/resistance, momentum indicators</td>
+          <td>Entry/exit timing signals — useful but secondary to fundamentals</td>
+          <td><span class="badge blue">Supplementary</span></td>
+        </tr>
+        <tr>
+          <td><strong>Disclosures</strong></td>
+          <td>Analyst conflicts, compensation disclosures, methodology disclaimers</td>
+          <td>Does the firm own shares? Are they compensated by the company?</td>
+          <td><span class="badge red">Must Read</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DUE DILIGENCE CHECKLIST -->
+<section class="research" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-label">Before You Invest</div>
+    <h2 class="section-title">The Professional Due Diligence Checklist</h2>
+    <p class="section-sub">Run every potential investment through this checklist before committing capital. Used by professional analysts at top funds.</p>
+
+    <div class="checklist-grid">
+      <div class="checklist-card">
+        <div class="checklist-card-title">📊 Financial Health</div>
+        <ul class="checklist-items">
+          <li><span class="check">✓</span>Revenue growing consistently over 3+ years?</li>
+          <li><span class="check">✓</span>Gross margins stable or expanding?</li>
+          <li><span class="check">✓</span>Free cash flow positive and growing?</li>
+          <li><span class="check">✓</span>Debt/EBITDA below 3x (non-financial companies)?</li>
+          <li><span class="check">✓</span>Interest coverage ratio above 3x?</li>
+          <li><span class="check">✓</span>No major working capital deterioration?</li>
+          <li><span class="check">✓</span>Accounts receivable growing slower than revenue?</li>
+          <li><span class="check">✓</span>Auditor is a reputable firm (Big 4 preferred)?</li>
+        </ul>
+      </div>
+      <div class="checklist-card">
+        <div class="checklist-card-title">🏆 Competitive Position</div>
+        <ul class="checklist-items">
+          <li><span class="check">✓</span>Clear economic moat identified (network, brand, costs, patents)?</li>
+          <li><span class="check">✓</span>Market share stable or growing?</li>
+          <li><span class="check">✓</span>Pricing power (can they raise prices without losing customers)?</li>
+          <li><span class="check">✓</span>Not solely dependent on one customer (&lt;20% concentration)?</li>
+          <li><span class="check">✓</span>Technology or product not easily replicable?</li>
+          <li><span class="check">✓</span>Industry growing or at least stable?</li>
+        </ul>
+      </div>
+      <div class="checklist-card">
+        <div class="checklist-card-title">👔 Management Quality</div>
+        <ul class="checklist-items">
+          <li><span class="check">✓</span>Management has significant insider ownership (&gt;5%)?</li>
+          <li><span class="check">✓</span>No history of dilutive capital raises without returns?</li>
+          <li><span class="check">✓</span>CEO/CFO tenure &gt;3 years?</li>
+          <li><span class="check">✓</span>Executive pay aligned with performance (not fixed salary)?</li>
+          <li><span class="check">✓</span>No recent insider selling in large amounts?</li>
+          <li><span class="check">✓</span>Guidance has been met or exceeded historically?</li>
+        </ul>
+      </div>
+      <div class="checklist-card">
+        <div class="checklist-card-title">💲 Valuation</div>
+        <ul class="checklist-items">
+          <li><span class="check">✓</span>Trading below historical average multiple?</li>
+          <li><span class="check">✓</span>Discount to comparable companies justified?</li>
+          <li><span class="check">✓</span>FCF yield &gt;4% (for value investors)?</li>
+          <li><span class="check">✓</span>PEG ratio below 1.0 for growth stocks?</li>
+          <li><span class="check">✓</span>Margin of safety of at least 20–30% in DCF?</li>
+          <li><span class="check">✓</span>Bull/base/bear case all reviewed?</li>
+          <li><span class="check">✓</span>You understand what could go wrong?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section class="glossary" id="glossary">
+  <div class="container">
+    <div class="section-label">Key Terms</div>
+    <h2 class="section-title">The Investor's Glossary</h2>
+    <p class="section-sub">Master these terms and you'll understand 95% of any financial conversation, report, or media coverage.</p>
+    <div class="glossary-grid">
+      <div class="gterm"><div class="gterm-word">AUM</div><div class="gterm-def">Assets Under Management — the total market value of assets a firm or investor manages. The primary size metric for funds.</div></div>
+      <div class="gterm"><div class="gterm-word">Alpha</div><div class="gterm-def">Return above the market benchmark after adjusting for risk. A fund with 5% alpha returned 5% more than explained by market exposure.</div></div>
+      <div class="gterm"><div class="gterm-word">Beta</div><div class="gterm-def">Sensitivity to market movements. Beta of 1.5 means the stock moves 1.5× the market. Higher beta = higher risk and return potential.</div></div>
+      <div class="gterm"><div class="gterm-word">EBITDA</div><div class="gterm-def">Earnings Before Interest, Taxes, Depreciation & Amortisation. A proxy for operating cash flow, used for valuation comparisons.</div></div>
+      <div class="gterm"><div class="gterm-word">EV / Enterprise Value</div><div class="gterm-def">Market cap + net debt. The total takeover cost of a business. Used in EV/EBITDA and EV/Revenue multiples.</div></div>
+      <div class="gterm"><div class="gterm-word">DCF</div><div class="gterm-def">Discounted Cash Flow. A valuation method that projects future cash flows and discounts them back to present value using WACC.</div></div>
+      <div class="gterm"><div class="gterm-word">WACC</div><div class="gterm-def">Weighted Average Cost of Capital. The blended cost of debt and equity used as the discount rate in DCF models.</div></div>
+      <div class="gterm"><div class="gterm-word">FCF</div><div class="gterm-def">Free Cash Flow = Operating Cash Flow minus Capital Expenditure. The actual cash the business generates after maintaining/growing assets.</div></div>
+      <div class="gterm"><div class="gterm-word">P/E Ratio</div><div class="gterm-def">Price-to-Earnings. Share price divided by EPS. Tells you how many years of earnings you're paying. Context-dependent by sector.</div></div>
+      <div class="gterm"><div class="gterm-word">Sharpe Ratio</div><div class="gterm-def">Return per unit of risk (standard deviation). A Sharpe of 1.0 is good, 2.0+ is excellent. Compares managers on risk-adjusted basis.</div></div>
+      <div class="gterm"><div class="gterm-word">Short Selling</div><div class="gterm-def">Borrowing shares and selling them, hoping to buy back cheaper later. Profits if the stock falls. Unlimited downside risk.</div></div>
+      <div class="gterm"><div class="gterm-word">Moat</div><div class="gterm-def">Buffett's term for a durable competitive advantage that protects a company from competition over the long term.</div></div>
+      <div class="gterm"><div class="gterm-word">GP / LP</div><div class="gterm-def">General Partner (fund manager, runs the fund) and Limited Partner (investor in the fund). The core legal structure of most funds.</div></div>
+      <div class="gterm"><div class="gterm-word">2 and 20</div><div class="gterm-def">Standard hedge fund fee: 2% annual management fee on AUM + 20% of profits. Often negotiated down for large investors.</div></div>
+      <div class="gterm"><div class="gterm-word">High-Water Mark</div><div class="gterm-def">The fund's previous peak NAV. The manager only earns performance fees on new profits above this level, protecting investors.</div></div>
+      <div class="gterm"><div class="gterm-word">NAV</div><div class="gterm-def">Net Asset Value. Total assets minus liabilities, divided by units/shares outstanding. The fund's per-unit price.</div></div>
+      <div class="gterm"><div class="gterm-word">Drawdown</div><div class="gterm-def">Peak-to-trough decline. A 20% drawdown means the portfolio fell 20% from its high. Maximum drawdown is the worst historical decline.</div></div>
+      <div class="gterm"><div class="gterm-word">13F Filing</div><div class="gterm-def">US SEC quarterly disclosure of institutional equity holdings. Lets you see what Buffett, Dalio, Ackman etc are buying and selling.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap" id="roadmap">
+  <div class="container">
+    <div class="section-label">The Journey</div>
+    <h2 class="section-title">Your 5-Year Roadmap to Investment Firm</h2>
+    <p class="section-sub">A realistic timeline for building from personal investor to running institutional capital.</p>
+
+    <div class="rm-items">
+      <div class="rm-item active">
+        <div class="rm-dot">📚</div>
+        <div class="rm-year">Year 0–1</div>
+        <div class="rm-label">Foundation</div>
+        <div class="rm-sub">Learn Phase 1–2. Invest personal capital. Start a paper portfolio. Read 5 books.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot">📈</div>
+        <div class="rm-year">Year 1–2</div>
+        <div class="rm-label">Track Record</div>
+        <div class="rm-sub">Real capital deployed. Written investment theses. Journal every decision. Phase 3 complete.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot">🤝</div>
+        <div class="rm-year">Year 2–3</div>
+        <div class="rm-label">First Capital</div>
+        <div class="rm-sub">Manage friends & family money. Set up legal structure. 2-year audited returns. Complete Phase 4.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot">🏛️</div>
+        <div class="rm-year">Year 3–4</div>
+        <div class="rm-label">Launch Fund</div>
+        <div class="rm-sub">$2–10M AUM. PPM, LP agreements. Prime broker. First analyst hire. Phase 5 in action.</div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot">🌐</div>
+        <div class="rm-year">Year 5+</div>
+        <div class="rm-label">Scale</div>
+        <div class="rm-sub">$50M+ AUM. Institutional LPs. Full team. Apply to emerging manager programs.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem; padding:2rem; background:var(--card); border:1px solid var(--border); border-radius:12px;">
+      <div style="font-family:var(--display); font-size:1.4rem; font-weight:600; margin-bottom:.75rem;">📚 Essential Reading List</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:.6rem;">
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">The Intelligent Investor</strong> — Benjamin Graham (the bible)</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">Principles</strong> — Ray Dalio (mindset + macro)</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">One Up on Wall Street</strong> — Peter Lynch (stock picking)</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">The Little Book That Beats the Market</strong> — Joel Greenblatt</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">You Can Be a Stock Market Genius</strong> — Joel Greenblatt</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">The Big Short</strong> — Michael Lewis (credit crisis anatomy)</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.05);">📖 <strong style="color:var(--text)">Thinking, Fast and Slow</strong> — Daniel Kahneman</div>
+        <div style="font-size:.84rem; color:var(--muted); padding:.4rem 0;">📖 <strong style="color:var(--text)">The Most Important Thing</strong> — Howard Marks (risk)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="container">
+    <div class="section-label">Test Yourself</div>
+    <h2 class="section-title" style="text-align:center;">Investor Knowledge Quiz</h2>
+    <p class="section-sub" style="text-align:center; margin:0 auto 2rem;">10 questions covering everything from basics to fund management.</p>
+
+    <div class="quiz-card">
+      <div class="quiz-counter" id="quiz-counter">Question 1 of 10</div>
+      <div class="quiz-q" id="quiz-q"></div>
+      <div class="quiz-opts" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+      <div class="quiz-nav">
+        <div style="font-family:var(--mono); font-size:.78rem; color:var(--accent)" id="quiz-score">Score: 0 / 0</div>
+        <button class="btn-primary" id="quiz-next" onclick="nextQuestion()" style="display:none;">Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final-cta">
+  <h2>Your Investing Journey Starts <em style="font-style:italic; color:var(--accent)">Today</em></h2>
+  <p>Every billionaire investor started with a single trade, a single book, a single lesson. The best time to start was 10 years ago. The second best time is now.</p>
+  <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+    <button class="btn-primary" onclick="document.getElementById('curriculum').scrollIntoView({behavior:'smooth'})">Back to Phase 1 →</button>
+    <button class="btn-ghost" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Take the Quiz</button>
+  </div>
+</section>
+
+<footer style="background:var(--bg); border-top:1px solid var(--border); padding:2rem; text-align:center; color:var(--muted); font-size:.8rem;">
+  <p>StudyCoach Academy · Investing Track · For educational purposes only. Not financial advice.</p>
+  <p style="margin-top:.4rem; font-family:var(--mono); font-size:.72rem;">Always conduct your own research. Past performance is not indicative of future results.</p>
+</footer>
+
+<script>
+// Phase toggle
+function togglePhase(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.phase').forEach(p => p.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+
+// Quiz data
+const questions = [
+  {
+    q: "What is 'alpha' in the context of investing?",
+    opts: ["The first letter of the Greek alphabet", "Returns above the market benchmark after adjusting for risk", "The fee charged by hedge fund managers", "The risk-free rate of return"],
+    correct: 1,
+    explain: "Correct! Alpha measures excess return beyond what market exposure (beta) would predict. Generating consistent alpha is the goal of active fund management — and it's very difficult."
+  },
+  {
+    q: "Ray Dalio's 'Holy Grail of Investing' refers to finding...",
+    opts: ["The perfect stock to buy and hold forever", "15+ uncorrelated return streams to reduce risk without sacrificing return", "A company with a dominant economic moat", "The right time to buy at market bottoms"],
+    correct: 1,
+    explain: "Exactly right. Dalio discovered that combining 15+ uncorrelated return streams can reduce portfolio risk by ~80% without reducing expected returns. This is the foundation of Bridgewater's All Weather strategy."
+  },
+  {
+    q: "In a Kalkine equity research report, which section should you ALWAYS read despite it being at the back?",
+    opts: ["Business Overview", "Technical Analysis", "Risk Factors", "Executive Summary"],
+    correct: 2,
+    explain: "The Risk Factors section is often the most honest part of any research report. It reveals what could go wrong with the investment thesis. Analysts must disclose key risks, making this section critical reading."
+  },
+  {
+    q: "What is 'Enterprise Value' (EV)?",
+    opts: ["The same as market capitalisation", "Market cap plus net debt — the total cost to acquire a business", "Annual revenue multiplied by a sector multiple", "The book value of all company assets"],
+    correct: 1,
+    explain: "EV = Market Cap + Total Debt − Cash. It represents what it would actually cost you to buy the whole company, including taking on its debt. Used in EV/EBITDA and EV/Revenue valuation multiples."
+  },
+  {
+    q: "What is the 'High-Water Mark' in a hedge fund context?",
+    opts: ["The maximum drawdown a fund has experienced", "The fund's highest-ever NAV — performance fees only apply to profits above this level", "The minimum AUM required to launch a fund", "The maximum leverage a fund can employ"],
+    correct: 1,
+    explain: "The High-Water Mark protects investors. If a fund drops 20% then recovers 20%, the manager earns zero performance fee on the recovery — they must surpass the previous peak first."
+  },
+  {
+    q: "Ray Dalio's All Weather Portfolio allocates the LARGEST portion (40%) to which asset class?",
+    opts: ["Stocks", "Gold and Commodities", "Long-term Treasury Bonds", "Cash"],
+    correct: 2,
+    explain: "Long-term bonds get 40% allocation because they provide the strongest risk offset to equities during economic slowdowns. Remember: the portfolio balances RISK, not dollars — bonds are much less volatile than stocks, so a larger allocation is needed to balance the risk contribution."
+  },
+  {
+    q: "Which metric best represents the actual cash a business generates after maintaining its assets?",
+    opts: ["EBITDA", "Net Income", "Free Cash Flow (FCF)", "Gross Profit"],
+    correct: 2,
+    explain: "Free Cash Flow = Operating Cash Flow minus Capital Expenditure. It's the cash a company actually generates after spending to maintain and grow its physical assets. FCF is harder to manipulate than earnings and is often called 'the most honest metric.'"
+  },
+  {
+    q: "What is the minimum 13F filing threshold in the US, and what does it disclose?",
+    opts: ["$100M in AUM — discloses all long equity positions quarterly", "$1M in AUM — discloses all trades daily", "$50M in AUM — discloses short positions only", "$500M in AUM — discloses all derivatives"],
+    correct: 0,
+    explain: "Any institutional investment manager with $100M+ in AUM must file a 13F with the SEC within 45 days of each quarter end, disclosing all long equity positions. This lets retail investors see what Buffett, Dalio, Ackman, and others are buying."
+  },
+  {
+    q: "In a DCF valuation, what happens to the stock's calculated intrinsic value if the WACC (discount rate) increases significantly?",
+    opts: ["Intrinsic value increases significantly", "Intrinsic value stays the same", "Intrinsic value decreases significantly", "Only the terminal value changes"],
+    correct: 2,
+    explain: "Higher WACC = lower present value of future cash flows = lower intrinsic value. This is why rising interest rates hurt growth stock valuations so dramatically — their value is concentrated in distant future cash flows, which are discounted more heavily at higher rates."
+  },
+  {
+    q: "To raise capital from institutional investors (endowments, pension funds), which combination is typically required?",
+    opts: ["A great idea and a compelling pitch deck", "A 3-year audited track record, $100M+ AUM, GIPS compliance, and robust operations", "CFA designation and a prime brokerage account", "At least $10M in personal net worth"],
+    correct: 1,
+    explain: "Institutional investors have strict due diligence requirements. They typically require: 3+ years of audited, GIPS-compliant performance, $100M+ AUM to justify the operational due diligence cost, robust back-office infrastructure, proper legal structure, and comprehensive DDQ documentation."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('quiz-counter').textContent = `Question ${current + 1} of ${questions.length}`;
+  document.getElementById('quiz-q').textContent = q.q;
+  document.getElementById('quiz-score').textContent = `Score: ${score} / ${current}`;
+  const optsEl = document.getElementById('quiz-opts');
+  optsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i);
+    optsEl.appendChild(btn);
+  });
+  const fb = document.getElementById('quiz-feedback');
+  fb.className = 'quiz-feedback';
+  fb.textContent = '';
+  document.getElementById('quiz-next').style.display = 'none';
+  answered = false;
+}
+
+function selectAnswer(i) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((btn, idx) => {
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === i) btn.classList.add('wrong');
+    btn.onclick = null;
+  });
+  const fb = document.getElementById('quiz-feedback');
+  if (i === q.correct) {
+    score++;
+    fb.className = 'quiz-feedback ok show';
+    fb.textContent = '✓ ' + q.explain;
+  } else {
+    fb.className = 'quiz-feedback bad show';
+    fb.textContent = '✗ ' + q.explain;
+  }
+  document.getElementById('quiz-score').textContent = `Score: ${score} / ${current + 1}`;
+  if (current < questions.length - 1) {
+    document.getElementById('quiz-next').style.display = 'block';
+  } else {
+    const btn = document.getElementById('quiz-next');
+    btn.textContent = `Finish — ${score}/${questions.length}`;
+    btn.style.display = 'block';
+    btn.onclick = () => {
+      const pct = Math.round((score / questions.length) * 100);
+      document.querySelector('.quiz-card').innerHTML = `
+        <div style="text-align:center; padding:2rem 0;">
+          <div style="font-size:3rem; margin-bottom:1rem;">${pct >= 80 ? '🏆' : pct >= 60 ? '📈' : '📚'}</div>
+          <div style="font-family:var(--display); font-size:2.5rem; font-weight:700; color:var(--accent); margin-bottom:.5rem;">${score} / ${questions.length}</div>
+          <div style="font-size:1.1rem; margin-bottom:1rem;">${pct}% — ${pct >= 80 ? 'Exceptional. You think like a professional investor.' : pct >= 60 ? 'Solid foundation. Keep working through the curriculum.' : 'Great start. Return to Phase 1 and build your knowledge.'}</div>
+          <button class="btn-primary" onclick="current=0; score=0; renderQuestion(); this.closest('.quiz-card').querySelector('.quiz-nav') && null;" style="margin-top:1rem;" onclick="restartQuiz()">Retake Quiz</button>
+        </div>
+      `;
+    };
+  }
+}
+
+function nextQuestion() {
+  current++;
+  renderQuestion();
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  document.querySelector('.quiz-card').innerHTML = `
+    <div class="quiz-counter" id="quiz-counter"></div>
+    <div class="quiz-q" id="quiz-q"></div>
+    <div class="quiz-opts" id="quiz-opts"></div>
+    <div class="quiz-feedback" id="quiz-feedback"></div>
+    <div class="quiz-nav">
+      <div style="font-family:var(--mono); font-size:.78rem; color:var(--accent)" id="quiz-score">Score: 0 / 0</div>
+      <button class="btn-primary" id="quiz-next" onclick="nextQuestion()" style="display:none;">Next →</button>
+    </div>
+  `;
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+<!-- ═══ STUDYCOACH AI ASSISTANT ═══ -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+#sc-assistant-btn{position:fixed;bottom:24px;right:24px;z-index:9000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;font-size:1.4rem}
+#sc-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(168,85,247,.7)}
+.sc-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#00d4a0;border-radius:50%;border:2px solid #070709}
+#sc-chat-panel{position:fixed;bottom:90px;right:24px;z-index:9000;width:360px;max-height:520px;background:#0e0e12;border:1px solid #1e1e2e;border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+#sc-chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.sc-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:#13131a;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.sc-hname{font-weight:600;font-size:.88rem;color:#e8e8f0}
+.sc-hstatus{font-size:.72rem;color:#00d4a0}
+.sc-close{background:none;border:none;color:#7a7a9a;cursor:pointer;font-size:1rem;padding:.2rem;line-height:1;margin-left:auto}
+.sc-close:hover{color:#e8e8f0}
+.sc-ctx{padding:.5rem 1rem;background:#070709;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-ctx-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:.25rem .7rem;font-size:.72rem;color:#a855f7;font-family:'DM Mono',monospace}
+.sc-msgs{flex:1;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.sc-msgs::-webkit-scrollbar{width:4px}.sc-msgs::-webkit-scrollbar-thumb{background:#1e1e2e;border-radius:2px}
+.sc-m{max-width:85%;display:flex;flex-direction:column;gap:.2rem}
+.sc-m.u{align-self:flex-end;align-items:flex-end}.sc-m.a{align-self:flex-start;align-items:flex-start}
+.sc-b{padding:.6rem .85rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.sc-m.u .sc-b{background:linear-gradient(135deg,#a855f7,#7c4dff);color:#fff;border-radius:12px 12px 2px 12px}
+.sc-m.a .sc-b{background:#13131a;color:#e8e8f0;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px}
+.sc-t{font-size:.65rem;color:#7a7a9a;font-family:'DM Mono',monospace}
+.sc-typing{display:flex;gap:.3rem;padding:.6rem .85rem;background:#13131a;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px;width:fit-content}
+.sc-typing span{width:6px;height:6px;border-radius:50%;background:#a855f7;animation:scB 1.2s infinite}
+.sc-typing span:nth-child(2){animation-delay:.2s}.sc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes scB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.sc-sugg{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;flex-shrink:0;border-top:1px solid #1e1e2e}
+.sc-s{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2);border-radius:20px;padding:.3rem .75rem;font-size:.75rem;color:#4f8cff;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sc-s:hover{background:rgba(79,140,255,.18)}
+.sc-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid #1e1e2e;flex-shrink:0;background:#13131a}
+.sc-in{flex:1;background:#0e0e12;border:1px solid #1e1e2e;border-radius:8px;padding:.55rem .85rem;color:#e8e8f0;font-size:.84rem;font-family:'DM Sans',sans-serif;resize:none;outline:none;transition:border-color .2s;min-height:36px;max-height:100px;line-height:1.4}
+.sc-in::placeholder{color:#7a7a9a}.sc-in:focus{border-color:#a855f7}
+.sc-send{background:#a855f7;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.sc-send:hover{opacity:.85}.sc-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:480px){#sc-chat-panel{width:calc(100vw - 20px);right:10px;bottom:80px}#sc-assistant-btn{right:16px;bottom:16px}}
+</style>
+<button id="sc-assistant-btn" onclick="scToggle()" title="Ask your AI tutor">🎓<div class="sc-badge"></div></button>
+<div id="sc-chat-panel">
+  <div class="sc-header"><div class="sc-avatar">🎓</div><div><div class="sc-hname">StudyCoach AI</div><div class="sc-hstatus">● Online</div></div><button class="sc-close" onclick="scToggle()">✕</button></div>
+  <div class="sc-ctx"><div class="sc-ctx-pill" id="sc-pill">📚 Investor's Academy</div></div>
+  <div class="sc-msgs" id="sc-msgs"><div class="sc-m a"><div class="sc-b">Hi! I'm your AI tutor 👋 Ask me anything about the course — concepts, examples, or quiz help!</div><div class="sc-t">Now</div></div></div>
+  <div class="sc-sugg" id="sc-sugg"><button class="sc-s" onclick="scSug(this)">Explain this simply</button><button class="sc-s" onclick="scSug(this)">Real-world example</button><button class="sc-s" onclick="scSug(this)">Quiz me</button></div>
+  <div class="sc-row"><textarea class="sc-in" id="sc-in" placeholder="Ask anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();scSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea><button class="sc-send" id="sc-btn" onclick="scSend()">↑</button></div>
+</div>
+<script>
+(function(){
+  let open=false,hist=[],busy=false;
+  const sys=`You are a friendly expert tutor for StudyCoach Academy, an investment education platform. Answer questions clearly as a knowledgeable friend — use real examples, keep responses concise (2-4 sentences for simple questions), and make learning enjoyable. Current lesson context: the student is studying investing and financial markets. Never give personal investment advice — keep it educational.`;
+  window.scToggle=function(){open=!open;document.getElementById('sc-chat-panel').classList.toggle('open',open);if(open){const ey=document.querySelector('.lesson-eyebrow');if(ey)document.getElementById('sc-pill').textContent='📚 '+ey.textContent.trim();document.getElementById('sc-in').focus();}};
+  window.scSug=function(b){document.getElementById('sc-in').value=b.textContent;document.getElementById('sc-sugg').style.display='none';scSend();};
+  window.scSend=async function(){
+    const inp=document.getElementById('sc-in'),txt=inp.value.trim();
+    if(!txt||busy)return;
+    inp.value='';inp.style.height='auto';
+    document.getElementById('sc-sugg').style.display='none';
+    scMsg('u',txt);hist.push({role:'user',content:txt});
+    busy=true;document.getElementById('sc-btn').disabled=true;
+    const msgs=document.getElementById('sc-msgs');
+    const typ=document.createElement('div');typ.className='sc-m a';
+    typ.innerHTML='<div class="sc-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typ);msgs.scrollTop=msgs.scrollHeight;
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist})});
+      const d=await r.json();typ.remove();
+      const reply=d.content?.[0]?.text||'Sorry, try again!';
+      scMsg('a',reply);hist.push({role:'assistant',content:reply});
+      if(hist.length>20)hist=hist.slice(-16);
+    }catch(e){typ.remove();scMsg('a','Connection issue — please try again.');}
+    busy=false;document.getElementById('sc-btn').disabled=false;document.getElementById('sc-in').focus();
+  };
+  function scMsg(role,text){
+    const c=document.getElementById('sc-msgs'),now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');el.className='sc-m '+role;
+    const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,.15);padding:.1rem .3rem;border-radius:3px;font-size:.8em">$1</code>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    el.innerHTML=`<div class="sc-b">${fmt}</div><div class="sc-t">${now}</div>`;
+    c.appendChild(el);c.scrollTop=c.scrollHeight;
+  }
+})();
+</script>
+
+</body>
+</html>

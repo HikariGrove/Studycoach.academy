@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/><meta name="theme-color" content="#070709"/>
+<style>html,body{background:#070709 !important}</style>
+<title>Phase 4 — Hedge Fund Strategies · Investor's Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070709;--surface:#0e0e12;--card:#13131a;--border:#1e1e2e;--accent:#a855f7;--accent2:#4f8cff;--accent3:#e8c97a;--danger:#ff4d6d;--text:#e8e8f0;--muted:#b0b0c8;--display:'Cormorant Garamond',serif;--mono:'DM Mono',monospace;--body:'DM Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#070709 !important;color-scheme:dark}
+body{background:#070709 !important;color:#e8e8f0 !important;font-family:var(--body);font-size:15px;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.4)}50%{box-shadow:0 0 0 8px rgba(168,85,247,0)}}
+.ticker-wrap{overflow:hidden;background:#060608;border-bottom:1px solid var(--border);padding:.38rem 0;position:sticky;top:60px;z-index:400}
+.ticker-track{display:flex;gap:2.5rem;width:max-content;animation:ticker 36s linear infinite;font-family:var(--mono);font-size:.73rem}
+.tick-item{white-space:nowrap;color:var(--muted)}.tick-up{color:var(--accent)}.tick-dn{color:var(--danger)}
+nav{position:sticky;top:0;z-index:500;background:rgba(7,7,9,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.82rem;transition:color .2s}.nav-back:hover{color:var(--accent)}
+.nav-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--accent)}
+.nav-progress{display:flex;align-items:center;gap:.75rem}
+.progress-bar{width:140px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#d084ff);border-radius:2px;transition:width .5s ease}
+.progress-lbl{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#0e0e12;border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:82px;height:calc(100vh - 82px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.4rem;margin-top:.5rem}
+.sb-item{display:flex;align-items:center;gap:.7rem;padding:.6rem 1.4rem;cursor:pointer;transition:all .2s;border-left:2px solid transparent;font-size:.86rem;color:var(--muted)}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sb-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(168,85,247,.06)}
+.sb-item.done{color:var(--accent3)}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.sb-item.active .sb-dot{background:var(--accent);animation:pulse 2s infinite}
+.sb-item.done .sb-dot{background:var(--accent3)}
+.main{padding:3rem 3rem 6rem;max-width:820px;background:#070709}
+.lesson-hero{margin-bottom:3rem;animation:fadeUp .6s ease both}
+.lesson-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+.lesson-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.08;margin-bottom:1rem}
+.lesson-title em{font-style:italic;background:linear-gradient(135deg,var(--accent) 0%,#d084ff 50%,var(--accent) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+.lesson-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.lmeta{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.lesson-intro{font-size:1.05rem;color:var(--muted);line-height:1.75;border-left:3px solid var(--accent);padding-left:1.25rem}
+.lesson-section{margin:2.5rem 0}
+.ls-heading{font-family:var(--display);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--text)}
+.ls-body{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+.def{border-bottom:1px dashed var(--accent3);color:var(--accent3);cursor:pointer;transition:all .2s}
+.def:hover{background:rgba(232,201,122,.1);border-radius:2px}
+.dict-popup{position:fixed;z-index:8000;background:var(--card);border:1px solid var(--accent3);border-radius:10px;padding:1rem 1.2rem;max-width:310px;box-shadow:0 8px 40px rgba(0,0,0,.7);animation:popIn .2s ease both;display:none}
+.dict-popup.visible{display:block}
+.dict-word{font-family:var(--mono);font-size:.75rem;color:var(--accent3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.dict-def{font-size:.84rem;color:var(--text);line-height:1.6}
+.dict-close{position:absolute;top:.5rem;right:.7rem;color:var(--muted);cursor:pointer;font-size:.9rem}.dict-close:hover{color:var(--text)}
+.dict-example{margin-top:.6rem;font-size:.78rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:.5rem}
+#dict-overlay{position:fixed;inset:0;z-index:7999;display:none}#dict-overlay.visible{display:block}
+.callout{border-radius:10px;padding:1.1rem 1.3rem;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-title{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.callout.gold{background:rgba(232,201,122,.08);border:1px solid rgba(232,201,122,.2)}.callout.gold .callout-title{color:var(--accent3)}
+.callout.purple{background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2)}.callout.purple .callout-title{color:var(--accent)}
+.callout.blue{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)}.callout.blue .callout-title{color:var(--accent2)}
+.callout.green{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2)}.callout.green .callout-title{color:#00d4a0}
+.callout.red{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2)}.callout.red .callout-title{color:var(--danger)}
+.callout p{color:var(--muted)}
+.case-study{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);border-radius:0 0 10px 10px;padding:1.5rem;margin:2rem 0}
+.cs-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.cs-icon{font-size:1.5rem}.cs-meta{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.cs-title{font-weight:600;font-size:1rem;margin-top:.15rem}
+.cs-body{font-size:.87rem;color:var(--muted);line-height:1.8}
+.cs-stat{display:inline-block;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:6px;padding:.3rem .7rem;font-family:var(--mono);font-size:.78rem;color:var(--accent);margin:.2rem .2rem 0 0}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.chart-title{font-family:var(--mono);font-size:.73rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1.25rem}
+.bar-chart{display:flex;flex-direction:column;gap:.7rem}
+.bar-row{display:grid;grid-template-columns:130px 1fr 80px;gap:.75rem;align-items:center;font-size:.82rem}
+.bar-label{color:var(--muted);text-align:right;font-size:.78rem}
+.bar-track{height:26px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.6rem;font-size:.72rem;font-family:var(--mono);color:rgba(0,0,0,.85);font-weight:600;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.bar-val{font-family:var(--mono);font-size:.78rem;color:var(--text);text-align:right}
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.data-table th{padding:.55rem .85rem;background:rgba(255,255,255,.04);border:1px solid var(--border);font-weight:500;color:var(--muted);font-family:var(--mono);font-size:.7rem;text-align:left;text-transform:uppercase;letter-spacing:.06em}
+.data-table td{padding:.6rem .85rem;border:1px solid rgba(255,255,255,.05);color:var(--muted);vertical-align:top}
+.data-table td:first-child{color:var(--text);font-weight:500}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table tr.hl td{color:var(--accent);background:rgba(168,85,247,.05)}
+.pull-quote{border-left:3px solid var(--accent3);padding:1rem 1.5rem;margin:2rem 0;font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--text);line-height:1.6}
+.pull-quote cite{display:block;margin-top:.5rem;font-family:var(--body);font-style:normal;font-size:.78rem;color:var(--muted)}
+.takeaways{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin:2rem 0}
+.takeaways-title{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.75rem}
+.takeaways ul{list-style:none}
+.takeaways ul li{padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.86rem;color:var(--muted);display:flex;gap:.6rem;align-items:flex-start}
+.takeaways ul li:last-child{border-bottom:none}
+.takeaways ul li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:.05rem}
+.kcheck{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin:2.5rem 0}
+.kcheck-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.kcheck-icon{font-size:1.3rem}.kcheck-title{font-weight:600}.kcheck-sub{font-size:.8rem;color:var(--muted);margin-top:.1rem}
+.kq{margin-bottom:1.5rem}.kq-text{font-size:.9rem;font-weight:500;margin-bottom:.7rem}
+.kq-opts{display:flex;flex-direction:column;gap:.45rem}
+.kq-opt{padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.84rem;color:var(--muted);background:var(--card);transition:all .2s;text-align:left;width:100%}
+.kq-opt:hover:not(.locked){border-color:var(--accent);color:var(--text)}
+.kq-opt.correct{border-color:var(--accent);background:rgba(168,85,247,.1);color:var(--accent)}
+.kq-opt.wrong{border-color:var(--danger);background:rgba(255,77,109,.1);color:var(--danger)}
+.kq-opt.locked{cursor:default}
+.kq-feedback{font-size:.82rem;margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;display:none}
+.kq-feedback.show{display:block}
+.kq-feedback.ok{background:rgba(168,85,247,.1);color:var(--accent);border:1px solid rgba(168,85,247,.2)}
+.kq-feedback.bad{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.2)}
+.kcheck-result{display:none;margin-top:1rem;padding:.9rem 1rem;border-radius:8px;font-weight:600;text-align:center;font-size:.9rem}
+.kcheck-result.show{display:block}
+.kcheck-result.pass{background:rgba(168,85,247,.1);color:var(--accent);border:1px solid rgba(168,85,247,.25)}
+.kcheck-result.fail{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.25)}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.btn-lnav{padding:.7rem 1.4rem;border-radius:6px;font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-prev{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-prev:hover{border-color:var(--accent);color:var(--accent)}
+.btn-next{background:var(--accent);border:none;color:#fff;font-weight:600}.btn-next:hover{opacity:.88;transform:translateY(-1px)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.lnav-mid{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:center}
+.lesson-panel{display:none;animation:fadeUp .5s ease both}.lesson-panel.active{display:block}
+.waterfall{display:flex;flex-direction:column;gap:.35rem;margin-top:1rem}
+.wf-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;border-radius:6px;font-size:.84rem}
+.wf-label{font-weight:500}
+.wf-pct{font-family:var(--mono);font-size:.8rem}
+@media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:1.5rem 1.2rem 5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <a class="nav-back" href="investing-course.html">← Course Home</a>
+    <div style="width:1px;height:20px;background:var(--border)"></div>
+    <div class="nav-title">Phase 4 — Hedge Fund Strategies</div>
+  </div>
+  <div class="nav-progress">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:12%"></div></div>
+    <div class="progress-lbl" id="prog-lbl">1 / 8 lessons</div>
+  </div>
+</nav>
+<div class="ticker-wrap"><div class="ticker-track">
+  <span class="tick-item">HF INDUSTRY AUM <span class="tick-up">$4.3T</span></span>
+  <span class="tick-item">LONG/SHORT YTD <span class="tick-up">▲ 12.4%</span></span>
+  <span class="tick-item">GLOBAL MACRO YTD <span class="tick-up">▲ 8.7%</span></span>
+  <span class="tick-item">EVENT-DRIVEN YTD <span class="tick-up">▲ 9.1%</span></span>
+  <span class="tick-item">DISTRESSED YTD <span class="tick-up">▲ 11.2%</span></span>
+  <span class="tick-item">QUANT/SYSTEMATIC <span class="tick-up">▲ 14.8%</span></span>
+  <span class="tick-item">HF FEES: 2% + 20% PERF</span>
+  <span class="tick-item">MEDALLION GROSS 30YR <span class="tick-up">~66%/YR</span></span>
+  <span class="tick-item">CITADEL ALL-TIME PROFIT <span class="tick-up">$74B</span></span>
+  <span class="tick-item">HF INDUSTRY AUM <span class="tick-up">$4.3T</span></span>
+  <span class="tick-item">LONG/SHORT YTD <span class="tick-up">▲ 12.4%</span></span>
+</div></div>
+<div id="dict-overlay"></div>
+<div class="dict-popup" id="dict-popup">
+  <div class="dict-close" id="dict-close">✕</div>
+  <div class="dict-word" id="dict-word"></div>
+  <div class="dict-def" id="dict-def"></div>
+  <div class="dict-example" id="dict-example"></div>
+</div>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-label">Phase 4 Lessons</div>
+  <div class="sb-item active" onclick="goLesson(0)"><div class="sb-dot"></div>1. Long/Short Equity</div>
+  <div class="sb-item" onclick="goLesson(1)"><div class="sb-dot"></div>2. Global Macro</div>
+  <div class="sb-item" onclick="goLesson(2)"><div class="sb-dot"></div>3. Event-Driven Investing</div>
+  <div class="sb-item" onclick="goLesson(3)"><div class="sb-dot"></div>4. Quantitative Strategies</div>
+  <div class="sb-item" onclick="goLesson(4)"><div class="sb-dot"></div>5. Fixed Income Arbitrage</div>
+  <div class="sb-item" onclick="goLesson(5)"><div class="sb-dot"></div>6. Distressed Debt</div>
+  <div class="sb-item" onclick="goLesson(6)"><div class="sb-dot"></div>7. Multi-Strategy Funds</div>
+  <div class="sb-item" onclick="goLesson(7)"><div class="sb-dot"></div>8. Evaluating Hedge Funds</div>
+  <div class="sb-label" style="margin-top:1rem">All Phases</div>
+  <div class="sb-item" onclick="window.location='phase1-chapter.html'"><div class="sb-dot" style="background:var(--accent3)"></div>Phase 1 — Basics</div>
+  <div class="sb-item" onclick="window.location='phase2-chapter.html'"><div class="sb-dot" style="background:var(--accent2)"></div>Phase 2 — Analysis</div>
+  <div class="sb-item" onclick="window.location='phase3-chapter.html'"><div class="sb-dot" style="background:#00d4a0"></div>Phase 3 — Portfolios</div>
+  <div class="sb-item" style="color:var(--accent);border-left:2px solid var(--accent);background:rgba(168,85,247,.06)"><div class="sb-dot" style="background:var(--accent)"></div>← Phase 4 (here)</div>
+  <div class="sb-item" onclick="window.location='phase5-chapter.html'"><div class="sb-dot" style="background:#f59e0b"></div>Phase 5 — Launch a Fund</div>
+  <div class="sb-item" onclick="window.location='investing-course.html'"><div class="sb-dot" style="background:#555"></div>↩ Course Home</div>
+</aside>
+<main class="main">
+
+<!-- ═══ L1: LONG/SHORT EQUITY ═══ -->
+<div class="lesson-panel active" id="lesson-0">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 1 of 8</div>
+    <h1 class="lesson-title">Long/Short Equity: <em>The Original Hedge Fund</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min</span><span class="lmeta">📊 L/S mechanics</span><span class="lmeta">🧠 Quiz included</span><span class="lmeta">💡 Tap gold words</span></div>
+    <p class="lesson-intro">Alfred Winslow Jones created the first hedge fund in 1949 by combining long positions in stocks he liked with short positions in stocks he disliked — reducing market exposure while extracting returns from stock selection on both sides. This strategy still manages more capital than any other hedge fund approach today.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Core Mechanics</h2>
+    <p class="ls-body">A long/short equity fund buys stocks expected to rise (long positions) and simultaneously <span class="def" data-word="Short Selling" data-def="Borrowing shares from a broker, selling them immediately, then buying them back later at a lower price to return to the lender — profiting from the price decline. Short sellers profit when stocks fall." data-ex="Example: You believe Company X at £100 is overvalued at £60 fair value. Borrow 1,000 shares and sell for £100,000. Stock falls to £60. Buy back 1,000 shares for £60,000, return to lender. Profit: £40,000 minus borrowing costs (typically 1–3%/yr for easy-to-borrow stocks).">short sells</span> stocks expected to fall. The fund's <span class="def" data-word="Net Market Exposure" data-def="Long exposure minus short exposure as a % of capital. Controls how much overall market direction affects portfolio returns. Low net exposure means returns are driven primarily by stock selection skill, not market direction." data-ex="Example: Fund is 80% long / 40% short = 40% net long. If market rises 10%, the fund gains roughly 4% from market exposure before any stock selection effects. A market neutral fund (0% net) is unaffected by market direction.">net market exposure</span> controls how much overall market direction affects returns. The insight: by reducing net exposure, the fund makes money primarily from the spread between long and short performance — skill, not luck.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">⚖️ Net vs Gross Exposure — How They Work</div>
+      <table class="data-table">
+        <thead><tr><th>Exposure Type</th><th>Formula</th><th>Example</th><th>What It Means</th></tr></thead>
+        <tbody>
+          <tr><td>Gross Exposure</td><td>Longs + Shorts</td><td>80% + 40% = 120%</td><td>Total risk deployed — a measure of leverage</td></tr>
+          <tr><td>Net Long Exposure</td><td>Longs − Shorts</td><td>80% − 40% = 40%</td><td>How much the fund benefits/loses from market moves</td></tr>
+          <tr class="hl"><td>Market Neutral</td><td>Net ≈ 0%</td><td>50% L / 50% S</td><td>Returns driven purely by stock selection — no market beta</td></tr>
+          <tr><td>Net Short</td><td>Shorts > Longs</td><td>30% L / 60% S = −30%</td><td>Profits when markets fall — rare, tactical positioning</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Making Money on Both Sides</h2>
+    <p class="ls-body">The most powerful aspect of long/short is double-alpha: if you buy a stock rising 20% and short a stock falling 20%, in a flat market you've generated 40% gross return from stock selection alone. This is why top long/short managers can deliver exceptional risk-adjusted returns even in flat or falling markets — they don't need the market's help.</p>
+    <div class="callout purple">
+      <div class="callout-title">💡 The 2+20 Fee Structure</div>
+      <p>Most hedge funds charge 2% annual management fee + 20% of profits above a <span class="def" data-word="High Water Mark" data-def="The highest net asset value a fund has previously reached. Performance fees only apply to NEW profits above this level — investors must be made whole before the manager earns performance fees again. Protects investors from paying fees twice on the same profit." data-ex="Example: Fund rises from £100 to £120 → manager earns 20% of £20 profit = £4. Fund falls to £90 → no performance fee. Fund rises back to £120 → no performance fee (not above previous high). Fund rises to £130 → manager earns 20% of £10 = £2.">high water mark</span>. On a £100M fund returning 10%: £2M management fee + £2M performance fee = £4M to manager. Investor keeps £6M of the £10M earned. Over decades, 2+20 is a significant drag on net investor returns — which is why hedge fund selection matters enormously.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🐯</div><div><div class="cs-meta">Case Study · Tiger Management — The Greatest Long/Short Fund</div><div class="cs-title">Julian Robertson's 18-Year Machine</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Julian Robertson founded Tiger Management in 1980 with $8 million. By 1998, assets reached $22 billion, delivering approximately 25% annual net returns over 18 years — one of the greatest records in hedge fund history. His approach: pure long/short stock selection, with deep fundamental research on both sides.</p>
+        <p style="margin-bottom:.75rem">Robertson famously said: "We try to own the best 20 companies in the world and short the 20 worst." His process produced the "Tiger Cubs" — analysts who trained under him and went on to found some of the most successful funds globally: Lone Pine, Coatue, Viking Global, and dozens more.</p>
+        <p>Tiger closed in 2000 after dot-com shorts caused losses — the market remained irrational longer than Robertson maintained conviction. His shorts were fundamentally correct; timing was wrong. A permanent lesson: even the greatest managers are vulnerable to extended irrational market behaviour on short positions.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Founding AUM: $8M</span><span class="cs-stat">Peak AUM: $22B</span><span class="cs-stat">Net return: ~25%/yr over 18 years</span><span class="cs-stat">Tiger Cubs: 100+ successor funds</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 1</div>
+    <ul>
+      <li>Long/short equity buys expected winners and shorts expected losers — generating alpha from both sides simultaneously.</li>
+      <li>Net exposure (longs minus shorts) controls market sensitivity — lower net means returns are driven by stock selection, not market direction.</li>
+      <li>Market neutral (0% net) generates returns purely from stock selection regardless of whether markets rise or fall.</li>
+      <li>2+20 fees: investors keep only 60% of a 10% gross return year — fee drag compounds significantly over time.</li>
+      <li>Tiger Management: 25%/yr for 18 years is the canonical long/short record — and a cautionary tale about short-selling timing risk.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-0">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 1</div><div class="kcheck-sub">3 questions · pass 2/3 to continue</div></div></div>
+    <div class="kq" id="kq-0-0">
+      <div class="kq-text">1. A hedge fund is 90% long and 50% short. Its net exposure is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,0,0,0)">A. 140% gross — this determines market sensitivity</button>
+        <button class="kq-opt" onclick="answerQ(0,0,1,1)">B. 40% net long — the fund benefits from rising markets but less than a fully long portfolio</button>
+        <button class="kq-opt" onclick="answerQ(0,0,2,0)">C. 50% net — the short book sets net exposure</button>
+        <button class="kq-opt" onclick="answerQ(0,0,3,0)">D. 90% net — the long book determines net exposure</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-0"></div>
+    </div>
+    <div class="kq" id="kq-0-1">
+      <div class="kq-text">2. In a 2+20 fee structure, a £100M fund earns 10% gross. The investor keeps:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,1,0,0)">A. £10M — the full 10% profit</button>
+        <button class="kq-opt" onclick="answerQ(0,1,1,1)">B. £6M — after £2M management fee and £2M performance fee (20% of £10M profit)</button>
+        <button class="kq-opt" onclick="answerQ(0,1,2,0)">C. £8M — only the 2% management fee applies in a positive year</button>
+        <button class="kq-opt" onclick="answerQ(0,1,3,0)">D. £9.8M — the 2% fee is the only charge</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-1"></div>
+    </div>
+    <div class="kq" id="kq-0-2">
+      <div class="kq-text">3. Tiger Management was correct that dot-com stocks were massively overvalued but still lost money on shorts. Why?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,2,0,0)">A. Robertson's fundamental analysis was wrong — the companies were fairly valued</button>
+        <button class="kq-opt" onclick="answerQ(0,2,1,1)">B. Markets can remain irrational longer than short sellers can sustain losses — correct thesis, wrong timing</button>
+        <button class="kq-opt" onclick="answerQ(0,2,2,0)">C. Short selling is illegal on US-listed technology stocks</button>
+        <button class="kq-opt" onclick="answerQ(0,2,3,0)">D. Tiger was forced to close by regulators before the thesis played out</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-0"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" disabled>← Previous</button>
+    <div class="lnav-mid" id="lnav-mid-0">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-0" disabled onclick="goLesson(1)">Lesson 2: Global Macro →</button>
+  </div>
+</div>
+
+<!-- ═══ L2: GLOBAL MACRO ═══ -->
+<div class="lesson-panel" id="lesson-1">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 2 of 8</div>
+    <h1 class="lesson-title">Global Macro: <em>Trading the World's Economies</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Macro trade framework</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Global macro funds make large directional bets on currencies, interest rates, commodities, and equity indices based on macroeconomic analysis. George Soros broke the Bank of England in a single day. Ray Dalio built the world's largest hedge fund on systematic macro principles.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Macro Toolkit</h2>
+    <p class="ls-body"><span class="def" data-word="Global Macro" data-def="A hedge fund strategy making large directional bets across currencies, interest rates, commodities, and equity markets based on macroeconomic analysis. Trades economies and asset classes rather than individual securities." data-ex="Example: A macro fund believes UK is heading into recession. It buys UK government bonds (rise when rates fall), shorts the British pound (weakens in recession), and shorts UK bank stocks — a coordinated macro trade across three asset classes expressing one economic view.">Global macro</span> trades differ fundamentally from stock-picking. The analysis focuses on GDP growth differentials, central bank policy, inflation dynamics, and geopolitical developments. The fund trades entire asset classes and countries, not individual companies.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🌍 Macro Trade Construction — Asset Classes and Instruments</div>
+      <table class="data-table">
+        <thead><tr><th>Asset Class</th><th>Instruments</th><th>Thesis Type</th><th>Example Trade</th></tr></thead>
+        <tbody>
+          <tr><td>Currencies (FX)</td><td>Spot, forwards, options</td><td>Rate differentials, growth divergence</td><td>Long USD/Short JPY if Fed hikes while BoJ holds</td></tr>
+          <tr><td>Interest Rates</td><td>Bond futures, swaps</td><td>Central bank cycles, inflation</td><td>Long US Treasuries before expected recession</td></tr>
+          <tr><td>Equity Indices</td><td>Index futures, ETFs</td><td>Economic cycle, country selection</td><td>Long India / Short China on growth divergence</td></tr>
+          <tr class="hl"><td>Commodities</td><td>Futures, ETFs</td><td>Supply/demand, inflation, geopolitics</td><td>Long oil if supply disruption + demand rising</td></tr>
+          <tr><td>Credit</td><td>CDS, bond spreads</td><td>Default risk, credit cycle</td><td>Short EM credit if dollar strengthening sharply</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">The Carry Trade</h2>
+    <p class="ls-body">The <span class="def" data-word="Carry Trade" data-def="Borrowing in a low-interest-rate currency and investing in a high-interest-rate currency to earn the differential. Profitable when exchange rates are stable but unwinds violently when global risk sentiment deteriorates — funding currencies (JPY, CHF) surge, causing large FX losses that overwhelm the interest gain." data-ex="Example: Borrow Japanese yen at 0.1%. Convert to Australian dollars. Invest in Australian bonds at 4.5%. Earn 4.4%/yr while AUD/JPY is stable. Risk: if JPY strengthens 10%, the FX loss is 10× larger than a year's interest income — the position loses catastrophically.">carry trade</span> is the most consistently profitable macro strategy over long periods — earning the interest rate differential between currencies. But it has catastrophic unwind risk: when global panic hits, all carry trades unwind simultaneously. The funding currency (typically JPY) surges, turning a year's worth of carry gains into a single-week disaster.</p>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">💷</div><div><div class="cs-meta">Case Study · George Soros — Breaking the Bank of England (1992)</div><div class="cs-title">The $1 Billion Single-Day Trade</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In 1992, the UK was a member of the European Exchange Rate Mechanism (ERM), requiring the pound to stay within a tight band against the Deutsche Mark. The problem: the UK needed low rates (deep recession) but the ERM required high rates to maintain the pound's peg. These two requirements were structurally incompatible.</p>
+        <p style="margin-bottom:.75rem">Soros's Quantum Fund identified this contradiction and built a £10 billion short position against the pound. On September 16, 1992 — "Black Wednesday" — despite the Bank of England spending $27 billion of reserves and raising UK interest rates to 15% in a single day, the pound was devalued and forced out of the ERM.</p>
+        <p>Soros made approximately $1 billion in one day through rigorous macro analysis of an unsustainable policy. The Bank of England's loss was his gain. This remains the canonical example of a macro trade: identify a structural policy inconsistency that market forces will inevitably resolve, build a large position, wait.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Short position: £10B</span><span class="cs-stat">Single-day profit: ~$1B</span><span class="cs-stat">BoE defence spending: $27B</span><span class="cs-stat">Result: UK forced out of ERM</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 2</div>
+    <ul>
+      <li>Global macro trades economies and asset classes — currencies, rates, commodities, indices — not individual stocks.</li>
+      <li>The carry trade earns the interest differential between currencies but unwinds violently in risk-off environments.</li>
+      <li>Soros 1992: identified an unsustainable policy commitment — UK ERM peg was incompatible with its recession — and profited when market forces overwhelmed the Bank of England.</li>
+      <li>The best macro trades identify structural inconsistencies that are inevitable — the question is when, not if.</li>
+      <li>Bridgewater ($150B+, world's largest HF) was built on systematic macro principles — Ray Dalio's All Weather is its risk parity implementation.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-1">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 2</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-1-0">
+      <div class="kq-text">1. A macro fund borrows Japanese yen at 0.1% and invests in Australian bonds yielding 4.5%. This is a:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,0,0,0)">A. Long/short equity trade — buying Australian stocks, shorting Japanese ones</button>
+        <button class="kq-opt" onclick="answerQ(1,0,1,1)">B. Carry trade — earning the 4.4% interest rate differential between two currencies</button>
+        <button class="kq-opt" onclick="answerQ(1,0,2,0)">C. Fixed income arbitrage — exploiting a mispricing between two equivalent bonds</button>
+        <button class="kq-opt" onclick="answerQ(1,0,3,0)">D. Distressed debt — Australian bonds are clearly in financial difficulty</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-0"></div>
+    </div>
+    <div class="kq" id="kq-1-1">
+      <div class="kq-text">2. Why was Soros's 1992 trade against sterling considered structurally inevitable rather than speculative?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,1,0,0)">A. Soros had inside information from Bank of England officials</button>
+        <button class="kq-opt" onclick="answerQ(1,1,1,1)">B. The UK's ERM commitment required high interest rates that were economically incompatible with its recession — a policy inconsistency market forces would inevitably resolve</button>
+        <button class="kq-opt" onclick="answerQ(1,1,2,0)">C. The Deutsche Mark was fundamentally undervalued versus sterling</button>
+        <button class="kq-opt" onclick="answerQ(1,1,3,0)">D. UK economic growth was outpacing Germany's significantly</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-1"></div>
+    </div>
+    <div class="kq" id="kq-1-2">
+      <div class="kq-text">3. The primary risk of carry trade positions is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,2,0,0)">A. The interest rate differential gradually narrowing over months</button>
+        <button class="kq-opt" onclick="answerQ(1,2,1,1)">B. A sudden risk-off event triggering simultaneous global unwinding — the funding currency surges violently, turning interest gains into large FX losses within days</button>
+        <button class="kq-opt" onclick="answerQ(1,2,2,0)">C. Central bank intervention to prevent the carry from working</button>
+        <button class="kq-opt" onclick="answerQ(1,2,3,0)">D. The target country defaulting on its government bonds</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-1"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(0)">← Lesson 1</button>
+    <div class="lnav-mid" id="lnav-mid-1">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-1" disabled onclick="goLesson(2)">Lesson 3: Event-Driven →</button>
+  </div>
+</div>
+
+<!-- ═══ L3: EVENT-DRIVEN ═══ -->
+<div class="lesson-panel" id="lesson-2">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 3 of 8</div>
+    <h1 class="lesson-title">Event-Driven Investing: <em>Profiting from Corporate Catalysts</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min</span><span class="lmeta">📊 Event type breakdown</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Event-driven strategies profit from specific corporate events — mergers, spinoffs, restructurings, bankruptcies, and activist campaigns. The edge comes from pricing complexity, institutional constraints, and time pressure that creates temporary but predictable mispricings.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Event-Driven Universe</h2>
+    <div class="chart-wrap">
+      <div class="chart-title">⚡ Event-Driven Sub-Strategies — Mechanics and Return Profile</div>
+      <table class="data-table">
+        <thead><tr><th>Strategy</th><th>How It Works</th><th>Expected Return</th><th>Primary Risk</th></tr></thead>
+        <tbody>
+          <tr><td>Merger Arbitrage</td><td>Buy target at discount to deal price; capture spread at close</td><td>4–8% annualised</td><td>Deal breaks → target falls 20–40%</td></tr>
+          <tr class="hl"><td>Activist Investing</td><td>Buy large stake; pressure management for value-creating changes</td><td>15–25% if successful</td><td>Management entrenches; changes rejected</td></tr>
+          <tr><td>Spinoff Arbitrage</td><td>Buy spinoff at mechanically suppressed price; hold for re-rating</td><td>15–25% in first year</td><td>Business quality worse than expected</td></tr>
+          <tr><td>Distressed/Bankruptcy</td><td>Buy debt/equity of troubled companies at deep discount</td><td>20–40% on winners</td><td>Full loss on liquidation</td></tr>
+          <tr><td>Capital Structure Arb</td><td>Exploit mispricing between different securities of same company</td><td>6–12% annualised</td><td>Mispricing widens before correcting</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Activist Investing — The Most Visible Strategy</h2>
+    <p class="ls-body"><span class="def" data-word="Activist Investing" data-def="Buying a significant stake (typically 5%+) in a company then publicly pressuring management to make value-creating changes — board changes, spinoffs, share buybacks, cost cuts, or outright sale. Activists use shareholder rights and public pressure as their primary leverage." data-ex="Example: Nelson Peltz of Trian Fund built a $1.5B stake in Procter & Gamble in 2017, demanded board representation and operational improvements, won a board seat, and P&G shares significantly outperformed over the following two years.">Activist investing</span> builds a large stake then writes public letters demanding strategic changes — CEO replacement, spinoffs, share buybacks, cost cuts, or a full sale of the company. The threat of proxy battles and public embarrassment is the primary leverage tool.</p>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">⚔️</div><div><div class="cs-meta">Case Study · Elliott Management vs Twitter</div><div class="cs-title">The Activist Playbook in Action</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">In 2020, Elliott Management (Paul Singer) built a $1B+ stake in Twitter and publicly demanded the replacement of CEO Jack Dorsey, arguing that running two public companies simultaneously (Twitter and Square) was a conflict damaging Twitter shareholders. Elliott launched a proxy fight threatening board replacement.</p>
+        <p style="margin-bottom:.75rem">Twitter's response: negotiate a settlement — four new board members added, $2B share buyback announced. Twitter stock rose ~25% in subsequent months. The activist playbook executed cleanly: identify fixable problem → buy large stake → demand specific changes → negotiate or fight for board representation → implement changes → exit at higher price.</p>
+        <p>The key insight about activism: activists don't create value by being smarter than management. They create value by changing incentives and accountability — making management answerable to shareholders rather than entrenched in their own comfort.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Elliott stake: $1B+</span><span class="cs-stat">Demand: replace CEO Dorsey</span><span class="cs-stat">Outcome: 4 new board seats + $2B buyback</span><span class="cs-stat">Stock: +25%</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 3</div>
+    <ul>
+      <li>Event-driven strategies exploit temporary mispricings created by mergers, spinoffs, bankruptcies, and activist campaigns.</li>
+      <li>Merger arbitrage: buy target at discount to deal price, earn spread at close. Deal break is the primary catastrophic risk.</li>
+      <li>Activists: build large stake, demand specific changes, use proxy threat as leverage to force management action.</li>
+      <li>Spinoffs: forced institutional selling creates prices below intrinsic value — patient investors capture the re-rating.</li>
+      <li>Elliott vs Twitter: the canonical modern activist campaign — specific demands, proxy threat, negotiated settlement, stock price gain.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-2">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 3</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-2-0">
+      <div class="kq-text">1. Company X announces acquisition of Company Y for £50/share. Y trades at £47. In merger arbitrage you:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,0,0,0)">A. Buy Company X shares — acquirers always benefit from deals</button>
+        <button class="kq-opt" onclick="answerQ(2,0,1,1)">B. Buy Company Y at £47 aiming to earn the £3 spread (6.4%) when the deal closes</button>
+        <button class="kq-opt" onclick="answerQ(2,0,2,0)">C. Short Company Y — deal prices always end up renegotiated lower</button>
+        <button class="kq-opt" onclick="answerQ(2,0,3,0)">D. Wait until the deal closes before taking any position</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-0"></div>
+    </div>
+    <div class="kq" id="kq-2-1">
+      <div class="kq-text">2. What is an activist's primary leverage tool when pressuring management?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,1,0,0)">A. Threatening to sell all shares and crash the stock price</button>
+        <button class="kq-opt" onclick="answerQ(2,1,1,1)">B. The threat of proxy battles for board seats combined with public embarrassment through open letters and media campaigns</button>
+        <button class="kq-opt" onclick="answerQ(2,1,2,0)">C. Filing personal lawsuits against board members individually</button>
+        <button class="kq-opt" onclick="answerQ(2,1,3,0)">D. Using share ownership to block all dividend payments</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-1"></div>
+    </div>
+    <div class="kq" id="kq-2-2">
+      <div class="kq-text">3. Why do spinoffs systematically create buying opportunities for event-driven investors?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,2,0,0)">A. Spinoff companies always have better management than their parent companies</button>
+        <button class="kq-opt" onclick="answerQ(2,2,1,0)">B. Accounting rules undervalue spinoffs during the separation process</button>
+        <button class="kq-opt" onclick="answerQ(2,2,2,1)">C. Institutional constraints force mechanical selling regardless of value — index funds and mandate-constrained funds dump shares creating prices below intrinsic value</button>
+        <button class="kq-opt" onclick="answerQ(2,2,3,0)">D. Parent companies deliberately undervalue spinoffs to benefit their employees</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-2"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(1)">← Lesson 2</button>
+    <div class="lnav-mid" id="lnav-mid-2">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-2" disabled onclick="goLesson(3)">Lesson 4: Quantitative Strategies →</button>
+  </div>
+</div>
+
+<!-- ═══ L4: QUANTITATIVE STRATEGIES ═══ -->
+<div class="lesson-panel" id="lesson-3">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 4 of 8</div>
+    <h1 class="lesson-title">Quantitative Strategies: <em>When Machines Beat Markets</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Quant approaches</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Quantitative hedge funds use mathematical models, statistical analysis, and automated execution to identify and exploit market patterns at a scale no human analyst can match. Renaissance Technologies' Medallion Fund — the greatest investment track record in history — is entirely quantitative.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Quant Spectrum</h2>
+    <p class="ls-body"><span class="def" data-word="Statistical Arbitrage (Stat Arb)" data-def="A quantitative strategy exploiting statistical relationships between historically correlated securities. When two correlated securities diverge from their historical relationship, buy the underperformer and short the outperformer, betting on reversion to the mean." data-ex="Example: Coca-Cola and Pepsi historically trade within a ratio of 1.2–1.4×. If Coke surges and the ratio widens to 1.8×, a stat arb fund shorts Coke and buys Pepsi, betting the ratio normalises — profiting when it does regardless of market direction.">Statistical arbitrage</span> is the classic quant approach. Modern quant funds extend this using machine learning on vast alternative datasets — satellite imagery of retail parking lots, credit card transaction flows, social media sentiment — to find patterns that traditional analysts cannot process.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🤖 Quantitative Strategy Types</div>
+      <table class="data-table">
+        <thead><tr><th>Strategy</th><th>How It Works</th><th>Time Horizon</th><th>Key Risk</th></tr></thead>
+        <tbody>
+          <tr><td>Statistical Arbitrage</td><td>Exploit historical price relationships between correlated pairs</td><td>Hours to days</td><td>Correlation breaks down in market stress</td></tr>
+          <tr><td>High-Frequency Trading</td><td>Exploit microsecond mispricings across venues</td><td>Microseconds</td><td>Regulatory risk, infrastructure arms race</td></tr>
+          <tr class="hl"><td>Trend Following (CTA)</td><td>Systematically follow price trends across asset classes</td><td>Weeks to months</td><td>Choppy sideways markets generate losses</td></tr>
+          <tr><td>Machine Learning Alpha</td><td>Non-linear pattern recognition in alternative data</td><td>Days to weeks</td><td>Overfitting, model decay, data quality</td></tr>
+          <tr><td>Market Making</td><td>Quote continuous bid/ask, earn the spread at scale</td><td>Seconds</td><td>Adverse selection when trading against informed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout purple">
+      <div class="callout-title">🔢 Medallion Fund vs Everything Else</div>
+      <p>Renaissance Technologies' Medallion Fund: ~66% gross / ~39% net annualised returns from 1988–2018. Warren Buffett: ~20% annualised. S&P 500: ~10% annualised. Soros Quantum Fund peak: ~32% annualised. Medallion's returns are so anomalous that academics consider it the strongest evidence that markets can be systematically exploited by those with sufficient mathematical sophistication — though the exact methods remain completely secret.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🔢</div><div><div class="cs-meta">Case Study · Jim Simons — The Man Who Solved the Market</div><div class="cs-title">How a Mathematician Generated the Greatest Track Record in History</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Jim Simons left academia in 1978 to apply mathematics to financial markets. His key insight: markets contain hidden statistical patterns that human psychology prevents most investors from exploiting consistently. He hired mathematicians, physicists, and computer scientists — deliberately avoiding finance professionals, whom he believed carried cognitive biases interfering with pure data-driven analysis.</p>
+        <p style="margin-bottom:.75rem">Renaissance processes terabytes of market data to identify thousands of tiny statistical edges. The fund makes approximately 300,000 trades per day. No single trade matters — the aggregate of thousands of tiny edges, properly sized, becomes extraordinary. Crucially, Simons had no views on individual companies — the model simply followed the mathematics wherever it led.</p>
+        <p>Simons became one of the wealthiest people in history not through building companies or picking stocks, but through applying rigorous mathematical pattern recognition to financial markets at scale. The Medallion Fund is now closed to outside investors — available only to Renaissance employees.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Medallion gross: ~66%/yr</span><span class="cs-stat">Period: 1988–2018</span><span class="cs-stat">~300,000 trades/day</span><span class="cs-stat">Now closed to outsiders</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 4</div>
+    <ul>
+      <li>Quant strategies identify and exploit statistical patterns in price, volume, and alternative data at scales beyond human capacity.</li>
+      <li>Stat arb: pairs historically correlated securities and profits when they temporarily diverge then revert to their relationship.</li>
+      <li>Trend following (CTA) works well in sustained directional markets; performs poorly in choppy sideways conditions.</li>
+      <li>Medallion Fund: ~66% gross annualised over 30 years — the greatest track record in investment history, entirely quantitative.</li>
+      <li>Primary quant risks: overfitting historical data, correlation breakdown in stress, strategies being arbitraged away as they become known.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-3">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 4</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-3-0">
+      <div class="kq-text">1. Coke and Pepsi normally trade at a 1.3× ratio. Coke surges and the ratio hits 1.8×. The stat arb trade is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,0,0,0)">A. Buy Coke — momentum suggests it will keep outperforming</button>
+        <button class="kq-opt" onclick="answerQ(3,0,1,1)">B. Short Coke / Buy Pepsi — bet the historical 1.3× ratio normalises</button>
+        <button class="kq-opt" onclick="answerQ(3,0,2,0)">C. Buy both — the whole sector is in an uptrend</button>
+        <button class="kq-opt" onclick="answerQ(3,0,3,0)">D. Short Pepsi — if Coke is strong, Pepsi must be relatively weak</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-0"></div>
+    </div>
+    <div class="kq" id="kq-3-1">
+      <div class="kq-text">2. Why did Jim Simons deliberately NOT hire finance professionals at Renaissance?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,1,0,0)">A. Finance professionals were too expensive relative to scientists</button>
+        <button class="kq-opt" onclick="answerQ(3,1,1,1)">B. He believed finance professionals carried cognitive biases that would interfere with pure mathematical pattern recognition — he wanted people who followed data, not conventional investment wisdom</button>
+        <button class="kq-opt" onclick="answerQ(3,1,2,0)">C. Mathematicians understand company fundamentals better than finance MBAs</button>
+        <button class="kq-opt" onclick="answerQ(3,1,3,0)">D. SEC regulations prevented hedge funds from hiring former bankers at the time</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-1"></div>
+    </div>
+    <div class="kq" id="kq-3-2">
+      <div class="kq-text">3. Trend following (CTA) strategies perform worst in which market environment?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,2,0,0)">A. Strong bull markets — CTAs are inherently short-biased</button>
+        <button class="kq-opt" onclick="answerQ(3,2,1,1)">B. Choppy, range-bound markets — trends reverse before positions can profit, generating consistent small losses</button>
+        <button class="kq-opt" onclick="answerQ(3,2,2,0)">C. Bear markets — trend followers cannot short equity markets</button>
+        <button class="kq-opt" onclick="answerQ(3,2,3,0)">D. Low volatility markets — CTAs require high volatility to function</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-3"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(2)">← Lesson 3</button>
+    <div class="lnav-mid" id="lnav-mid-3">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-3" disabled onclick="goLesson(4)">Lesson 5: Fixed Income Arb →</button>
+  </div>
+</div>
+
+<!-- ═══ L5: FIXED INCOME ARBITRAGE ═══ -->
+<div class="lesson-panel" id="lesson-4">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 5 of 8</div>
+    <h1 class="lesson-title">Fixed Income Arbitrage: <em>The Strategy That Nearly Broke the World</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min</span><span class="lmeta">📊 Arb mechanics</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Fixed income arbitrage exploits tiny yield discrepancies between related bonds. The spreads are so small that massive leverage is required to generate meaningful returns — creating a strategy that is quietly profitable for years, then catastrophically explosive when correlations break down, as LTCM discovered in 1998.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Mechanics of Bond Arbitrage</h2>
+    <p class="ls-body"><span class="def" data-word="Fixed Income Arbitrage" data-def="Exploiting yield discrepancies between related fixed income securities — bonds with similar characteristics that should trade at similar prices but don't. The spreads are tiny (0.03–0.5%), requiring 10–50× leverage to generate portfolio-level returns." data-ex="Example: A newly issued 10-year Treasury (on-the-run) yields 4.45%. An older 10-year Treasury from 6 months ago (off-the-run, same remaining maturity) yields 4.52%. The 0.07% difference represents a liquidity premium mispricing. Buy the off-the-run (higher yield = cheaper), short the on-the-run (lower yield = expensive), wait for convergence.">Fixed income arbitrage</span> exploits the fact that theoretically equivalent bonds sometimes trade at different prices — usually because one is more liquid than the other. The trade buys the cheap (less liquid) bond and shorts the expensive (more liquid) one, waiting for them to converge. The challenge: with spreads of 0.05–0.2%, a fund needs 20–40× leverage to generate a 2–4% annual return from the strategy.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📐 Fixed Income Arb Trade Types</div>
+      <table class="data-table">
+        <thead><tr><th>Trade Type</th><th>The Mispricing</th><th>The Trade</th><th>Typical Spread</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>On/Off-the-Run Treasury</td><td>New vs old same-maturity Treasury — liquidity premium</td><td>Buy illiquid old issue, short liquid new issue</td><td>0.03–0.10%</td></tr>
+          <tr><td>Swap Spread Arb</td><td>Interest rate swap vs Treasury yield diverge</td><td>Receive fixed in swap, short Treasury</td><td>0.05–0.20%</td></tr>
+          <tr><td>Covered Interest Parity</td><td>FX-hedged yields differ across countries</td><td>Buy higher-yielding bond, hedge currency risk</td><td>0.10–0.50%</td></tr>
+          <tr><td>Convertible Bond Arb</td><td>Convertible bond mispriced vs its components</td><td>Buy convertible, short the underlying stock</td><td>2–5% annualised</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">💥</div><div><div class="cs-meta">Case Study · LTCM — When Mathematical Certainty Met Market Reality</div><div class="cs-title">$4.6 Billion Lost, Global System Threatened</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Long-Term Capital Management was founded in 1994 by John Meriwether with Nobel laureates Myron Scholes and Robert Merton on its board. Its strategy: fixed income arbitrage — buying "cheap" bonds and shorting "expensive" equivalent bonds, betting on convergence. The trades were theoretically riskless. But they required 25:1 leverage to generate meaningful returns.</p>
+        <p style="margin-bottom:.75rem">By 1998, LTCM had $125 billion in assets and $1.25 trillion in off-balance-sheet derivatives positions. When Russia defaulted in August 1998, investors fled to the most liquid assets simultaneously — causing all illiquid spreads to widen at the same time. LTCM's models said these moves were statistically impossible. But they happened anyway, on all positions simultaneously.</p>
+        <p>The Fed orchestrated a $3.6 billion bank bailout to prevent LTCM's collapse triggering a global cascade. The permanent lessons: leverage amplifies small risks into existential ones; correlation assumptions break down precisely when you most need them to hold; and "statistically impossible" events occur with uncomfortable regularity in financial markets under stress.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Peak AUM: $125B</span><span class="cs-stat">Leverage: 25:1</span><span class="cs-stat">Off-balance sheet: $1.25T</span><span class="cs-stat">1998 losses: $4.6B</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 5</div>
+    <ul>
+      <li>Fixed income arb exploits tiny yield discrepancies between related bonds — requires 10–50× leverage to generate meaningful returns.</li>
+      <li>On/off-the-run Treasury arb: buy the illiquid older bond, short the new liquid one — earn the liquidity premium as they converge.</li>
+      <li>LTCM lesson: 25:1 leverage turned a Russian default into a $4.6B loss and near-systemic financial crisis.</li>
+      <li>"Statistically impossible" events happen regularly in financial markets — models systematically underestimate tail risk under stress.</li>
+      <li>The key arb risk: mispricings can widen substantially before converging — leverage causes forced losses before the trade is vindicated.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-4">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 5</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-4-0">
+      <div class="kq-text">1. Why does fixed income arbitrage require massive leverage when individual spreads are only 0.05–0.2%?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,0,0,0)">A. Bond markets require minimum position sizes of $1 billion</button>
+        <button class="kq-opt" onclick="answerQ(4,0,1,1)">B. A 0.05% unlevered spread generates 0.05% return — 20× leverage amplifies this to 1%, making the strategy economically viable as a fund</button>
+        <button class="kq-opt" onclick="answerQ(4,0,2,0)">C. Leverage reduces the regulatory capital requirement for bond positions</button>
+        <button class="kq-opt" onclick="answerQ(4,0,3,0)">D. Without leverage the arbitrage doesn't theoretically exist</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-0"></div>
+    </div>
+    <div class="kq" id="kq-4-1">
+      <div class="kq-text">2. What ultimately caused LTCM's catastrophic losses in 1998?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,1,0,0)">A. The Nobel laureates on its board made fundamental calculation errors in their models</button>
+        <button class="kq-opt" onclick="answerQ(4,1,1,1)">B. Russia's default triggered a global flight to liquidity — all illiquid positions widened simultaneously, and 25:1 leverage turned small moves into catastrophic losses</button>
+        <button class="kq-opt" onclick="answerQ(4,1,2,0)">C. The US government changed Treasury auction rules during the crisis</button>
+        <button class="kq-opt" onclick="answerQ(4,1,3,0)">D. LTCM's prime broker called their loans simultaneously</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-1"></div>
+    </div>
+    <div class="kq" id="kq-4-2">
+      <div class="kq-text">3. In on/off-the-run Treasury arbitrage, why is the off-the-run bond bought rather than the new on-the-run bond?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,2,0,0)">A. The new on-the-run Treasury is more expensive to borrow for shorting</button>
+        <button class="kq-opt" onclick="answerQ(4,2,1,1)">B. The off-the-run bond trades at a higher yield (lower price) due to its lower liquidity — creating a mispricing vs the economically equivalent new issue that should theoretically disappear as both approach maturity</button>
+        <button class="kq-opt" onclick="answerQ(4,2,2,0)">C. Off-the-run bonds are always issued at a discount to face value</button>
+        <button class="kq-opt" onclick="answerQ(4,2,3,0)">D. Fixed income arb only uses derivatives, not bonds directly</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-4"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(3)">← Lesson 4</button>
+    <div class="lnav-mid" id="lnav-mid-4">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-4" disabled onclick="goLesson(5)">Lesson 6: Distressed Debt →</button>
+  </div>
+</div>
+
+<!-- ═══ L6: DISTRESSED DEBT ═══ -->
+<div class="lesson-panel" id="lesson-5">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 6 of 8</div>
+    <h1 class="lesson-title">Distressed Debt: <em>Buying What Everyone Else Is Fleeing</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Bankruptcy waterfall</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Distressed debt investors buy the bonds or loans of companies in financial crisis — at massive discounts — betting on recovery through restructuring or bankruptcy. Howard Marks, Seth Klarman, and Paul Singer built extraordinary long-term records in this counterintuitive, emotionally demanding corner of markets.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Bankruptcy Priority Waterfall</h2>
+    <p class="ls-body"><span class="def" data-word="Distressed Debt" data-def="Bonds or loans of financially troubled companies trading at deep discounts to face value (typically below 70 cents) due to default risk or actual default. Distressed investors buy at these discounts hoping to recover more than they paid through bankruptcy proceedings, restructuring, or asset sales." data-ex="Example: A company issued $500M of bonds at $100 face value. Financial distress causes them to trade at $32. A distressed fund buys $100M face value for $32M. In bankruptcy, senior bondholders recover $58 cents. Fund makes $26M profit ($58M recovery − $32M cost) — an 81% return.">Distressed debt</span> investing requires deep expertise in bankruptcy law — specifically who gets paid first when a company's assets are distributed. The <span class="def" data-word="Priority Waterfall" data-def="The legally defined order in which creditors are paid in bankruptcy. Secured creditors first, then unsecured senior bondholders, then subordinated debt, then preferred equity, then common equity. Each tier only receives payment after the tier above is paid in full." data-ex="Example: Company has $200M in assets and $400M in claims. Secured lenders ($100M) get paid first — full recovery. Senior bonds ($150M) get $100M remaining — 67 cents on the dollar. Subordinated bonds get nothing. Equity gets nothing.">priority waterfall</span> determines recovery rates at each level of the capital structure.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">⚖️ Bankruptcy Waterfall — Recovery Rates by Capital Structure Level</div>
+      <div class="waterfall">
+        <div class="wf-row" style="background:rgba(0,212,160,.1);border:1px solid rgba(0,212,160,.25)">
+          <span class="wf-label" style="color:#00d4a0">1. Secured Loans (First Lien)</span>
+          <span class="wf-pct" style="color:#00d4a0">70–100% recovery — first claim on assets</span>
+        </div>
+        <div class="wf-row" style="background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)">
+          <span class="wf-label" style="color:var(--accent2)">2. Senior Secured Bonds (Second Lien)</span>
+          <span class="wf-pct" style="color:var(--accent2)">50–80% recovery</span>
+        </div>
+        <div class="wf-row" style="background:rgba(232,201,122,.08);border:1px solid rgba(232,201,122,.2)">
+          <span class="wf-label" style="color:var(--accent3)">3. Senior Unsecured Bonds</span>
+          <span class="wf-pct" style="color:var(--accent3)">30–60% recovery — depends on asset coverage</span>
+        </div>
+        <div class="wf-row" style="background:rgba(255,159,64,.08);border:1px solid rgba(255,159,64,.2)">
+          <span class="wf-label" style="color:#ff9f40">4. Subordinated / Junior Bonds</span>
+          <span class="wf-pct" style="color:#ff9f40">10–40% recovery — often receives equity in new company</span>
+        </div>
+        <div class="wf-row" style="background:rgba(255,77,109,.06);border:1px solid rgba(255,77,109,.15)">
+          <span class="wf-label" style="color:var(--danger)">5. Preferred + Common Equity</span>
+          <span class="wf-pct" style="color:var(--danger)">0–5% — almost always wiped out</span>
+        </div>
+      </div>
+      <p style="font-size:.75rem;color:var(--muted);margin-top:.85rem">↑ Distressed investors focus on the "fulcrum security" — the tranche at the value inflection point — senior enough to receive meaningful recovery, junior enough to trade at maximum discount. This is where the best risk/reward typically sits.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🦅</div><div><div class="cs-meta">Case Study · Howard Marks — Buying the 2008 Crisis</div><div class="cs-title">Oaktree's $11 Billion Bet on Maximum Fear</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Howard Marks co-founded Oaktree Capital Management in 1995, focused on distressed debt and high-yield bonds. His philosophy: markets move in predictable cycles of fear and greed, and maximum returns come from buying at maximum fear — when prices reflect panic, not fundamentals.</p>
+        <p style="margin-bottom:.75rem">During the 2008 financial crisis, while most investors were paralysed or fleeing, Marks raised $11 billion in new capital specifically to deploy into distressed assets — one of the largest distressed capital raises in history. He deployed into deeply discounted mortgages, bank debt, and corporate bonds at prices reflecting total despair. Oaktree's 2008 vintage funds delivered exceptional returns as prices recovered.</p>
+        <p>Marks' famous memo line: "The most dangerous thing in the world is to buy when everyone loves it." The corollary: the best time to buy is when everyone hates it and prices reflect maximum pessimism. Distressed investing is the most extreme application of this contrarian principle.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Oaktree AUM: $170B+</span><span class="cs-stat">2008 raise: $11B distressed</span><span class="cs-stat">Philosophy: buy maximum fear</span><span class="cs-stat">2008 vintage: top-performing funds</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 6</div>
+    <ul>
+      <li>Distressed debt: buy bonds of financially troubled companies at deep discounts, betting recovery exceeds purchase price.</li>
+      <li>The bankruptcy waterfall: secured lenders first → senior bonds → subordinated debt → preferred equity → common equity (usually zero).</li>
+      <li>The "fulcrum security" — the tranche at the value inflection point — typically offers the best risk/reward in distressed situations.</li>
+      <li>Oaktree raised $11B at peak 2008 fear and deployed into distressed assets — the most direct application of contrarian investing.</li>
+      <li>Howard Marks' principle: maximum fear creates maximum discount — and maximum forward returns for those with conviction and capital.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-5">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 6</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-5-0">
+      <div class="kq-text">1. In bankruptcy, which claimant almost always receives nothing?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,0,0,0)">A. Senior secured lenders — they bear the most ongoing business risk</button>
+        <button class="kq-opt" onclick="answerQ(5,0,1,0)">B. Senior unsecured bondholders — they have no collateral backing their claims</button>
+        <button class="kq-opt" onclick="answerQ(5,0,2,1)">C. Common equity holders — they are last in the waterfall and wiped out entirely in most bankruptcies</button>
+        <button class="kq-opt" onclick="answerQ(5,0,3,0)">D. Trade creditors — they are unsecured and deprioritised by courts</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-0"></div>
+    </div>
+    <div class="kq" id="kq-5-1">
+      <div class="kq-text">2. Howard Marks raised $11B for distressed investing during peak 2008 crisis. The contrarian logic was:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,1,0,0)">A. 2008 was a good time to buy equities because stocks were cheap</button>
+        <button class="kq-opt" onclick="answerQ(5,1,1,1)">B. Maximum panic forces selling regardless of value — distressed prices at peak fear reflect maximum pessimism, creating the best forward returns for buyers with conviction</button>
+        <button class="kq-opt" onclick="answerQ(5,1,2,0)">C. The government would bail out all distressed companies making investments risk-free</button>
+        <button class="kq-opt" onclick="answerQ(5,1,3,0)">D. Distressed debt is always safer than equities regardless of the economic cycle</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-1"></div>
+    </div>
+    <div class="kq" id="kq-5-2">
+      <div class="kq-text">3. The "fulcrum security" in a distressed capital structure refers to:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,2,0,0)">A. Always the senior secured loans — first claim means best investment</button>
+        <button class="kq-opt" onclick="answerQ(5,2,1,0)">B. Always the common equity — most distressed part of the structure</button>
+        <button class="kq-opt" onclick="answerQ(5,2,2,1)">C. The tranche at the enterprise value inflection point — senior enough for meaningful recovery, junior enough to trade at maximum discount — best risk/reward</button>
+        <button class="kq-opt" onclick="answerQ(5,2,3,0)">D. The most liquid bond regardless of its priority in the waterfall</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-5"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(4)">← Lesson 5</button>
+    <div class="lnav-mid" id="lnav-mid-5">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-5" disabled onclick="goLesson(6)">Lesson 7: Multi-Strategy →</button>
+  </div>
+</div>
+
+<!-- ═══ L7: MULTI-STRATEGY ═══ -->
+<div class="lesson-panel" id="lesson-6">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 7 of 8</div>
+    <h1 class="lesson-title">Multi-Strategy Funds: <em>The Platform Model</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 12 min</span><span class="lmeta">📊 Platform model explained</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Multi-strategy funds run several strategies simultaneously within a single fund structure. Citadel, Millennium Management, and Point72 are the dominant platforms — representing the most institutionalised, systematic, and capitalised approach to hedge fund management, and collectively managing hundreds of billions in assets.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">How the Platform Model Works</h2>
+    <p class="ls-body">The multi-strategy model organises around independent <span class="def" data-word="Portfolio Management Teams (PMs)" data-def="At a multi-strategy fund, individual portfolio managers each run an independent book (portfolio) within their area of expertise. Given a capital allocation and a risk budget (maximum loss permitted), PMs operate autonomously within these constraints. Central risk management aggregates all PM books." data-ex="Example: Citadel has hundreds of PM teams — some run long/short equity, others fixed income arb, others macro. Each PM runs a mini-fund within Citadel's infrastructure. If a PM breaches their drawdown limit, capital is immediately reallocated to better-performing teams.">portfolio management teams</span>. Each PM receives a capital allocation and a risk budget. If a PM's losses hit their limit, capital is immediately reallocated — no emotional attachment, pure meritocracy. Central risk management monitors all books in real-time, managing correlation and aggregate exposure at the fund level.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🏢 Multi-Strategy vs Single-Strategy — Key Differences</div>
+      <table class="data-table">
+        <thead><tr><th>Dimension</th><th>Single Strategy</th><th>Multi-Strategy Platform</th></tr></thead>
+        <tbody>
+          <tr><td>Return drivers</td><td>Single alpha source</td><td>Multiple uncorrelated alpha sources simultaneously</td></tr>
+          <tr><td>Drawdown risk</td><td>Exposed to one strategy's bad periods</td><td>Diversified — one strategy down, others support returns</td></tr>
+          <tr><td>Capital efficiency</td><td>Capital idle in low-opportunity periods</td><td>Capital dynamically reallocated to best current opportunity</td></tr>
+          <tr><td>Key person risk</td><td>Single CIO drives all decisions</td><td>Hundreds of specialised PMs — not dependent on one person</td></tr>
+          <tr class="hl"><td>Risk management</td><td>PM-level only</td><td>Centralised real-time across all books simultaneously</td></tr>
+          <tr><td>Fees</td><td>2+20 typically</td><td>3+30 or pass-through model — higher but often justified</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏰</div><div><div class="cs-meta">Case Study · Citadel — The $74 Billion Machine</div><div class="cs-title">Ken Griffin's Platform Model Dominance</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Ken Griffin founded Citadel in 1990 with $4.6 million, running convertible bond arbitrage from his Harvard dorm room. By 2023, Citadel had grown to over $60 billion in AUM and generated approximately $74 billion in cumulative net profits to investors — more than any other hedge fund in history. In 2022, when most funds struggled, Citadel returned 38% to investors.</p>
+        <p style="margin-bottom:.75rem">Citadel's model: hundreds of specialised PM teams, each running an independent book, with central risk management monitoring all positions in real-time. PMs who breach drawdown limits lose capital immediately — no exceptions. The culture is intensely meritocratic and demanding: "up or out" is standard.</p>
+        <p>The structural advantage of multi-strat: when equity markets were terrible in 2022, Citadel's macro and fixed income teams thrived. No single strategy's bad year destroyed overall performance. This diversification of alpha sources — not just diversification of securities — is what makes top multi-strat platforms so dominant.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Founded: 1990 with $4.6M</span><span class="cs-stat">2023 AUM: $60B+</span><span class="cs-stat">All-time net profits: $74B</span><span class="cs-stat">2022 return: +38%</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 7</div>
+    <ul>
+      <li>Multi-strat funds combine multiple uncorrelated alpha sources — when one strategy struggles, others compensate.</li>
+      <li>PM teams run independent books within shared infrastructure; capital dynamically reallocates to best opportunities.</li>
+      <li>Centralised real-time risk management across all PM books is the key operational differentiator of top platforms.</li>
+      <li>Citadel: $74B cumulative profits — highest of any hedge fund — built entirely on the multi-strategy platform model.</li>
+      <li>Multi-strat fees (3+30) are higher but often justified by superior consistency and lower drawdowns vs single-strategy funds.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-6">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 7</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-6-0">
+      <div class="kq-text">1. What happens at Citadel when a PM team breaches their drawdown limit?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,0,0,0)">A. The PM gets a warning and one month to recover the losses</button>
+        <button class="kq-opt" onclick="answerQ(6,0,1,1)">B. Capital is immediately reallocated away from the underperforming PM to better-performing teams — no exceptions</button>
+        <button class="kq-opt" onclick="answerQ(6,0,2,0)">C. The PM must personally cover losses from their own compensation</button>
+        <button class="kq-opt" onclick="answerQ(6,0,3,0)">D. The entire fund reduces risk across all PM books simultaneously</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-0"></div>
+    </div>
+    <div class="kq" id="kq-6-1">
+      <div class="kq-text">2. How did Citadel return +38% in 2022 while most funds struggled?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,1,0,0)">A. Citadel correctly predicted the 2022 market decline in advance and positioned accordingly</button>
+        <button class="kq-opt" onclick="answerQ(6,1,1,1)">B. Multiple strategy diversification — when equity strategies struggled, macro and fixed income teams thrived in the rate-rising environment, compensating overall</button>
+        <button class="kq-opt" onclick="answerQ(6,1,2,0)">C. Citadel uses significantly more leverage than other funds, amplifying returns</button>
+        <button class="kq-opt" onclick="answerQ(6,1,3,0)">D. Citadel only invests in commodities which performed well in 2022</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-1"></div>
+    </div>
+    <div class="kq" id="kq-6-2">
+      <div class="kq-text">3. The primary structural advantage of multi-strategy over single-strategy funds is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,2,0,0)">A. Lower fees — running multiple strategies costs less per strategy</button>
+        <button class="kq-opt" onclick="answerQ(6,2,1,0)">B. Better stock selection — more analysts means better fundamental research</button>
+        <button class="kq-opt" onclick="answerQ(6,2,2,1)">C. Diversification of alpha sources — multiple uncorrelated return streams mean no single strategy's bad year destroys overall performance</button>
+        <button class="kq-opt" onclick="answerQ(6,2,3,0)">D. Regulatory advantages — multi-strategy funds are less regulated than single-strategy</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-6"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(5)">← Lesson 6</button>
+    <div class="lnav-mid" id="lnav-mid-6">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-6" disabled onclick="goLesson(7)">Lesson 8: Evaluating Hedge Funds →</button>
+  </div>
+</div>
+
+<!-- ═══ L8: EVALUATING HEDGE FUNDS ═══ -->
+<div class="lesson-panel" id="lesson-7">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 4 · Lesson 8 of 8</div>
+    <h1 class="lesson-title">Evaluating Hedge Funds: <em>Separating Skill from Luck</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Due diligence framework</span><span class="lmeta">🧠 Final knowledge check</span></div>
+    <p class="lesson-intro">The hedge fund industry contains some of the most skilled investors in the world — and some of the most overrated. Knowing how to evaluate a fund before investing is essential. Most institutional investors spend 6–18 months on due diligence before committing capital. This lesson gives you the framework they use.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Due Diligence Framework</h2>
+    <p class="ls-body">Professional allocators evaluate hedge funds across four dimensions: Investment Process, Track Record Quality, Risk Management, and Operational Infrastructure. Any weakness in any dimension is a potential reason to pass — regardless of how good the other three look.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🔍 Hedge Fund Due Diligence — The Four Pillars</div>
+      <table class="data-table">
+        <thead><tr><th>Pillar</th><th>Key Questions</th><th>Green Flags</th><th>Red Flags</th></tr></thead>
+        <tbody>
+          <tr><td>Investment Process</td><td>Is the edge clearly articulable? Is it durable? Is there capacity?</td><td>Specific, testable edge; consistent with track record; reasonable AUM</td><td>Vague "we find good companies"; strategy can't explain performance attribution</td></tr>
+          <tr><td>Track Record</td><td>Long enough? Consistent? Risk-adjusted? Replicable?</td><td>5+ years; Sharpe >1.0; low drawdowns; consistent across market environments</td><td>Short track record; one great year; performance concentrated in single period</td></tr>
+          <tr class="hl"><td>Risk Management</td><td>Who runs risk? Independent of PM? What are the limits?</td><td>Independent risk team; real-time systems; hard drawdown stops enforced</td><td>PM also runs risk; no hard limits; "we use judgment" rather than systematic controls</td></tr>
+          <tr><td>Operations</td><td>Prime broker? Auditor? Administrator? Are assets truly segregated?</td><td>Tier 1 prime broker; Big 4 auditor; independent administrator; clear segregation</td><td>Unknown auditor; fund administrator is related party; unclear custody of assets</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">The Statistics That Actually Matter</h2>
+    <p class="ls-body">Most investors focus on absolute returns. Sophisticated allocators care about risk-adjusted metrics and how returns were generated.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📊 Key Metrics for Hedge Fund Evaluation</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Sharpe Ratio</div><div class="bar-track"><div class="bar-fill" style="width:80%;background:var(--accent)">Target: above 1.0. Exceptional: above 2.0</div></div><div class="bar-val" style="color:var(--accent)">≥ 1.0</div></div>
+        <div class="bar-row"><div class="bar-label">Max Drawdown</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:var(--accent2)">Target: below 15% for market neutral</div></div><div class="bar-val">< 15%</div></div>
+        <div class="bar-row"><div class="bar-label">Calmar Ratio</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:#80d4b0">Annual return / Max drawdown. Target: > 1.0</div></div><div class="bar-val">> 1.0</div></div>
+        <div class="bar-row"><div class="bar-label">Correlation to S&P</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:var(--accent3)">Target: low for genuine diversification</div></div><div class="bar-val">< 0.4</div></div>
+        <div class="bar-row"><div class="bar-label">Track Record Length</div><div class="bar-track"><div class="bar-fill" style="width:75%;background:#a855f7">Minimum 3 years; ideally 5+ across a full cycle</div></div><div class="bar-val">5+ yrs</div></div>
+      </div>
+    </div>
+    <h2 class="ls-heading">The Warning Signs That Should Stop You</h2>
+    <div class="callout red">
+      <div class="callout-title">🚨 Hedge Fund Red Flags — Walk Away From These</div>
+      <p><strong>1. Guaranteed returns or "consistent" monthly profits.</strong> No legitimate strategy produces perfectly smooth returns. Bernie Madoff reported almost perfectly consistent monthly gains for decades — they were fabricated.<br><br>
+      <strong>2. Auditor you've never heard of.</strong> Madoff used a 3-person auditing firm called Friehling & Horowitz. Any legitimate fund of significant size uses a Big 4 auditor.<br><br>
+      <strong>3. Proprietary prime brokerage or custody.</strong> If the fund also holds its own assets (instead of using an independent prime broker like Goldman or Morgan Stanley), the separation of fund assets from manager is compromised.<br><br>
+      <strong>4. "I can't explain the strategy fully — it's proprietary."</strong> Every legitimate fund can articulate their investment edge at a conceptual level without revealing specific trades. Opacity is not sophistication.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🚨</div><div><div class="cs-meta">Case Study · Bernie Madoff — The $65 Billion Fraud</div><div class="cs-title">How the Largest Ponzi Scheme in History Went Undetected for Decades</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Bernie Madoff ran what appeared to be a hedge fund delivering consistent 10–12% annual returns regardless of market conditions — through booms, crashes, and everything in between. Institutional investors, banks, and wealthy individuals gave him $65 billion. He was a former NASDAQ chairman. His returns were too consistent to be real, but nobody pushed back hard enough.</p>
+        <p style="margin-bottom:.75rem">Harry Markopolos submitted detailed mathematical proof to the SEC in 2000, 2001, 2005, and 2007 that Madoff's returns were impossible — that no legitimate strategy could produce them. The SEC ignored him every time. Madoff confessed in December 2008 when the financial crisis caused too many redemption requests for the scheme to sustain.</p>
+        <p>The red flags were there for anyone who looked: unknown auditor, no independent administrator, custodial assets held by Madoff's own broker-dealer, consistent monthly returns regardless of market volatility, inability to explain the strategy in detail, and returns that literally could not be replicated by any known investment approach. Due diligence would have caught every one of them.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Fraud amount: $65B</span><span class="cs-stat">Duration: ~20 years</span><span class="cs-stat">Auditor: 3-person unknown firm</span><span class="cs-stat">SEC warned: 4 separate times, ignored</span></div>
+    </div>
+    <div class="callout green">
+      <div class="callout-title">🎓 Phase 4 Complete — What You Now Understand</div>
+      <p>You understand the six major hedge fund strategies (long/short, macro, event-driven, quant, fixed income arb, distressed), how the platform model works, and how to evaluate any hedge fund before investing. You know why Medallion is the greatest track record in history, why LTCM collapsed, why Tiger closed, and how to spot a Madoff before losing money. <strong>Phase 5: Launching an Investment Firm</strong> is where you learn to build one yourself.</p>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 8 & Phase 4 Complete</div>
+    <ul>
+      <li>Evaluate hedge funds across four pillars: Investment Process, Track Record Quality, Risk Management, Operations.</li>
+      <li>Key metrics: Sharpe Ratio (above 1.0), Maximum Drawdown (below 15% for market neutral), 5+ year track record.</li>
+      <li>Madoff's four red flags: unknown auditor, proprietary custody, impossibly smooth returns, inability to explain strategy.</li>
+      <li>Markopolos proved Madoff was fraudulent in 2000 — 8 years before the SEC acted. Due diligence works if you do it.</li>
+      <li>Independent custody, Big 4 audit, and transparent strategy explanation are the non-negotiable minimum requirements.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-7">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Final Knowledge Check — Lesson 8</div><div class="kcheck-sub">3 questions · Complete Phase 4</div></div></div>
+    <div class="kq" id="kq-7-0">
+      <div class="kq-text">1. A hedge fund shows perfectly consistent 1% monthly returns for 7 years with no negative months. This is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,0,0,0)">A. Excellent — consistent returns indicate superior risk management</button>
+        <button class="kq-opt" onclick="answerQ(7,0,1,1)">B. A major red flag — no legitimate investment strategy produces smooth consistent returns regardless of market conditions; this pattern is consistent with fraud</button>
+        <button class="kq-opt" onclick="answerQ(7,0,2,0)">C. Normal for a market neutral strategy with very low volatility</button>
+        <button class="kq-opt" onclick="answerQ(7,0,3,0)">D. Suspicious but explainable if the fund uses derivatives to smooth returns</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-0"></div>
+    </div>
+    <div class="kq" id="kq-7-1">
+      <div class="kq-text">2. Harry Markopolos submitted proof of Madoff fraud to the SEC in 2000, 2001, 2005, and 2007. What happened?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,1,0,0)">A. The SEC investigated immediately and found no evidence of wrongdoing</button>
+        <button class="kq-opt" onclick="answerQ(7,1,1,1)">B. The SEC ignored his warnings every time — Madoff only confessed in 2008 when the financial crisis caused redemption requests he could not meet</button>
+        <button class="kq-opt" onclick="answerQ(7,1,2,0)">C. Markopolos was prosecuted for market manipulation for spreading false rumours</button>
+        <button class="kq-opt" onclick="answerQ(7,1,3,0)">D. The SEC investigated but Madoff's returns seemed legitimate at the time</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-1"></div>
+    </div>
+    <div class="kq" id="kq-7-2">
+      <div class="kq-text">3. Which combination of factors would make you MOST confident in a hedge fund's operational legitimacy?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,2,0,0)">A. High returns, famous investors as clients, strong media coverage</button>
+        <button class="kq-opt" onclick="answerQ(7,2,1,0)">B. Large AUM, long track record, sophisticated strategy description</button>
+        <button class="kq-opt" onclick="answerQ(7,2,2,1)">C. Big 4 auditor, independent prime broker and administrator, clear strategy explanation, and hard drawdown limits enforced by an independent risk team</button>
+        <button class="kq-opt" onclick="answerQ(7,2,3,0)">D. Consistent outperformance in all market conditions, low volatility, no down years</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-7"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(6)">← Lesson 7</button>
+    <div class="lnav-mid" id="lnav-mid-7">Complete the final quiz to finish Phase 4!</div>
+    <button class="btn-lnav btn-next" id="next-btn-7" disabled onclick="window.location='phase5-chapter.html'">🎓 Start Phase 5: Launch a Fund →</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// Dictionary
+document.querySelectorAll('.def').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    document.getElementById('dict-word').textContent=el.dataset.word;
+    document.getElementById('dict-def').textContent=el.dataset.def;
+    document.getElementById('dict-example').textContent=el.dataset.ex||'';
+    const rect=el.getBoundingClientRect();
+    let top=rect.bottom+8+window.scrollY,left=rect.left;
+    if(left+320>window.innerWidth)left=window.innerWidth-325;
+    if(left<8)left=8;
+    const p=document.getElementById('dict-popup');
+    p.style.top=top+'px';p.style.left=left+'px';
+    p.classList.add('visible');
+    document.getElementById('dict-overlay').classList.add('visible');
+  });
+});
+document.getElementById('dict-close').onclick=closeDict;
+document.getElementById('dict-overlay').onclick=closeDict;
+function closeDict(){
+  document.getElementById('dict-popup').classList.remove('visible');
+  document.getElementById('dict-overlay').classList.remove('visible');
+}
+
+const answers={
+  '0-0':{c:1,e:{0:"Gross exposure (longs + shorts) measures total risk deployed and leverage. Net exposure is the correct measure of market direction sensitivity. 140% gross means 90%+50% total positions, but the NET directional bet is only 40%.",1:"Correct! Net exposure = Longs − Shorts = 90% − 50% = 40% net long. The fund has positive but reduced market exposure — it benefits when markets rise but only about 40% as much as a fully long portfolio. This partial hedging is the core mechanic of long/short equity.",2:"Net exposure is longs MINUS shorts, not the short book size alone. 50% is the short book, not the net figure.",3:"Net exposure subtracts the short book from the long book. The long book alone is gross long exposure, not net exposure."}},
+  '0-1':{c:1,e:{0:"The 2+20 fee structure takes both a management fee AND a performance fee. The investor does not keep the full gross profit.",1:"Correct! Management fee: 2% of £100M = £2M annually. Performance fee: 20% of £10M profit = £2M. Total fees: £4M. Investor keeps: £10M − £4M = £6M. This illustrates why 2+20 is such a significant drag — in a 10% year, the manager takes 40% of the profits while bearing none of the downside risk.",2:"The 2% management fee applies regardless of performance, but the 20% performance fee also applies in positive years. Both are charged.",3:"The 2% management fee on £100M is £2M, not £1M (2% of 10% profit). And the performance fee applies on top of the management fee."}},
+  '0-2':{c:1,e:{0:"Robertson's fundamental analysis was entirely correct — dot-com stocks were massively overvalued and did eventually collapse 90%+. The problem was timing, not analysis.",1:"Correct! This is one of the most important lessons in short-selling: being right is not the same as making money. Between 1998 and 2000, internet stocks continued rising irrationally despite being clearly overvalued. Robertson's short positions kept losing money as the bubble inflated. Eventually margin calls and redemptions forced him to close before the thesis played out. As Keynes said: 'Markets can remain irrational longer than you can remain solvent.'",2:"Short selling is legal on US stocks including technology companies. Tiger's closure had nothing to do with regulatory restrictions.",3:"Tiger was managing $22B — one of the largest hedge funds in the world. Size was not the issue. The problem was the duration of irrational market behaviour exceeding the fund's ability to sustain losses on correct but early positions."}},
+  '1-0':{c:1,e:{0:"Long/short equity involves buying and shorting individual company stocks. This trade involves currencies and bonds — classic macro instruments, not company equities.",1:"Correct! This is textbook carry trade execution: borrow in the low-rate currency (JPY at 0.1%), convert and invest in the high-rate currency's assets (AUD bonds at 4.5%), earn the 4.4% differential. The trade works as long as AUD/JPY remains roughly stable — which it often does for extended periods, making carry one of the most reliably profitable macro strategies over time.",2:"Fixed income arbitrage exploits yield differences between bonds of similar credit quality and maturity. This trade is about interest rate differentials across different currency/country combinations — pure macro.",3:"Australian government bonds are not distressed — they are high-quality sovereign bonds. The trade is specifically about currency interest rate differentials, not credit distress."}},
+  '1-1':{c:1,e:{0:"Using inside information from Bank of England officials would have been illegal insider trading. Soros's trade was based entirely on public information and economic analysis — the incompatibility of the ERM peg with UK economic conditions was obvious to any serious macro economist.",1:"Correct! The UK's ERM commitment required maintaining the pound above a floor rate against the Deutsche Mark. To defend this peg, the UK needed to keep interest rates high (to attract capital supporting sterling). But the UK was in a severe recession and desperately needed rate CUTS to stimulate the economy. These two requirements were structurally incompatible — either the ERM commitment breaks or the economy stays depressed. Soros simply recognised this and positioned for the inevitable resolution.",2:"The relative valuation of DM vs sterling was not the core thesis. The thesis was about policy incompatibility — not relative currency value.",3:"UK economic conditions were actually significantly WEAKER than Germany's at the time, which was precisely why the ERM peg was unsustainable — the UK needed much lower rates than the peg required."}},
+  '1-2':{c:1,e:{0:"Gradual narrowing of the differential is the ideal scenario for carry — it reduces future income but doesn't cause large losses. The catastrophic scenario is sudden large exchange rate moves.",1:"Correct! Carry trades accumulate slowly and unwind violently. When global risk sentiment deteriorates, investors simultaneously exit carry trades: they repay yen borrowings (buying yen, causing it to surge) and sell high-yielding assets. The JPY might strengthen 10–15% in days during a carry unwind — instantly wiping out a year or more of interest income. This is called carry 'crowdedness' and violent unwind risk.",2:"Central banks occasionally intervene but this is a manageable and anticipated risk. The primary catastrophic risk is simultaneous global carry unwind driven by risk aversion, not central bank policy.",3:"Government default on bonds is a credit risk, not a carry unwind risk. The carry trade relies on exchange rate stability, not credit quality of government bonds."}},
+  '2-0':{c:1,e:{0:"Acquirers typically fall in price after announcing acquisitions (overpayment concern, execution risk). Merger arb focuses on the TARGET company, not the acquirer.",1:"Correct! Company Y is announced as being acquired for £50 but trades at £47 — a £3 discount. This discount exists because deal completion is not guaranteed (regulatory rejection, financing failure, acquirer withdrawal). By buying at £47 and collecting £50 at close, you earn the £3 spread (6.4%) if the deal completes. The holding period is typically weeks to months — annualising this can represent attractive returns for the risk taken.",2:"Shorting the target in merger arb would be betting the deal breaks. The standard arb position is long the target at the discount to deal price.",3:"Waiting until the deal closes before buying removes all the risk — but also all the return. The point of merger arb is accepting deal completion risk to earn the spread during the uncertain period between announcement and close."}},
+  '2-1':{c:1,e:{0:"Threatening to sell creates downward price pressure that hurts the activist's own position. Activists want the stock to go UP. Selling is the opposite of their interest and rarely used as a threat.",1:"Correct! The activist's power comes from their ability to wage a proxy contest — soliciting other shareholders to vote for new board members who will implement the activist's agenda. This is public, expensive, and deeply embarrassing for incumbent management. The threat of this public battle, combined with media campaigns and open letters, typically motivates management to negotiate rather than fight. Settlement (new board members, operational changes, buybacks) is the common outcome.",2:"Personal lawsuits against board members are rare, expensive, and difficult to win. They're not the primary tool — proxy battles are far more effective and have clearer legal standing.",3:"Blocking dividend payments requires a shareholder vote majority and specific circumstances. It's not a primary tool and would antagonise other shareholders rather than building support for the activist's agenda."}},
+  '2-2':{c:2,e:{0:"Spinoff companies are sometimes better managed post-independence (management incentives improve), but this is not the systematic reason spinoffs outperform. Many spinoffs are divisions the parent was happy to dispose of.",1:"Accounting rules do not specifically undervalue spinoffs. The mispricing is driven by who owns the shares after the spinoff, not how the accounting works.",2:"Correct! When a parent company creates a spinoff, the new shares are distributed to existing parent company shareholders. Many of these shareholders: (a) are index funds that must immediately sell because the spinoff isn't in their index yet; (b) are mandate-constrained institutions whose investment policy doesn't allow them to hold this type of company; (c) simply didn't ask for the shares and sell without research. This forced, indiscriminate selling creates prices below intrinsic value — a predictable, recurring, and exploitable mispricing.",3:"Parent companies don't deliberately undervalue spinoffs — the undervaluation is created by the market's mechanical selling response, not parent company intentions."}},
+  '3-0':{c:1,e:{0:"Momentum would suggest buying Coke — but stat arb is mean reversion, not momentum. The strategy bets the historical relationship normalises, not that recent trends continue.",1:"Correct! Statistical arbitrage bets on reversion to historical relationships. Coke and Pepsi are close substitutes — fundamentally similar businesses. A 1.8× ratio vs the historical 1.3× is a significant deviation. The stat arb trade: short Coke (the outperformer, now relatively expensive) and buy Pepsi (the underperformer, now relatively cheap), betting the ratio normalises. The trade is market neutral — doesn't care if both go up or down, only that Pepsi outperforms Coke going forward.",2:"Buying both eliminates the relative value trade entirely — you'd just have long exposure to the sector without exploiting the mispricing between the two.",3:"If Coke is strong and Pepsi hasn't moved, Pepsi is not relatively weak — it's relatively cheap. The trade buys Pepsi (the laggard), not shorts it."}},
+  '3-1':{c:1,e:{0:"Compensation was not the primary consideration. Many mathematicians and physicists took significant pay cuts to work at Renaissance because of the intellectual challenge and potential upside.",1:"Correct! Simons believed that trained finance professionals had deeply ingrained mental models about how markets work — about what was 'reasonable' and what was 'impossible.' These priors would cause them to discount or ignore statistical patterns that contradicted conventional investment wisdom. Mathematicians and physicists, by contrast, simply followed the data wherever it led, without the filter of 'but that doesn't make fundamental sense.' This data-first approach was essential to the Medallion strategy.",2:"Simons deliberately avoided company fundamental analysis — he didn't want anyone who thought about earnings, management quality, or competitive positioning. That kind of thinking creates biases. His fund only cared about price and volume patterns.",3:"There were no such SEC regulations preventing hedge funds from hiring former bankers. The decision was entirely strategic and philosophical."}},
+  '3-2':{c:1,e:{0:"CTAs are directionally agnostic — they follow trends up or down, long or short. They perform well in strong trending markets of either direction.",1:"Correct! Trend following requires sustained directional movement to profit. In choppy markets, the strategy enters a trend, gets stopped out when it reverses, enters the reversal, gets stopped out again — generating a series of small losses. This 'whipsaw' pattern is the primary enemy of trend following. When markets move sideways with frequent small reversals, CTAs reliably lose money. This is why CTAs tend to perform best in years with strong, sustained macro trends (2022 was excellent — clear trends in rates, dollar, commodities).",2:"CTAs actively short markets — they are completely comfortable taking short positions in equity indices, currencies, bonds, and commodities. Being in a bear market is not the problem; it's an opportunity for CTAs.",3:"Low volatility doesn't inherently harm CTAs — a slow, sustained trend is actually ideal. Choppy high-volatility with no directional trend is more damaging than low volatility with a clear direction."}},
+  '4-0':{c:1,e:{0:"Bond markets don't have minimum position sizes that force leverage. Leverage is chosen by the fund manager to make the strategy economically meaningful.",1:"Correct! Fixed income arbitrage spreads are typically 0.03–0.20%. On an unlevered £1B position, a 0.10% spread generates only £1M per year — barely meaningful relative to fund infrastructure costs. With 20× leverage (£20B notional exposure on £1B capital), the same 0.10% spread generates £20M annually on £1B capital — a viable 2% return. Leverage transforms tiny spreads into economically meaningful returns. The risk: it also transforms tiny adverse moves into catastrophic losses.",2:"Regulatory capital requirements exist but don't drive the leverage decision in the way described. The economic motivation is purely to amplify tiny spreads into acceptable returns.",3:"The arbitrage opportunity exists regardless of leverage — it's a real yield discrepancy between similar securities. Leverage amplifies the return, not the existence of the opportunity."}},
+  '4-1':{c:1,e:{0:"The models were mathematically correct for normal conditions — the calculation errors were in the assumptions about tail risk and cross-asset correlation under stress, not the basic arbitrage mathematics.",1:"Correct! Russia's August 1998 default triggered a global panic. All investors simultaneously fled to the most liquid assets — US on-the-run Treasuries. This caused all illiquid positions to widen simultaneously. LTCM's models assumed positions were uncorrelated — so losses on one trade would be offset by gains elsewhere. Instead, all 125 positions moved adversely at the same time. With 25:1 leverage, even a 4% move in average spread destroyed the fund entirely.",2:"No changes were made to Treasury auction rules. The crisis was caused by investor behaviour, not regulatory changes.",3:"LTCM's prime brokers (Goldman, Merrill, etc.) did eventually become concerned and did reduce credit, but this was a consequence of the losses, not the cause."}},
+  '4-2':{c:1,e:{0:"Borrowing costs for shorting are higher for illiquid securities, not the other way around. The on-the-run bond is more liquid and easier/cheaper to borrow.",1:"Correct! The off-the-run bond is economically identical to the on-the-run (same credit quality, same issuer, similar remaining maturity) but less liquid — fewer people actively trade it. Less liquidity means investors demand a higher yield (lower price) as compensation for the difficulty of selling. This liquidity premium creates the price gap. The arb bet: as both bonds approach maturity, they must converge to the same price (face value). The convergence earns the spread.",2:"Off-the-run bonds are existing bonds issued previously at face value — they don't have special issuance discounts.",3:"Fixed income arb can use both bonds directly and derivatives (futures, swaps). The on/off-the-run Treasury trade specifically uses the actual bond securities."}},
+  '5-0':{c:2,e:{0:"Senior secured lenders are at the TOP of the waterfall — they bear the least ongoing business risk precisely because they have first claim on assets and highest recovery rates in bankruptcy.",1:"Senior unsecured bondholders lack collateral backing but are still ahead of equity in the waterfall. In many bankruptcies, senior unsecured bondholders receive substantial recovery — 30–60 cents is common.",2:"Correct! Common equity holders sit at the very bottom of the priority waterfall. They only receive anything if all creditors above them are paid in full — which almost never happens in genuine bankruptcy. When a company is bankrupt, by definition there aren't enough assets to pay everyone. Equity is wiped out first because equity is the residual claim — the junior-most piece of the capital structure. Enron shareholders received nothing. Lehman equity went to zero. WorldCom equity wiped out.",3:"Trade creditors (suppliers, landlords) are typically treated as unsecured creditors but may have specific legal protections in some jurisdictions. They're not always wiped out. Common equity is the most reliably zero-recovery tranche."}},
+  '5-1':{c:1,e:{0:"2008 was indeed a time when equities were cheap, but Marks' specific activity was raising distressed debt capital — bonds and loans of financially troubled companies — not equities.",1:"Correct! Howard Marks' contrarian thesis: the best time to buy is when fear is at its absolute maximum. In 2008, distressed debt was priced at levels reflecting panic — far below any rational assessment of recovery value. Investors who needed liquidity were forced sellers at any price. By having dry powder (the $11B raised specifically for this moment) and the conviction to deploy at maximum fear, Oaktree bought assets at prices that proved to massively understate actual recovery values as financial markets stabilised.",2:"The government bailouts were targeted at banks and specific institutions, not the broad corporate bond market. Most distressed companies Marks bought were NOT bailed out — they recovered through restructuring.",3:"Distressed debt is not always safer than equities. In a liquidation scenario, distressed bondholders still lose significant capital. The strategy requires genuine analysis of recovery value, not just the belief that bonds are inherently safer."}},
+  '5-2':{c:2,e:{0:"Senior secured loans typically have high recovery rates (70–100%) but they trade NEAR par precisely because of this — there's less discount. The best risk/reward is not at the safest part of the structure.",1:"Common equity in a distressed company is almost always worthless — buying it is usually pure speculation. The fulcrum is a specific debt tranche with actual recovery value, not the equity.",2:"Correct! The 'fulcrum security' is the debt tranche sitting at the enterprise value inflection point. Senior enough to receive meaningful recovery (unlike subordinated debt which may get nothing), junior enough to trade at a significant discount (unlike senior secured which trades near par). This combination — real recovery value at a deep discount — offers the best risk/reward. Skilled distressed investors identify exactly which tranche is at this inflection point, which requires detailed valuation of the underlying business.",3:"Liquidity is generally inversely correlated with price (more liquid = higher price = less discount). The fulcrum security is defined by its position in the capital structure relative to enterprise value, not its liquidity."}},
+  '6-0':{c:1,e:{0:"Waiting periods give underperforming PMs time to 'hope' their way back — exactly what professional risk management avoids. Multi-strategy platforms use hard, automatic limits specifically to prevent emotional attachment to losing positions.",1:"Correct! The discipline of immediate capital reallocation is central to the multi-strat model's success. If a PM breaches their drawdown limit, the capital is taken back and redeployed to PMs who are generating positive risk-adjusted returns. This forces continuous meritocracy — no PM can survive on past reputation or promises of recovery. It also protects the overall fund from one PM's losses escalating while they try to 'trade their way back.'",2:"PMs at Citadel and similar platforms are paid from their own book's performance, but personal coverage of fund losses beyond their compensation is not the standard mechanism. The mechanism is capital removal.",3:"Risk across all PM books is managed centrally in real-time, but the specific response to a single PM breaching their limit is targeted capital removal from that PM, not a fund-wide risk reduction."}},
+  '6-1':{c:1,e:{0:"No fund consistently predicts annual market outcomes in advance. Citadel's 2022 success was structural, not predictive — the platform had strategies that naturally benefited from the 2022 environment.",1:"Correct! 2022 was a terrible year for equity long/short strategies (market fell sharply). But Citadel's macro teams were positioned for rising rates and dollar strength — both of which happened dramatically in 2022. Fixed income arb benefited from the yield curve dynamics. The multi-strategy platform meant that when equity strategies suffered, other uncorrelated strategies compensated strongly. This diversification of return sources — not market prediction — is what drove the 38% return.",2:"Leverage amplifies both gains and losses — if Citadel simply used more leverage, bad years would be worse too. The 2022 outperformance was from strategic diversification, not leverage.",3:"Citadel runs strategies across all major asset classes. Commodities were indeed strong in 2022, but Citadel's returns came from multiple strategies, not a single commodity concentration."}},
+  '6-2':{c:2,e:{0:"Multi-strategy funds actually often charge HIGHER fees (3+30) than single-strategy funds. The justification is better risk-adjusted returns, not cost efficiency.",1:"Better fundamental research is an advantage of having more specialised analysts, but the PRIMARY structural advantage is the diversification of uncorrelated alpha sources — not research quality.",2:"Correct! The core multi-strat structural advantage is that different strategies have low correlation with each other. Long/short equity struggles in 2022 — but macro thrives. Distressed debt suffers in 2010 — but equity strategies boom. By running multiple uncorrelated strategies simultaneously, the fund smooths returns and reduces drawdowns compared to being exposed to a single strategy's cycle. This is why top multi-strat platforms have much lower maximum drawdowns than single-strategy funds despite competitive return levels.",3:"Multi-strategy funds are not less regulated. They are typically subject to the same regulatory framework as other hedge funds. The structural advantage is investment-related, not regulatory."}},
+  '7-0':{c:1,e:{0:"Consistent returns in any strategy indicate that the reported numbers are likely smoothed or fabricated. Even market neutral strategies have some volatility. Real investment returns are lumpy — they reflect the unpredictable nature of markets even when risk is carefully managed.",1:"Correct! No legitimate investment strategy produces perfectly smooth monthly returns across all market conditions including 2001 (dot-com crash), 2008 (financial crisis), and 2020 (COVID). Real strategies have good months and bad months. The only way to produce perfectly smooth returns is to fabricate them — which is exactly what Madoff did, reporting fictional consistent gains regardless of actual market conditions. This pattern is the single most reliable fraud indicator.",2:"Even the most sophisticated market neutral strategies produce some monthly volatility. Madoff's almost perfectly smooth returns were statistically impossible under any legitimate strategy. True market neutral strategies typically have monthly standard deviations of 0.5–2%, generating occasional negative months.",3:"Derivatives can smooth returns somewhat by reducing volatility, but they cannot eliminate it entirely and they certainly cannot produce perfectly consistent positive returns regardless of market conditions. Any strategy that appears to do this is fabricating the numbers."}},
+  '7-1':{c:1,e:{0:"The SEC did not investigate properly despite Markopolos's detailed submissions. The failures were regulatory — insufficient investigative rigor, deference to Madoff's reputation, and failure to verify basic claims with independent custodians.",1:"Correct! Harry Markopolos submitted a detailed 17-page document to the SEC's Boston office in 2000 titled 'The World's Largest Hedge Fund is a Fraud.' He followed up in 2001, 2005, and 2007 with increasingly detailed evidence. Each time, the SEC failed to conduct a proper investigation. The fraud only ended when the 2008 financial crisis caused so many redemption requests that Madoff could no longer sustain the Ponzi scheme, leading to his voluntary confession to his sons, who reported him to authorities.",2:"Markopolos was a legitimate whistleblower who later received recognition from the SEC for his efforts. He was never prosecuted.",3:"The SEC's problem was not analytical — it was that they failed to verify even basic facts. A simple check with custodians holding investor assets would have revealed there were no assets. The SEC never did this basic step."}},
+  '7-2':{c:2,e:{0:"Famous clients, high returns, and media coverage are not indicators of legitimacy. Madoff had all three. Familiarity and reputation are irrelevant to operational safety.",1:"AUM and track record length matter for performance evaluation but don't address the operational risk of fraud. Madoff had large AUM and a long track record — both fabricated. 'Sophisticated strategy' can actually be a red flag if it's used to avoid explaining the actual investment process.",2:"Correct! These four elements address the specific vulnerabilities that allowed frauds like Madoff to persist: Big 4 auditor (cannot be a 3-person firm with no peer review); independent prime broker and administrator (assets held and confirmed by parties with no financial interest in misreporting); clear strategy explanation (any legitimate fund can articulate their edge conceptually); independent risk team with hard limits (prevents PM-level fraud or excessive risk-taking). None of these were present at Madoff. All were present at legitimate funds.",3:"Consistent outperformance across all conditions, no down years, and low volatility are the EXACT pattern Madoff fabricated. These characteristics in a real fund would be a red flag, not a confidence indicator."}}
+};
+
+const quizState={};
+function answerQ(L,Q,opt,isC){
+  const qId=`kq-${L}-${Q}`,fbId=`kqf-${L}-${Q}`;
+  document.querySelectorAll(`#${qId} .kq-opt`).forEach((b,i)=>{
+    b.classList.add('locked');b.onclick=null;
+    if(i===answers[`${L}-${Q}`].c)b.classList.add('correct');
+    else if(i===opt&&!isC)b.classList.add('wrong');
+  });
+  const fb=document.getElementById(fbId);
+  fb.textContent=(answers[`${L}-${Q}`].e||{})[opt]||(isC?'✓ Correct!':'✗ Incorrect.');
+  fb.className='kq-feedback show '+(isC?'ok':'bad');
+  if(!quizState[L])quizState[L]={answered:0,correct:0,total:3};
+  if(!quizState[L][Q]){
+    quizState[L][Q]=true;quizState[L].answered++;
+    if(isC)quizState[L].correct++;
+    checkDone(L);
+  }
+}
+function checkDone(L){
+  const s=quizState[L];
+  if(s.answered<s.total)return;
+  const pass=s.correct>=2;
+  const r=document.getElementById(`kcheck-result-${L}`);
+  r.textContent=pass?`🎉 ${s.correct}/${s.total} correct — Next lesson unlocked!`:`${s.correct}/${s.total} — Review the lesson and continue when ready.`;
+  r.className='kcheck-result show '+(pass?'pass':'fail');
+  const nb=document.getElementById(`next-btn-${L}`);
+  if(nb)nb.disabled=false;
+  const mid=document.getElementById(`lnav-mid-${L}`);
+  if(mid)mid.textContent=pass?'✓ Passed!':'📖 Complete — continue when ready';
+  document.querySelectorAll('.sb-item')[L]?.classList.add('done');
+  updateProgress(L+1);
+}
+function goLesson(i){
+  document.querySelectorAll('.lesson-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`lesson-${i}`).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach((el,j)=>{
+    el.classList.remove('active');if(j===i)el.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateProgress(i);
+}
+function updateProgress(n){
+  const pct=Math.max(Math.round((n/8)*100),12);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=`${n} / 8 lessons`;
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{
+        const w=b.style.width;b.style.width='0';
+        setTimeout(()=>b.style.width=w,100);
+      });
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.chart-wrap').forEach(c=>obs.observe(c));
+</script>
+<!-- ═══ STUDYCOACH AI ASSISTANT ═══ -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+#sc-assistant-btn{position:fixed;bottom:24px;right:24px;z-index:9000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;font-size:1.4rem}
+#sc-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(168,85,247,.7)}
+.sc-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#00d4a0;border-radius:50%;border:2px solid #070709}
+#sc-chat-panel{position:fixed;bottom:90px;right:24px;z-index:9000;width:360px;max-height:520px;background:#0e0e12;border:1px solid #1e1e2e;border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+#sc-chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.sc-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:#13131a;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.sc-hname{font-weight:600;font-size:.88rem;color:#e8e8f0}
+.sc-hstatus{font-size:.72rem;color:#00d4a0}
+.sc-close{background:none;border:none;color:#7a7a9a;cursor:pointer;font-size:1rem;padding:.2rem;line-height:1;margin-left:auto}
+.sc-close:hover{color:#e8e8f0}
+.sc-ctx{padding:.5rem 1rem;background:#070709;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-ctx-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:.25rem .7rem;font-size:.72rem;color:#a855f7;font-family:'DM Mono',monospace}
+.sc-msgs{flex:1;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.sc-msgs::-webkit-scrollbar{width:4px}.sc-msgs::-webkit-scrollbar-thumb{background:#1e1e2e;border-radius:2px}
+.sc-m{max-width:85%;display:flex;flex-direction:column;gap:.2rem}
+.sc-m.u{align-self:flex-end;align-items:flex-end}.sc-m.a{align-self:flex-start;align-items:flex-start}
+.sc-b{padding:.6rem .85rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.sc-m.u .sc-b{background:linear-gradient(135deg,#a855f7,#7c4dff);color:#fff;border-radius:12px 12px 2px 12px}
+.sc-m.a .sc-b{background:#13131a;color:#e8e8f0;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px}
+.sc-t{font-size:.65rem;color:#7a7a9a;font-family:'DM Mono',monospace}
+.sc-typing{display:flex;gap:.3rem;padding:.6rem .85rem;background:#13131a;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px;width:fit-content}
+.sc-typing span{width:6px;height:6px;border-radius:50%;background:#a855f7;animation:scB 1.2s infinite}
+.sc-typing span:nth-child(2){animation-delay:.2s}.sc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes scB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.sc-sugg{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;flex-shrink:0;border-top:1px solid #1e1e2e}
+.sc-s{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2);border-radius:20px;padding:.3rem .75rem;font-size:.75rem;color:#4f8cff;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sc-s:hover{background:rgba(79,140,255,.18)}
+.sc-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid #1e1e2e;flex-shrink:0;background:#13131a}
+.sc-in{flex:1;background:#0e0e12;border:1px solid #1e1e2e;border-radius:8px;padding:.55rem .85rem;color:#e8e8f0;font-size:.84rem;font-family:'DM Sans',sans-serif;resize:none;outline:none;transition:border-color .2s;min-height:36px;max-height:100px;line-height:1.4}
+.sc-in::placeholder{color:#7a7a9a}.sc-in:focus{border-color:#a855f7}
+.sc-send{background:#a855f7;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.sc-send:hover{opacity:.85}.sc-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:480px){#sc-chat-panel{width:calc(100vw - 20px);right:10px;bottom:80px}#sc-assistant-btn{right:16px;bottom:16px}}
+</style>
+<button id="sc-assistant-btn" onclick="scToggle()" title="Ask your AI tutor">🎓<div class="sc-badge"></div></button>
+<div id="sc-chat-panel">
+  <div class="sc-header"><div class="sc-avatar">🎓</div><div><div class="sc-hname">StudyCoach AI</div><div class="sc-hstatus">● Online</div></div><button class="sc-close" onclick="scToggle()">✕</button></div>
+  <div class="sc-ctx"><div class="sc-ctx-pill" id="sc-pill">📚 Investor's Academy</div></div>
+  <div class="sc-msgs" id="sc-msgs"><div class="sc-m a"><div class="sc-b">Hi! I'm your AI tutor 👋 Ask me anything about the course — concepts, examples, or quiz help!</div><div class="sc-t">Now</div></div></div>
+  <div class="sc-sugg" id="sc-sugg"><button class="sc-s" onclick="scSug(this)">Explain this simply</button><button class="sc-s" onclick="scSug(this)">Real-world example</button><button class="sc-s" onclick="scSug(this)">Quiz me</button></div>
+  <div class="sc-row"><textarea class="sc-in" id="sc-in" placeholder="Ask anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();scSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea><button class="sc-send" id="sc-btn" onclick="scSend()">↑</button></div>
+</div>
+<script>
+(function(){
+  let open=false,hist=[],busy=false;
+  const sys=`You are a friendly expert tutor for StudyCoach Academy, an investment education platform. Answer questions clearly as a knowledgeable friend — use real examples, keep responses concise (2-4 sentences for simple questions), and make learning enjoyable. Current lesson context: the student is studying investing and financial markets. Never give personal investment advice — keep it educational.`;
+  window.scToggle=function(){open=!open;document.getElementById('sc-chat-panel').classList.toggle('open',open);if(open){const ey=document.querySelector('.lesson-eyebrow');if(ey)document.getElementById('sc-pill').textContent='📚 '+ey.textContent.trim();document.getElementById('sc-in').focus();}};
+  window.scSug=function(b){document.getElementById('sc-in').value=b.textContent;document.getElementById('sc-sugg').style.display='none';scSend();};
+  window.scSend=async function(){
+    const inp=document.getElementById('sc-in'),txt=inp.value.trim();
+    if(!txt||busy)return;
+    inp.value='';inp.style.height='auto';
+    document.getElementById('sc-sugg').style.display='none';
+    scMsg('u',txt);hist.push({role:'user',content:txt});
+    busy=true;document.getElementById('sc-btn').disabled=true;
+    const msgs=document.getElementById('sc-msgs');
+    const typ=document.createElement('div');typ.className='sc-m a';
+    typ.innerHTML='<div class="sc-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typ);msgs.scrollTop=msgs.scrollHeight;
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist})});
+      const d=await r.json();typ.remove();
+      const reply=d.content?.[0]?.text||'Sorry, try again!';
+      scMsg('a',reply);hist.push({role:'assistant',content:reply});
+      if(hist.length>20)hist=hist.slice(-16);
+    }catch(e){typ.remove();scMsg('a','Connection issue — please try again.');}
+    busy=false;document.getElementById('sc-btn').disabled=false;document.getElementById('sc-in').focus();
+  };
+  function scMsg(role,text){
+    const c=document.getElementById('sc-msgs'),now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');el.className='sc-m '+role;
+    const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,.15);padding:.1rem .3rem;border-radius:3px;font-size:.8em">$1</code>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    el.innerHTML=`<div class="sc-b">${fmt}</div><div class="sc-t">${now}</div>`;
+    c.appendChild(el);c.scrollTop=c.scrollHeight;
+  }
+})();
+</script>
+
+</body>
+</html>

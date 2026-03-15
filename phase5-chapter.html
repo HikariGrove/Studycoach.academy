@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="color-scheme" content="dark"/><meta name="theme-color" content="#070709"/>
+<style>html,body{background:#070709 !important}</style>
+<title>Phase 5 — Launching an Investment Firm · Investor's Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070709;--surface:#0e0e12;--card:#13131a;--border:#1e1e2e;--accent:#f59e0b;--accent2:#4f8cff;--accent3:#00d4a0;--danger:#ff4d6d;--text:#e8e8f0;--muted:#b0b0c8;--display:'Cormorant Garamond',serif;--mono:'DM Mono',monospace;--body:'DM Sans',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:#070709 !important;color-scheme:dark}
+body{background:#070709 !important;color:#e8e8f0 !important;font-family:var(--body);font-size:15px;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.4)}50%{box-shadow:0 0 0 8px rgba(245,158,11,0)}}
+.ticker-wrap{overflow:hidden;background:#060608;border-bottom:1px solid var(--border);padding:.38rem 0;position:sticky;top:60px;z-index:400}
+.ticker-track{display:flex;gap:2.5rem;width:max-content;animation:ticker 36s linear infinite;font-family:var(--mono);font-size:.73rem}
+.tick-item{white-space:nowrap;color:var(--muted)}.tick-up{color:var(--accent)}.tick-dn{color:var(--danger)}
+nav{position:sticky;top:0;z-index:500;background:rgba(7,7,9,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:1rem}
+.nav-back{color:var(--muted);text-decoration:none;font-size:.82rem;transition:color .2s}.nav-back:hover{color:var(--accent)}
+.nav-title{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--accent)}
+.nav-progress{display:flex;align-items:center;gap:.75rem}
+.progress-bar{width:140px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#fbbf24);border-radius:2px;transition:width .5s ease}
+.progress-lbl{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#0e0e12;border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:82px;height:calc(100vh - 82px);overflow-y:auto}
+.sidebar::-webkit-scrollbar{width:4px}.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem 1.4rem;margin-top:.5rem}
+.sb-item{display:flex;align-items:center;gap:.7rem;padding:.6rem 1.4rem;cursor:pointer;transition:all .2s;border-left:2px solid transparent;font-size:.86rem;color:var(--muted)}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sb-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(245,158,11,.06)}
+.sb-item.done{color:var(--accent3)}
+.sb-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.sb-item.active .sb-dot{background:var(--accent);animation:pulse 2s infinite}
+.sb-item.done .sb-dot{background:var(--accent3)}
+.main{padding:3rem 3rem 6rem;max-width:820px;background:#070709}
+.lesson-hero{margin-bottom:3rem;animation:fadeUp .6s ease both}
+.lesson-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+.lesson-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.08;margin-bottom:1rem}
+.lesson-title em{font-style:italic;background:linear-gradient(135deg,var(--accent) 0%,#fbbf24 50%,var(--accent) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite}
+.lesson-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.lmeta{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.lesson-intro{font-size:1.05rem;color:var(--muted);line-height:1.75;border-left:3px solid var(--accent);padding-left:1.25rem}
+.lesson-section{margin:2.5rem 0}
+.ls-heading{font-family:var(--display);font-size:1.5rem;font-weight:600;margin-bottom:.75rem;color:var(--text)}
+.ls-body{color:var(--muted);line-height:1.8;margin-bottom:.9rem}
+.def{border-bottom:1px dashed var(--accent);color:var(--accent);cursor:pointer;transition:all .2s}
+.def:hover{background:rgba(245,158,11,.1);border-radius:2px}
+.dict-popup{position:fixed;z-index:8000;background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:1rem 1.2rem;max-width:310px;box-shadow:0 8px 40px rgba(0,0,0,.7);animation:popIn .2s ease both;display:none}
+.dict-popup.visible{display:block}
+.dict-word{font-family:var(--mono);font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.dict-def{font-size:.84rem;color:var(--text);line-height:1.6}
+.dict-close{position:absolute;top:.5rem;right:.7rem;color:var(--muted);cursor:pointer;font-size:.9rem}.dict-close:hover{color:var(--text)}
+.dict-example{margin-top:.6rem;font-size:.78rem;color:var(--muted);font-style:italic;border-top:1px solid var(--border);padding-top:.5rem}
+#dict-overlay{position:fixed;inset:0;z-index:7999;display:none}#dict-overlay.visible{display:block}
+.callout{border-radius:10px;padding:1.1rem 1.3rem;margin:1.5rem 0;font-size:.88rem;line-height:1.75}
+.callout-title{font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+.callout.gold{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}.callout.gold .callout-title{color:var(--accent)}
+.callout.blue{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2)}.callout.blue .callout-title{color:var(--accent2)}
+.callout.green{background:rgba(0,212,160,.08);border:1px solid rgba(0,212,160,.2)}.callout.green .callout-title{color:var(--accent3)}
+.callout.red{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2)}.callout.red .callout-title{color:var(--danger)}
+.callout p{color:var(--muted)}
+.case-study{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--accent);border-radius:0 0 10px 10px;padding:1.5rem;margin:2rem 0}
+.cs-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.cs-icon{font-size:1.5rem}.cs-meta{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent)}
+.cs-title{font-weight:600;font-size:1rem;margin-top:.15rem}
+.cs-body{font-size:.87rem;color:var(--muted);line-height:1.8}
+.cs-stat{display:inline-block;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:6px;padding:.3rem .7rem;font-family:var(--mono);font-size:.78rem;color:var(--accent);margin:.2rem .2rem 0 0}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0}
+.chart-title{font-family:var(--mono);font-size:.73rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:1.25rem}
+.bar-chart{display:flex;flex-direction:column;gap:.7rem}
+.bar-row{display:grid;grid-template-columns:130px 1fr 80px;gap:.75rem;align-items:center;font-size:.82rem}
+.bar-label{color:var(--muted);text-align:right;font-size:.78rem}
+.bar-track{height:26px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.6rem;font-size:.72rem;font-family:var(--mono);color:rgba(0,0,0,.85);font-weight:600;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.bar-val{font-family:var(--mono);font-size:.78rem;color:var(--text);text-align:right}
+.data-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.data-table th{padding:.55rem .85rem;background:rgba(255,255,255,.04);border:1px solid var(--border);font-weight:500;color:var(--muted);font-family:var(--mono);font-size:.7rem;text-align:left;text-transform:uppercase;letter-spacing:.06em}
+.data-table td{padding:.6rem .85rem;border:1px solid rgba(255,255,255,.05);color:var(--muted);vertical-align:top}
+.data-table td:first-child{color:var(--text);font-weight:500}
+.data-table tr:hover td{background:rgba(255,255,255,.02)}
+.data-table tr.hl td{color:var(--accent);background:rgba(245,158,11,.05)}
+.pull-quote{border-left:3px solid var(--accent);padding:1rem 1.5rem;margin:2rem 0;font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--text);line-height:1.6}
+.pull-quote cite{display:block;margin-top:.5rem;font-family:var(--body);font-style:normal;font-size:.78rem;color:var(--muted)}
+.takeaways{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin:2rem 0}
+.takeaways-title{font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.75rem}
+.takeaways ul{list-style:none}
+.takeaways ul li{padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.86rem;color:var(--muted);display:flex;gap:.6rem;align-items:flex-start}
+.takeaways ul li:last-child{border-bottom:none}
+.takeaways ul li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:.05rem}
+.kcheck{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin:2.5rem 0}
+.kcheck-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.kcheck-icon{font-size:1.3rem}.kcheck-title{font-weight:600}.kcheck-sub{font-size:.8rem;color:var(--muted);margin-top:.1rem}
+.kq{margin-bottom:1.5rem}.kq-text{font-size:.9rem;font-weight:500;margin-bottom:.7rem}
+.kq-opts{display:flex;flex-direction:column;gap:.45rem}
+.kq-opt{padding:.65rem .9rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.84rem;color:var(--muted);background:var(--card);transition:all .2s;text-align:left;width:100%}
+.kq-opt:hover:not(.locked){border-color:var(--accent);color:var(--text)}
+.kq-opt.correct{border-color:var(--accent);background:rgba(245,158,11,.1);color:var(--accent)}
+.kq-opt.wrong{border-color:var(--danger);background:rgba(255,77,109,.1);color:var(--danger)}
+.kq-opt.locked{cursor:default}
+.kq-feedback{font-size:.82rem;margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;display:none}
+.kq-feedback.show{display:block}
+.kq-feedback.ok{background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.2)}
+.kq-feedback.bad{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.2)}
+.kcheck-result{display:none;margin-top:1rem;padding:.9rem 1rem;border-radius:8px;font-weight:600;text-align:center;font-size:.9rem}
+.kcheck-result.show{display:block}
+.kcheck-result.pass{background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.25)}
+.kcheck-result.fail{background:rgba(255,77,109,.1);color:var(--danger);border:1px solid rgba(255,77,109,.25)}
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.btn-lnav{padding:.7rem 1.4rem;border-radius:6px;font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-prev{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-prev:hover{border-color:var(--accent);color:var(--accent)}
+.btn-next{background:var(--accent);border:none;color:#1a0a00;font-weight:600}.btn-next:hover{opacity:.88;transform:translateY(-1px)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.lnav-mid{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:center}
+.lesson-panel{display:none;animation:fadeUp .5s ease both}.lesson-panel.active{display:block}
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:1rem;position:relative}
+.timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{display:flex;gap:1rem;padding:.75rem 0;position:relative}
+.tl-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;font-family:var(--mono);flex-shrink:0;position:relative;z-index:1}
+.tl-content{flex:1;padding-top:.2rem}
+.tl-title{font-weight:600;font-size:.9rem;margin-bottom:.2rem}
+.tl-desc{font-size:.82rem;color:var(--muted);line-height:1.6}
+@media(max-width:768px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:1.5rem 1.2rem 5rem}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-left">
+    <a class="nav-back" href="investing-course.html">← Course Home</a>
+    <div style="width:1px;height:20px;background:var(--border)"></div>
+    <div class="nav-title">Phase 5 — Launching an Investment Firm</div>
+  </div>
+  <div class="nav-progress">
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:12%"></div></div>
+    <div class="progress-lbl" id="prog-lbl">1 / 8 lessons</div>
+  </div>
+</nav>
+<div class="ticker-wrap"><div class="ticker-track">
+  <span class="tick-item">AVERAGE FUND LAUNCH AUM <span class="tick-up">$50–100M</span></span>
+  <span class="tick-item">SEED DEAL TERMS <span class="tick-up">25–35% REV SHARE</span></span>
+  <span class="tick-item">TYPICAL GP COMMITMENT <span class="tick-up">1–5% OF FUND</span></span>
+  <span class="tick-item">FIRST CLOSE TARGET <span class="tick-up">$25M MIN VIABLE</span></span>
+  <span class="tick-item">ALLOCATOR TRACK RECORD REQ <span class="tick-up">3–5 YR AUDITED</span></span>
+  <span class="tick-item">SEC REG THRESHOLD <span class="tick-up">$100M AUM</span></span>
+  <span class="tick-item">STANDARD LOCK-UP <span class="tick-up">1–2 YR</span></span>
+  <span class="tick-item">MANAGEMENT FEE BREAKEVEN <span class="tick-up">~$50M AUM</span></span>
+  <span class="tick-item">AVERAGE FUND LAUNCH AUM <span class="tick-up">$50–100M</span></span>
+</div></div>
+<div id="dict-overlay"></div>
+<div class="dict-popup" id="dict-popup">
+  <div class="dict-close" id="dict-close">✕</div>
+  <div class="dict-word" id="dict-word"></div>
+  <div class="dict-def" id="dict-def"></div>
+  <div class="dict-example" id="dict-example"></div>
+</div>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-label">Phase 5 Lessons</div>
+  <div class="sb-item active" onclick="goLesson(0)"><div class="sb-dot"></div>1. From Investor to Manager</div>
+  <div class="sb-item" onclick="goLesson(1)"><div class="sb-dot"></div>2. Legal Structure</div>
+  <div class="sb-item" onclick="goLesson(2)"><div class="sb-dot"></div>3. Building a Track Record</div>
+  <div class="sb-item" onclick="goLesson(3)"><div class="sb-dot"></div>4. Raising Capital</div>
+  <div class="sb-item" onclick="goLesson(4)"><div class="sb-dot"></div>5. Risk & Compliance</div>
+  <div class="sb-item" onclick="goLesson(5)"><div class="sb-dot"></div>6. Operations & Technology</div>
+  <div class="sb-item" onclick="goLesson(6)"><div class="sb-dot"></div>7. Investor Relations</div>
+  <div class="sb-item" onclick="goLesson(7)"><div class="sb-dot"></div>8. Scaling the Business</div>
+  <div class="sb-label" style="margin-top:1rem">All Phases</div>
+  <div class="sb-item" onclick="window.location='phase1-chapter.html'"><div class="sb-dot" style="background:var(--accent)"></div>Phase 1 — Basics</div>
+  <div class="sb-item" onclick="window.location='phase2-chapter.html'"><div class="sb-dot" style="background:var(--accent2)"></div>Phase 2 — Analysis</div>
+  <div class="sb-item" onclick="window.location='phase3-chapter.html'"><div class="sb-dot" style="background:#00d4a0"></div>Phase 3 — Portfolios</div>
+  <div class="sb-item" onclick="window.location='phase4-chapter.html'"><div class="sb-dot" style="background:#a855f7"></div>Phase 4 — Hedge Funds</div>
+  <div class="sb-item" style="color:var(--accent);border-left:2px solid var(--accent);background:rgba(245,158,11,.06)"><div class="sb-dot" style="background:var(--accent)"></div>← Phase 5 (here)</div>
+  <div class="sb-item" onclick="window.location='investing-course.html'"><div class="sb-dot" style="background:#555"></div>↩ Course Home</div>
+</aside>
+<main class="main">
+
+<!-- ═══ L1: FROM INVESTOR TO MANAGER ═══ -->
+<div class="lesson-panel active" id="lesson-0">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 1 of 8</div>
+    <h1 class="lesson-title">From Investor to Manager: <em>The Leap Nobody Tells You About</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min</span><span class="lmeta">📊 The roadmap</span><span class="lmeta">🧠 Quiz included</span><span class="lmeta">💡 Tap gold words</span></div>
+    <p class="lesson-intro">Being a great investor and running a great investment firm are two completely different skills. One is about generating returns. The other is about building a business, managing people, raising capital, handling compliance, communicating with investors, and generating returns simultaneously. Most people who try the transition underestimate the second job entirely.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Two Jobs You're Taking On</h2>
+    <p class="ls-body">When you launch an investment firm, you immediately have two jobs running in parallel. <span class="def" data-word="Chief Investment Officer (CIO)" data-def="The role responsible for all investment decisions — portfolio construction, position sizing, risk management, research process. This is the job most aspiring fund managers have prepared for their entire career." data-ex="Example: As CIO you decide which positions to hold, how to size them, when to buy and sell, how much leverage to use, and how to manage the overall portfolio risk. It's the job you know.">CIO</span> is the job you've prepared for. <span class="def" data-word="Chief Executive Officer (CEO)" data-def="The role responsible for running the business — hiring, legal compliance, investor relations, capital raising, operations, and everything that keeps the firm functioning. At a startup fund, this is also your job, simultaneously." data-ex="Example: As CEO you handle: fund accounting, prime broker relationships, legal documentation, marketing materials, investor meetings, staff management, technology decisions, and regulatory filings. None of this appears in your investment returns — but all of it determines whether your fund survives.">CEO</span> is the job nobody trained you for. In the early days, you do both. The firms that succeed long-term are the ones that hire great people for the CEO function as quickly as capital allows.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">⚔️ The Two Jobs at Launch — How Time Gets Split</div>
+      <table class="data-table">
+        <thead><tr><th>CIO Function (Investment)</th><th>CEO Function (Business)</th></tr></thead>
+        <tbody>
+          <tr><td>Research and idea generation</td><td>Legal entity setup and documentation</td></tr>
+          <tr><td>Portfolio construction and risk management</td><td>Regulatory registration and compliance</td></tr>
+          <tr><td>Position monitoring and trading</td><td>Capital raising and investor meetings</td></tr>
+          <tr><td>Performance attribution and review</td><td>Prime broker and service provider management</td></tr>
+          <tr><td>Macroeconomic analysis</td><td>Technology and operational infrastructure</td></tr>
+          <tr class="hl"><td>Generating returns</td><td>Everything that allows you to continue generating returns</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">The Three Things Allocators Actually Buy</h2>
+    <p class="ls-body">When an institutional investor allocates capital to your fund, they are not simply buying your returns. They are buying three things: <strong style="color:var(--text)">Edge</strong> (a clearly articulable, durable, and scalable investment advantage), <strong style="color:var(--text)">Process</strong> (a systematic, repeatable framework for implementing that edge), and <strong style="color:var(--text)">Trust</strong> (confidence that you will manage their capital with the same care you manage your own). Most aspiring fund managers can articulate edge reasonably well. Process and trust are what actually close allocations.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Honest Prerequisite Check</div>
+      <p>Before launching a fund, ask yourself honestly: Do I have a 3+ year audited or verifiable track record? Do I have a genuine network of potential investors? Do I have enough personal capital to fund 12–24 months of business expenses before management fees cover them? Do I have genuine, sustainable investment edge — not just a good few years in a bull market? If you can't answer yes to all four, the next step is building the answers, not launching yet.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🚀</div><div><div class="cs-meta">Case Study · How the Best Emerging Managers Launch</div><div class="cs-title">The Typical Path from Idea to First Close</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">The most successful emerging manager launches follow a recognisable pattern. The future manager spends 5–10 years at an established firm (hedge fund, family office, or buy-side institution), building a track record, network, and reputation in their specific strategy. They leave with the respect of their colleagues and the contacts of potential seed investors.</p>
+        <p style="margin-bottom:.75rem">They spend 6–12 months in "pre-launch" — building the legal structure, hiring a prime broker, setting up systems, and quietly meeting potential investors before officially launching. The first close is typically from a combination of personal capital, family and friends, former colleagues, and one or two institutional early believers. First close AUM is typically $25–75M.</p>
+        <p>The pattern that doesn't work: quitting a job with no track record, no network, and no capital, and expecting institutional investors to take a chance. Institutional capital is risk-averse by nature — it follows track records and relationships, rarely precedes them.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Typical pre-launch prep: 6–12 months</span><span class="cs-stat">First close target: $25–75M</span><span class="cs-stat">Typical background: 5–10 yrs at established firm</span><span class="cs-stat">Management fee breakeven: ~$50M AUM</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 1</div>
+    <ul>
+      <li>Launching a fund means simultaneously being CIO (generate returns) and CEO (run the business) — most people underestimate the second job.</li>
+      <li>Allocators buy three things: Edge (articulable advantage), Process (systematic framework), and Trust (confidence in fiduciary care).</li>
+      <li>Prerequisites: 3+ year audited track record, investor network, personal capital runway of 12–24 months, genuine sustainable edge.</li>
+      <li>The typical successful path: 5–10 years at an established firm → 6–12 month pre-launch → first close of $25–75M.</li>
+      <li>Institutional capital follows track records and relationships — it almost never precedes them.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-0">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 1</div><div class="kcheck-sub">3 questions · pass 2/3 to continue</div></div></div>
+    <div class="kq" id="kq-0-0">
+      <div class="kq-text">1. You quit your job with a strong 2-year track record and plan to raise $100M from institutional investors immediately. What is the most likely outcome?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,0,0,0)">A. Success — a 2-year track record is sufficient for most institutional investors</button>
+        <button class="kq-opt" onclick="answerQ(0,0,1,1)">B. Difficulty — institutional allocators typically require 3–5 years of audited returns and an established relationship before committing capital</button>
+        <button class="kq-opt" onclick="answerQ(0,0,2,0)">C. Success if returns were above 20% annualised — performance overrides track record length</button>
+        <button class="kq-opt" onclick="answerQ(0,0,3,0)">D. Success — institutional investors are always looking for new emerging managers</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-0"></div>
+    </div>
+    <div class="kq" id="kq-0-1">
+      <div class="kq-text">2. When institutional allocators invest in a hedge fund they are primarily buying:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,1,0,0)">A. Past returns — historical performance predicts future outperformance</button>
+        <button class="kq-opt" onclick="answerQ(0,1,1,1)">B. Edge, Process, and Trust — articulable advantage, systematic implementation, and confidence in fiduciary management</button>
+        <button class="kq-opt" onclick="answerQ(0,1,2,0)">C. AUM size — larger funds are safer investments</button>
+        <button class="kq-opt" onclick="answerQ(0,1,3,0)">D. Brand name and media presence</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-1"></div>
+    </div>
+    <div class="kq" id="kq-0-2">
+      <div class="kq-text">3. Approximately what AUM is typically needed for a fund's 2% management fee to cover basic operating costs?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(0,2,0,0)">A. $10M — a small lean team can operate on very little</button>
+        <button class="kq-opt" onclick="answerQ(0,2,1,0)">B. $500M — only large funds can sustain themselves on fees alone</button>
+        <button class="kq-opt" onclick="answerQ(0,2,2,1)">C. ~$50M — 2% of $50M = $1M covers minimal staff, technology, and compliance for a lean operation</button>
+        <button class="kq-opt" onclick="answerQ(0,2,3,0)">D. $200M — institutional prime brokerage requires this minimum</button>
+      </div>
+      <div class="kq-feedback" id="kqf-0-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-0"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" disabled>← Previous</button>
+    <div class="lnav-mid" id="lnav-mid-0">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-0" disabled onclick="goLesson(1)">Lesson 2: Legal Structure →</button>
+  </div>
+</div>
+
+<!-- ═══ L2: LEGAL STRUCTURE ═══ -->
+<div class="lesson-panel" id="lesson-1">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 2 of 8</div>
+    <h1 class="lesson-title">Legal Structure: <em>LPs, GPs, and the Fund Architecture</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 Structure diagram</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Every hedge fund rests on a specific legal architecture. Understanding the roles of the General Partner, Limited Partners, and the management company — and how fees, liability, and control flow between them — is essential before you sign a single document.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Standard Fund Structure</h2>
+    <p class="ls-body">Almost every hedge fund uses a <span class="def" data-word="Limited Partnership (LP) Structure" data-def="The standard legal form for hedge funds. The fund itself is a limited partnership. The General Partner (GP) manages the fund and bears unlimited liability. The Limited Partners (LPs) are investors who provide capital but have limited liability — they can only lose what they invested." data-ex="Example: You launch XYZ Capital LP. You are the General Partner through your management company, XYZ Capital Management LLC. Your investors are Limited Partners. You make all investment decisions; they provide capital and have no say in day-to-day operations.">limited partnership structure</span>. The <span class="def" data-word="General Partner (GP)" data-def="The entity that manages the hedge fund, makes all investment decisions, and bears unlimited personal liability. The GP receives the management fee and performance fee. Typically structured as an LLC owned by the fund's founders." data-ex="Example: The GP entity (e.g. 'XYZ Capital GP LLC') is owned by the fund manager. It has the authority to make all trades, hire staff, and manage the fund. It also earns the 2% management fee and 20% performance fee.">General Partner (GP)</span> controls the fund and earns the fees. The <span class="def" data-word="Limited Partners (LPs)" data-def="The investors in a hedge fund. They provide capital but have no involvement in investment decisions. Their liability is limited to the amount they invested — they cannot lose more than they put in, regardless of what happens to the fund." data-ex="Example: A pension fund investing $50M in your hedge fund is a Limited Partner. They receive monthly statements, can attend annual meetings, and can redeem capital subject to the fund's terms — but have no say in specific investment decisions.">Limited Partners (LPs)</span> provide capital and receive returns.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🏗️ Standard Hedge Fund Legal Structure</div>
+      <table class="data-table">
+        <thead><tr><th>Entity</th><th>Who / What It Is</th><th>Function</th><th>Fee Entitlement</th></tr></thead>
+        <tbody>
+          <tr><td>Management Company</td><td>LLC owned by fund founders</td><td>Employs staff, signs contracts, receives management fees</td><td>2% management fee (from fund)</td></tr>
+          <tr><td>General Partner (GP)</td><td>LLC owned by fund founders</td><td>Legal entity controlling the fund LP, making investment decisions</td><td>20% performance fee (carried interest)</td></tr>
+          <tr class="hl"><td>Fund LP (The Fund)</td><td>The investment vehicle</td><td>Holds all assets; issues capital accounts to LPs; executes trades</td><td>N/A — this is the vehicle, not the beneficiary</td></tr>
+          <tr><td>Limited Partners (LPs)</td><td>Investors (pension funds, endowments, HNW, family offices)</td><td>Provide capital; receive returns net of fees</td><td>Receive net returns after fees</td></tr>
+          <tr><td>Prime Broker</td><td>Goldman, Morgan Stanley, JPMorgan etc.</td><td>Custody of assets, margin lending, securities lending for shorts</td><td>Commissions + margin interest</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Onshore vs Offshore — The Two-Vehicle Structure</h2>
+    <p class="ls-body">Most hedge funds of meaningful size run two parallel fund vehicles: a US onshore vehicle (typically a Delaware LP) for US taxable investors, and an offshore vehicle (typically a Cayman Islands fund) for non-US investors and US tax-exempt investors (pension funds, endowments). The two vehicles invest in the same portfolio through a master fund structure — a single pool of capital managed identically for both sets of investors.</p>
+    <div class="callout gold">
+      <div class="callout-title">📋 Key Fund Documents You Must Understand</div>
+      <p><strong>Private Placement Memorandum (PPM):</strong> The offering document — describes the strategy, risks, fees, terms, and team. The legal disclosure document investors receive before investing.<br><br>
+      <strong>Limited Partnership Agreement (LPA):</strong> The legal contract governing the fund — investor rights, GP powers, fee calculations, redemption terms, and governance. This is the constitution of your fund.<br><br>
+      <strong>Subscription Agreement:</strong> The document each investor signs to invest — confirms they are an accredited/qualified investor, their investment amount, and their acceptance of the LPA terms.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">⚖️</div><div><div class="cs-meta">Case Study · Carried Interest — The Tax Advantage That Creates Controversy</div><div class="cs-title">Why Performance Fees Are Taxed as Capital Gains</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem"><span class="def" data-word="Carried Interest" data-def="The 20% performance fee charged by hedge fund and private equity General Partners, structured as a profit share rather than ordinary income — and therefore taxed at the lower long-term capital gains rate (20%) rather than income tax rates (up to 37% in the US, 45% in the UK). This has been a source of significant political controversy." data-ex="Example: A GP earns $20M in performance fees on a fund. As ordinary income: tax of ~$8M (40%). As carried interest (capital gains): tax of ~$4M (20%). The legal structure saves the GP $4M in tax on the same $20M earned.">Carried interest</span> is the performance fee received by the GP — but structured as a share of the fund's profits rather than a service fee. Because the GP co-invests alongside LPs and receives their 20% share as a return on that co-investment (theoretically), it qualifies as long-term capital gains in most jurisdictions.</p>
+        <p style="margin-bottom:.75rem">In the US, this means hedge fund managers pay approximately 20% tax on their performance fees rather than the ordinary income rate of up to 37%. In the UK, managers can use special exemptions that reduce their effective rate on carried interest significantly below income tax rates.</p>
+        <p>This tax treatment has attracted significant political controversy — critics argue that fund managers earning $100M+ in performance fees should pay ordinary income rates. Defenders argue the structure reflects genuine economic risk (GP capital at risk) and that the tax treatment incentivises the alignment of interests. The debate continues in most developed markets.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Capital gains rate (US): ~20%</span><span class="cs-stat">Ordinary income rate (US): up to 37%</span><span class="cs-stat">Tax saving on $20M: ~$3–4M</span><span class="cs-stat">Status: politically contested</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 2</div>
+    <ul>
+      <li>Standard structure: Management Company (employs staff, receives management fees) + GP entity (controls fund, receives carried interest) + Fund LP (holds assets) + LPs (investors).</li>
+      <li>GP has unlimited liability; LPs have liability limited to their invested capital.</li>
+      <li>Most funds of size run parallel onshore (Delaware LP) and offshore (Cayman) vehicles for different investor tax situations.</li>
+      <li>Three key documents: PPM (offering disclosure), LPA (fund constitution), Subscription Agreement (investor contract).</li>
+      <li>Carried interest taxes performance fees at capital gains rates (~20%) rather than income rates (up to 37–45%) — a significant and politically contested advantage.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-1">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 2</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-1-0">
+      <div class="kq-text">1. In a hedge fund limited partnership, who has unlimited personal liability?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,0,0,0)">A. The Limited Partners — they provide the capital so they bear the risk</button>
+        <button class="kq-opt" onclick="answerQ(1,0,1,1)">B. The General Partner — they control the fund and bear unlimited liability for its actions</button>
+        <button class="kq-opt" onclick="answerQ(1,0,2,0)">C. The Prime Broker — they custody the assets</button>
+        <button class="kq-opt" onclick="answerQ(1,0,3,0)">D. No one — LLCs shield everyone from personal liability</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-0"></div>
+    </div>
+    <div class="kq" id="kq-1-1">
+      <div class="kq-text">2. Why do most large hedge funds run both an onshore and offshore fund vehicle?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,1,0,0)">A. To hide assets from regulators in different jurisdictions</button>
+        <button class="kq-opt" onclick="answerQ(1,1,1,1)">B. Different investor types have different tax situations — US taxable investors need the onshore vehicle; non-US and US tax-exempt investors (pensions, endowments) use the offshore vehicle</button>
+        <button class="kq-opt" onclick="answerQ(1,1,2,0)">C. Offshore funds generate higher returns due to lower regulatory costs</button>
+        <button class="kq-opt" onclick="answerQ(1,1,3,0)">D. SEC regulations require hedge funds to have an offshore vehicle</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-1"></div>
+    </div>
+    <div class="kq" id="kq-1-2">
+      <div class="kq-text">3. Carried interest is controversial primarily because:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(1,2,0,0)">A. It allows fund managers to take a larger share of profits than agreed with investors</button>
+        <button class="kq-opt" onclick="answerQ(1,2,1,1)">B. Large performance fees earned by fund managers are taxed at the lower capital gains rate rather than ordinary income rates — critics argue this unfairly benefits high earners</button>
+        <button class="kq-opt" onclick="answerQ(1,2,2,0)">C. It creates conflicts of interest between the GP and LP investors</button>
+        <button class="kq-opt" onclick="answerQ(1,2,3,0)">D. It is paid upfront before performance is actually realised</button>
+      </div>
+      <div class="kq-feedback" id="kqf-1-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-1"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(0)">← Lesson 1</button>
+    <div class="lnav-mid" id="lnav-mid-1">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-1" disabled onclick="goLesson(2)">Lesson 3: Building a Track Record →</button>
+  </div>
+</div>
+
+<!-- ═══ L3: TRACK RECORD ═══ -->
+<div class="lesson-panel" id="lesson-2">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 3 of 8</div>
+    <h1 class="lesson-title">Building a Track Record: <em>What Allocators Actually Want</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min</span><span class="lmeta">📊 Track record standards</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">A track record is the most valuable asset an emerging fund manager can own. Building one that is credible, verifiable, and compelling to institutional allocators is a deliberate process — not simply a matter of generating good returns.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">What Makes a Track Record Credible</h2>
+    <p class="ls-body">Not all track records are equal. Institutional allocators apply rigorous scrutiny. The key attributes of a credible track record are: verifiability (independently audited by a recognised firm), length (minimum 3 years, preferably 5+ across a full market cycle), appropriate benchmark (compared to the right index, not the easiest one), and attribution (ability to explain where returns came from — sector, factor, specific names).</p>
+    <div class="chart-wrap">
+      <div class="chart-title">✅ Track Record Quality Checklist — What Allocators Verify</div>
+      <table class="data-table">
+        <thead><tr><th>Element</th><th>Minimum Standard</th><th>Preferred Standard</th><th>Red Flag</th></tr></thead>
+        <tbody>
+          <tr><td>Audit</td><td>Annual audit by any recognised firm</td><td>Big 4 or top-tier boutique fund auditor</td><td>No audit or self-reported performance</td></tr>
+          <tr><td>Length</td><td>3 years minimum</td><td>5+ years including a bear market</td><td>Less than 2 years</td></tr>
+          <tr><td>Attribution</td><td>Can explain what drove returns</td><td>Detailed attribution by factor, sector, name</td><td>"Markets were good" — cannot explain sources</td></tr>
+          <tr><td>Benchmark</td><td>Relevant peer index</td><td>Customised benchmark matching actual strategy</td><td>Cherry-picked easy benchmark</td></tr>
+          <tr class="hl"><td>Consistency</td><td>No single year dominating returns</td><td>Consistent process across all market environments</td><td>One great year out of three mediocre ones</td></tr>
+          <tr><td>Portability</td><td>Returns earned in similar strategy</td><td>At own fund or at prior firm with documentation</td><td>Returns from a completely different strategy</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">The Personal Account Track Record Problem</h2>
+    <p class="ls-body">Many aspiring managers have only a personal trading account as their track record. Institutional allocators treat personal account records with significant scepticism: they may be cherry-picked (only showing the good period), they don't demonstrate capacity at institutional scale, and they lack the governance and audit processes of a managed fund. The only way to build a truly institutional track record is to manage institutional capital — either at an existing firm or through a separately managed account structure.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Separately Managed Account (SMA) Path</div>
+      <p>If you don't yet have a fund, a <span class="def" data-word="Separately Managed Account (SMA)" data-def="A portfolio managed by an investment manager on behalf of a single client, where the client owns the securities directly. Unlike a fund, the client can see every holding and has customisation rights. SMAs are useful for building a track record with a small number of early investors before launching a fund." data-ex="Example: A wealthy individual gives you $5M to manage in their brokerage account according to your strategy. You have discretion over trades. This creates a verifiable, auditable track record that you can later use as evidence of your strategy's performance.">Separately Managed Account</span> with one or two early believers can build your track record before you launch a formal fund. The investor owns the securities directly, has full transparency, and can verify the returns independently. This is a credible and common path for emerging managers who want verifiable performance history before committing to full fund infrastructure.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📋</div><div><div class="cs-meta">Case Study · Bridgewater's First Decade</div><div class="cs-title">How Ray Dalio Built Credibility from a Bedroom</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Ray Dalio founded Bridgewater Associates in 1975 from his New York City apartment. His first clients were not institutions — they were individuals and small companies. He built credibility slowly: by sending daily research memos to clients explaining his views on markets, by being right consistently enough to attract attention, and by being transparent when he was wrong (he famously made a very public wrong call in 1982 that nearly bankrupted the firm).</p>
+        <p style="margin-bottom:.75rem">The turning point came when his daily research began reaching institutional clients through referrals. In 1987, the World Bank became one of his first major institutional clients. From there, Bridgewater grew through a reputation for rigorous analysis, intellectual honesty, and genuine risk management that outperformed during the 1987 crash.</p>
+        <p>The lesson: track record building is not just about returns. Dalio's daily memos became legendary — they demonstrated his process, his thinking, and his intellectual honesty regardless of whether he was right or wrong. Allocators bought his framework as much as his historical performance.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Founded: 1975, NYC apartment</span><span class="cs-stat">First institutional client: World Bank (1987)</span><span class="cs-stat">Daily research memos: still published</span><span class="cs-stat">Today: $150B+ AUM</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 3</div>
+    <ul>
+      <li>Credible track records need: Big 4 audit, 3–5+ years length, clear attribution, appropriate benchmark, consistency across environments.</li>
+      <li>Personal account records are viewed sceptically — they lack governance, audit, and capacity demonstration.</li>
+      <li>SMAs with early believers create verifiable, portable track records before committing to full fund infrastructure.</li>
+      <li>Dalio's path: daily research memos demonstrating process and intellectual honesty built credibility as much as returns did.</li>
+      <li>Allocators buy the process and framework — a great track record with no explainable process is less compelling than a good track record with crystal-clear attribution.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-2">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 3</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-2-0">
+      <div class="kq-text">1. Why do institutional allocators treat personal trading account track records with significant scepticism?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,0,0,1)">A. They may be cherry-picked, lack audit oversight, don't demonstrate capacity at institutional scale, and lack the governance processes allocators require</button>
+        <button class="kq-opt" onclick="answerQ(2,0,1,0)">B. Personal accounts generate lower returns than institutional accounts</button>
+        <button class="kq-opt" onclick="answerQ(2,0,2,0)">C. Personal accounts are taxed differently which distorts the return comparison</button>
+        <button class="kq-opt" onclick="answerQ(2,0,3,0)">D. Regulators prohibit the use of personal trading records in marketing materials</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-0"></div>
+    </div>
+    <div class="kq" id="kq-2-1">
+      <div class="kq-text">2. What is the primary advantage of building a track record through Separately Managed Accounts (SMAs)?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,1,0,0)">A. SMAs generate higher returns than fund structures</button>
+        <button class="kq-opt" onclick="answerQ(2,1,1,1)">B. The investor owns securities directly and can independently verify all positions and performance — creating a credible, verifiable record before committing to full fund infrastructure</button>
+        <button class="kq-opt" onclick="answerQ(2,1,2,0)">C. SMAs are exempt from regulatory oversight</button>
+        <button class="kq-opt" onclick="answerQ(2,1,3,0)">D. SMA performance can be presented as fund performance to institutional allocators</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-1"></div>
+    </div>
+    <div class="kq" id="kq-2-2">
+      <div class="kq-text">3. Ray Dalio's daily research memos contributed to Bridgewater's credibility because they:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(2,2,0,0)">A. Generated significant trading commissions from institutional clients</button>
+        <button class="kq-opt" onclick="answerQ(2,2,1,0)">B. Were always correct in their market predictions</button>
+        <button class="kq-opt" onclick="answerQ(2,2,2,1)">C. Demonstrated the investment process, intellectual framework, and analytical honesty — allocators were buying the thinking, not just the returns</button>
+        <button class="kq-opt" onclick="answerQ(2,2,3,0)">D. Satisfied SEC regulatory requirements for fund marketing materials</button>
+      </div>
+      <div class="kq-feedback" id="kqf-2-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-2"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(1)">← Lesson 2</button>
+    <div class="lnav-mid" id="lnav-mid-2">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-2" disabled onclick="goLesson(3)">Lesson 4: Raising Capital →</button>
+  </div>
+</div>
+
+<!-- ═══ L4: RAISING CAPITAL ═══ -->
+<div class="lesson-panel" id="lesson-3">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 4 of 8</div>
+    <h1 class="lesson-title">Raising Capital: <em>Finding Your First Investors</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min</span><span class="lmeta">📊 Capital source breakdown</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Capital raising is a sales job, and most investment professionals are terrible at it. Not because they're not smart — but because raising capital requires a completely different skill set than analysing stocks: relationship building, storytelling, patience, and the ability to handle rejection at scale.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Capital Raising Ecosystem</h2>
+    <p class="ls-body">Different types of investors have different needs, processes, and timelines. Understanding your audience is the first step. An endowment and a family office both write cheques — but they have completely different decision-making processes, risk tolerances, liquidity needs, and regulatory constraints.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">💼 Capital Sources for Emerging Managers</div>
+      <table class="data-table">
+        <thead><tr><th>Investor Type</th><th>Typical Ticket Size</th><th>Decision Timeline</th><th>Key Requirements</th><th>Best Approach</th></tr></thead>
+        <tbody>
+          <tr><td>Friends & Family</td><td>$50k–$2M</td><td>1–4 weeks</td><td>Personal trust, basic disclosure</td><td>Start here — fastest initial capital</td></tr>
+          <tr><td>High Net Worth (HNW)</td><td>$1M–$10M</td><td>1–3 months</td><td>Track record, personal relationship, references</td><td>Warm introductions from existing network</td></tr>
+          <tr><td>Family Offices</td><td>$5M–$50M</td><td>3–6 months</td><td>3yr track record, clear process, in-person meetings</td><td>Best early institutional source for emerging managers</td></tr>
+          <tr class="hl"><td>Seed Capital Firms</td><td>$25M–$100M</td><td>3–6 months</td><td>Strong track record, scalable strategy</td><td>Give up revenue share in exchange for infrastructure + capital</td></tr>
+          <tr><td>Fund of Funds</td><td>$10M–$50M</td><td>6–12 months</td><td>3–5yr track record, institutional ops, capacity</td><td>Important early institutional validator</td></tr>
+          <tr><td>Pension Funds / Endowments</td><td>$50M–$500M+</td><td>12–24 months</td><td>5yr+ audited record, full institutional infrastructure, consultant approval</td><td>Long-term target — rarely a first institutional investor</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Seed Capital — The Accelerated Path</h2>
+    <p class="ls-body"><span class="def" data-word="Seed Capital Deal" data-def="An arrangement where a specialist firm (seeder) provides a large initial capital commitment to a new fund manager — typically $25–100M — in exchange for a revenue share (25–35% of management and performance fees) for a defined period (typically 3–5 years). Accelerates the launch but has a significant economic cost." data-ex="Example: A seeder provides $50M at launch. In exchange, they receive 30% of all fee revenue for 4 years. If the fund earns $3M in fees in Year 1, the seeder receives $900k. After 4 years, the revenue share typically ends and the manager retains all fees going forward.">Seed capital</span> accelerates the launch substantially but comes at significant cost. The seeder provides infrastructure (prime brokerage introductions, legal templates, operational support) alongside capital. In exchange, they take 25–35% of all fee revenue for several years. The calculation: is getting to $50M+ AUM immediately worth giving up 30% of fees for 3–5 years? For most managers, the answer is yes — the management fee economics improve enough to make the tradeoff worthwhile even with the revenue share.</p>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">💰</div><div><div class="cs-meta">Case Study · The Typical Emerging Manager Capital Raise</div><div class="cs-title">$100M in Year 3 — A Realistic Timeline</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">A realistic capital raising timeline for a strong emerging manager launching from a reputable institution: Month 1–6 (pre-launch): seed discussions, family office introductions, personal network meetings. Launch with $20–40M from seed capital, personal capital, HNW investors, and 1–2 family offices.</p>
+        <p style="margin-bottom:.75rem">Year 1: Focus on performance and building the track record. Add $10–20M from additional family offices and HNW referrals. End Year 1 at $40–60M. Year 2: First fund of funds investments as 12-month track record becomes available. Add $20–30M. End Year 2 at $60–90M.</p>
+        <p>Year 3: Institutional allocators can now see 3 years of performance. Consultant recommendations begin. First pension fund or endowment ticket. Cross $100M. This is where management fee economics begin to genuinely work. The path from $100M to $500M is typically 3–5 more years of compounding performance and reputation.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Launch AUM: $20–40M</span><span class="cs-stat">Year 1 end: $40–60M</span><span class="cs-stat">Year 3 end: $100M+</span><span class="cs-stat">Institutional entry: Year 3+</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 4</div>
+    <ul>
+      <li>Capital sources in order of accessibility: Friends/Family → HNW → Family Offices → Seed Firms → Fund of Funds → Pension Funds.</li>
+      <li>Family offices are the best first institutional capital source for emerging managers — faster process, relationship-driven, less bureaucracy.</li>
+      <li>Seed deals provide $25–100M at launch in exchange for 25–35% revenue share — expensive but often worth it for the acceleration.</li>
+      <li>Realistic timeline: launch $20–40M → Year 3: cross $100M → first pension/endowment tickets → Year 5–8: scale to $500M+.</li>
+      <li>Pension funds and endowments are long-term targets — rarely a first institutional investor. Build toward them, don't start with them.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-3">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 4</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-3-0">
+      <div class="kq-text">1. Why are family offices typically the best first institutional capital source for emerging managers?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,0,0,0)">A. They provide the largest tickets — $500M+ at a time</button>
+        <button class="kq-opt" onclick="answerQ(3,0,1,1)">B. Faster decision-making (3–6 months vs 12–24 for pensions), relationship-driven, less bureaucracy, and more willing to back emerging managers at earlier stages</button>
+        <button class="kq-opt" onclick="answerQ(3,0,2,0)">C. They have lower return expectations than other institutional investors</button>
+        <button class="kq-opt" onclick="answerQ(3,0,3,0)">D. Family offices are exempt from the 3-year track record requirement</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-0"></div>
+    </div>
+    <div class="kq" id="kq-3-1">
+      <div class="kq-text">2. A seeder provides $50M at launch in exchange for 30% revenue share for 4 years. The fund earns $3M in fees in Year 1. What does the seeder receive?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,1,0,0)">A. $50M back immediately — it's a loan, not a permanent investment</button>
+        <button class="kq-opt" onclick="answerQ(3,1,1,1)">B. $900k — 30% of the $3M total fee revenue earned that year</button>
+        <button class="kq-opt" onclick="answerQ(3,1,2,0)">C. $1.5M — 50% of fees since they provided half the capital</button>
+        <button class="kq-opt" onclick="answerQ(3,1,3,0)">D. Nothing — revenue sharing only applies after Year 2</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-1"></div>
+    </div>
+    <div class="kq" id="kq-3-2">
+      <div class="kq-text">3. When do pension funds and endowments typically make their first investment in an emerging manager?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(3,2,0,0)">A. At launch — they specifically seek early-stage managers to build relationships</button>
+        <button class="kq-opt" onclick="answerQ(3,2,1,0)">B. Year 1 — once the first quarterly report is available</button>
+        <button class="kq-opt" onclick="answerQ(3,2,2,1)">C. Year 3+ — once a 3-year audited track record exists and institutional infrastructure is in place, allowing their investment consultants to approve the allocation</button>
+        <button class="kq-opt" onclick="answerQ(3,2,3,0)">D. Only after the manager has $1B+ AUM</button>
+      </div>
+      <div class="kq-feedback" id="kqf-3-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-3"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(2)">← Lesson 3</button>
+    <div class="lnav-mid" id="lnav-mid-3">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-3" disabled onclick="goLesson(4)">Lesson 5: Risk & Compliance →</button>
+  </div>
+</div>
+
+<!-- ═══ L5: RISK & COMPLIANCE ═══ -->
+<div class="lesson-panel" id="lesson-4">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 5 of 8</div>
+    <h1 class="lesson-title">Risk & Compliance: <em>The Framework That Keeps You in Business</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 13 min</span><span class="lmeta">📊 Compliance framework</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Compliance is not optional — it is the framework within which you operate, and failures can end careers and funds overnight. More importantly, a robust compliance culture protects investors and is the foundation of long-term trust that allows a fund to grow.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">Regulatory Registration</h2>
+    <p class="ls-body">Most hedge funds above a threshold AUM must register as investment advisers with their national regulator. In the US, funds above $100M in AUM register with the <span class="def" data-word="SEC (Securities and Exchange Commission)" data-def="The US federal regulator overseeing investment advisers, broker-dealers, and securities markets. Hedge funds with $100M+ AUM must register as Registered Investment Advisers (RIAs) and comply with ongoing reporting, disclosure, and conduct requirements." data-ex="Example: A US hedge fund crossing $100M AUM must file Form ADV (the adviser registration document), disclose all conflicts of interest, implement a written compliance program, and file regular reports with the SEC. Inspections ('exams') happen periodically.">SEC</span> as a Registered Investment Adviser (RIA). In the UK, funds are regulated by the <span class="def" data-word="FCA (Financial Conduct Authority)" data-def="The UK financial regulator overseeing investment management firms. Hedge funds managing third-party capital in the UK must be FCA-authorised, with ongoing capital requirements, conduct standards, and reporting obligations." data-ex="Example: A UK hedge fund manager must obtain FCA authorisation before managing third-party capital. This requires demonstrated competence, adequate capital, compliance policies, and ongoing regulatory reporting.">FCA</span>.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📋 Core Compliance Requirements for a Hedge Fund</div>
+      <table class="data-table">
+        <thead><tr><th>Area</th><th>Requirement</th><th>Frequency</th><th>Consequence of Failure</th></tr></thead>
+        <tbody>
+          <tr><td>Investment Adviser Registration</td><td>Register with SEC/FCA above threshold AUM</td><td>Once, then maintain</td><td>Operating illegally — fund shutdown, personal liability</td></tr>
+          <tr><td>Written Compliance Program</td><td>Documented policies for every compliance risk area</td><td>Annual review required</td><td>Regulatory censure, fine, registration revocation</td></tr>
+          <tr class="hl"><td>Insider Trading Controls</td><td>Information barriers, pre-clearance for trades, watch lists</td><td>Continuous</td><td>Criminal prosecution, fund closure, reputational destruction</td></tr>
+          <tr><td>AML/KYC</td><td>Anti-money laundering and Know Your Customer checks on all investors</td><td>At onboarding, periodic refresh</td><td>Regulatory fine, reputational damage</td></tr>
+          <tr><td>Best Execution</td><td>Document that trades are executed at best available price</td><td>Ongoing</td><td>Investor claims, regulatory review</td></tr>
+          <tr><td>Conflict of Interest Disclosure</td><td>Disclose all conflicts in ADV / investor materials</td><td>Annual update</td><td>Investor fraud claims, regulatory action</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout red">
+      <div class="callout-title">🚨 The One That Ends Careers: Insider Trading</div>
+      <p>Insider trading — trading on material non-public information — is a criminal offence in virtually every jurisdiction. Hedge fund managers are particularly vulnerable because their networks are large and information-rich. The controls: <strong>Information Barriers</strong> (walls between research and trading), <strong>Trade Pre-Clearance</strong> (compliance approval before certain trades), and <strong>Personal Trading Policies</strong> (restrictions on staff personal accounts). SAC Capital (Steve Cohen) was shut down by the SEC in 2013 after systematic insider trading by employees — the fund was fined $1.8B. Cohen himself was later cleared but banned from managing outside capital for two years.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">⚖️</div><div><div class="cs-meta">Case Study · Galleon Group — Insider Trading Brought Down a $7B Hedge Fund</div><div class="cs-title">Raj Rajaratnam and the End of an Era</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Raj Rajaratnam founded Galleon Group and grew it to $7 billion — one of the largest hedge funds of its era. He built a vast network of corporate insiders who provided material non-public information about earnings, mergers, and other market-moving events before they were announced. He made hundreds of millions of dollars trading on this information.</p>
+        <p style="margin-bottom:.75rem">The FBI used wiretaps — the first ever used in a securities fraud case — to record Rajaratnam receiving inside tips over the phone. He was arrested in 2009, convicted in 2011 of 14 counts of securities fraud and conspiracy, and sentenced to 11 years in prison. Galleon closed immediately.</p>
+        <p>The lesson for fund managers: the risk/reward of insider trading is catastrophically asymmetric. The marginal return from inside information is relatively small and temporary. The downside is personal criminal prosecution, prison, permanent career destruction, and fund closure. No returns are worth that risk — and the FBI's use of wiretaps demonstrated that regulatory surveillance is far more sophisticated than most managers appreciate.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Galleon AUM: $7B</span><span class="cs-stat">Rajaratnam sentenced: 11 years</span><span class="cs-stat">Fine: $150M</span><span class="cs-stat">Method of detection: FBI wiretaps</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 5</div>
+    <ul>
+      <li>US funds above $100M must register as RIAs with the SEC; UK funds must obtain FCA authorisation — both trigger ongoing compliance obligations.</li>
+      <li>A written compliance program is legally required and must be reviewed annually — it is not optional bureaucracy.</li>
+      <li>Insider trading controls (information barriers, pre-clearance, personal trading policies) are the most critical compliance area for hedge funds.</li>
+      <li>Galleon: FBI wiretaps, 11-year prison sentence, $7B fund closed — insider trading's downside is catastrophically asymmetric to the upside.</li>
+      <li>Compliance is not just legal protection — it is the foundation of investor trust that allows long-term growth.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-4">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 5</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-4-0">
+      <div class="kq-text">1. At what AUM threshold must a US hedge fund register with the SEC as a Registered Investment Adviser?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,0,0,0)">A. $10M — any fund managing third-party capital must register</button>
+        <button class="kq-opt" onclick="answerQ(4,0,1,1)">B. $100M — funds below this threshold can use state-level exemptions</button>
+        <button class="kq-opt" onclick="answerQ(4,0,2,0)">C. $1B — only large funds face federal regulatory oversight</button>
+        <button class="kq-opt" onclick="answerQ(4,0,3,0)">D. There is no threshold — SEC registration is optional for hedge funds</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-0"></div>
+    </div>
+    <div class="kq" id="kq-4-1">
+      <div class="kq-text">2. What makes insider trading particularly dangerous for hedge fund managers compared to other investors?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,1,0,0)">A. Hedge funds trade larger volumes so insider trading is more easily detected</button>
+        <button class="kq-opt" onclick="answerQ(4,1,1,1)">B. Their extensive professional networks create constant exposure to material non-public information — making rigorous controls and clear policies essential to avoid inadvertent violations</button>
+        <button class="kq-opt" onclick="answerQ(4,1,2,0)">C. Hedge funds are subject to different insider trading laws than other investors</button>
+        <button class="kq-opt" onclick="answerQ(4,1,3,0)">D. Fund managers are personally responsible for their investors' gains from insider trading</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-1"></div>
+    </div>
+    <div class="kq" id="kq-4-2">
+      <div class="kq-text">3. What investigative method did the FBI use to catch Raj Rajaratnam of Galleon Group?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(4,2,0,0)">A. Analysis of unusually profitable trades before corporate announcements</button>
+        <button class="kq-opt" onclick="answerQ(4,2,1,0)">B. Tips from other fund managers who competed with Galleon</button>
+        <button class="kq-opt" onclick="answerQ(4,2,2,1)">C. Wiretaps — the first ever used in a US securities fraud case — recording him receiving inside tips by phone</button>
+        <button class="kq-opt" onclick="answerQ(4,2,3,0)">D. Analysis of his prime broker's trading records</button>
+      </div>
+      <div class="kq-feedback" id="kqf-4-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-4"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(3)">← Lesson 4</button>
+    <div class="lnav-mid" id="lnav-mid-4">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-4" disabled onclick="goLesson(5)">Lesson 6: Operations & Technology →</button>
+  </div>
+</div>
+
+<!-- ═══ L6: OPERATIONS & TECHNOLOGY ═══ -->
+<div class="lesson-panel" id="lesson-5">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 6 of 8</div>
+    <h1 class="lesson-title">Operations & Technology: <em>The Infrastructure Nobody Sees</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 12 min</span><span class="lmeta">📊 Ops stack</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">The best investors can be rendered ineffective by poor operational infrastructure. Bad fund accounting, unreliable technology, or inadequate prime brokerage relationships create errors, delays, and investor concerns that directly undermine performance and fund-raising ability.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Operational Stack</h2>
+    <p class="ls-body">A hedge fund's operational infrastructure consists of five interconnected layers. Each must work reliably — a failure in any one layer creates problems throughout the entire system. Most emerging managers underinvest in operations at launch and pay dearly in errors, investor distrust, or regulatory issues later.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">🏗️ The Hedge Fund Operational Stack</div>
+      <table class="data-table">
+        <thead><tr><th>Layer</th><th>What It Does</th><th>Key Vendors</th><th>Cost Range</th></tr></thead>
+        <tbody>
+          <tr><td>Prime Brokerage</td><td>Asset custody, securities lending (shorts), margin financing, execution</td><td>Goldman Sachs, Morgan Stanley, JPMorgan, Deutsche Bank</td><td>Commissions + margin interest</td></tr>
+          <tr><td>Fund Administration</td><td>Independent NAV calculation, investor records, capital account statements</td><td>SS&C, Citco, State Street, NAV Consulting</td><td>$50–150k/year</td></tr>
+          <tr><td>Fund Accounting</td><td>Daily P&L, position reconciliation, expense allocation, tax reporting</td><td>In-house or outsourced to administrator</td><td>$50–200k/year</td></tr>
+          <tr class="hl"><td>Portfolio Management System</td><td>Order management, risk analytics, portfolio attribution, reporting</td><td>Bloomberg PORT, Charles River, Enfusion, Geneva</td><td>$50–500k/year</td></tr>
+          <tr><td>Risk Management System</td><td>Real-time exposure monitoring, stress testing, VaR, limit monitoring</td><td>Bloomberg, Axioma, FactSet, Aladdin</td><td>$50–300k/year</td></tr>
+          <tr><td>Compliance Technology</td><td>Trade surveillance, personal trading monitoring, regulatory reporting</td><td>ComplySci, StarCompliance, MCO</td><td>$20–100k/year</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">Prime Brokerage — The Most Important Relationship</h2>
+    <p class="ls-body">The <span class="def" data-word="Prime Broker" data-def="A large bank or securities firm that provides hedge funds with a bundled suite of services: securities custody, margin lending, securities lending (for short positions), execution, clearing, and introductions to investors. The prime brokerage relationship is critical — top-tier prime brokers like Goldman Sachs confer legitimacy and provide significant capital introduction services." data-ex="Example: A fund's prime broker holds all its assets in custody, lends the fund money to lever up positions (margin), lends securities the fund wants to short, and executes large block trades efficiently. Goldman Sachs Prime Services is considered the most prestigious prime brokerage — being a Goldman client signals institutional credibility.">Prime broker</span> selection matters enormously for emerging managers. Top-tier prime brokers (Goldman, Morgan Stanley, JPMorgan) are selective — they won't take on very small funds. But being a Goldman prime brokerage client confers significant credibility and access to their capital introduction teams, who make introductions to institutional investors.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Minimum Viable Operations Stack for Launch</div>
+      <p>You can launch a lean fund with: one mid-tier prime broker (Deutsche Bank, BTIG, Cowen are more accessible at smaller AUM), an outsourced fund administrator for independent NAV and investor statements, Bloomberg Terminal for data and analytics, basic portfolio management software, and an outsourced compliance consultant for the written compliance program. Total annual operational cost at minimal scale: approximately $300–500k — requiring roughly $25–50M AUM to be covered by management fees alone.</p>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 6</div>
+    <ul>
+      <li>The operational stack: Prime Broker → Fund Admin → Portfolio Management System → Risk System → Compliance Technology.</li>
+      <li>Independent fund administration is non-negotiable — the NAV must be calculated by a third party, not the manager.</li>
+      <li>Top-tier prime brokers (Goldman, Morgan Stanley) confer credibility and provide capital introductions — but require minimum AUM thresholds.</li>
+      <li>Minimum viable operations cost: ~$300–500k/year — requiring ~$25–50M AUM for management fees to cover it.</li>
+      <li>Underinvesting in operations at launch creates errors and investor trust issues that undermine capital raising later.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-5">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 6</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-5-0">
+      <div class="kq-text">1. Why is independent fund administration non-negotiable for a credible hedge fund?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,0,0,0)">A. Regulators legally require it in all jurisdictions</button>
+        <button class="kq-opt" onclick="answerQ(5,0,1,1)">B. The NAV calculated by an independent third party provides investors with verified performance figures — self-reported NAV is unverifiable and a common fraud enabler (as Madoff demonstrated)</button>
+        <button class="kq-opt" onclick="answerQ(5,0,2,0)">C. Fund administrators have better accounting software than fund managers</button>
+        <button class="kq-opt" onclick="answerQ(5,0,3,0)">D. It reduces the fund's operational costs through economies of scale</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-0"></div>
+    </div>
+    <div class="kq" id="kq-5-1">
+      <div class="kq-text">2. Beyond securities custody, what additional service do top-tier prime brokers like Goldman Sachs provide that is particularly valuable for emerging managers?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,1,0,0)">A. Guaranteed performance — prime brokers ensure a minimum return</button>
+        <button class="kq-opt" onclick="answerQ(5,1,1,1)">B. Capital introduction — introducing the fund to their institutional investor clients who are seeking new manager allocations</button>
+        <button class="kq-opt" onclick="answerQ(5,1,2,0)">C. Free Bloomberg Terminal access for the fund's analysts</button>
+        <button class="kq-opt" onclick="answerQ(5,1,3,0)">D. Legal compliance advisory services at no extra cost</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-1"></div>
+    </div>
+    <div class="kq" id="kq-5-2">
+      <div class="kq-text">3. What approximate AUM is needed for a lean fund's management fees to cover minimum viable operational costs of ~$400k/year?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(5,2,0,0)">A. $5M — a small efficient team can operate very cheaply</button>
+        <button class="kq-opt" onclick="answerQ(5,2,1,1)">B. $20–25M — 2% management fee on $20M = $400k, roughly covering minimum costs</button>
+        <button class="kq-opt" onclick="answerQ(5,2,2,0)">C. $500M — operational costs scale with AUM linearly</button>
+        <button class="kq-opt" onclick="answerQ(5,2,3,0)">D. $1M — management fees are profit from day one regardless of AUM</button>
+      </div>
+      <div class="kq-feedback" id="kqf-5-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-5"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(4)">← Lesson 5</button>
+    <div class="lnav-mid" id="lnav-mid-5">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-5" disabled onclick="goLesson(6)">Lesson 7: Investor Relations →</button>
+  </div>
+</div>
+
+<!-- ═══ L7: INVESTOR RELATIONS ═══ -->
+<div class="lesson-panel" id="lesson-6">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 7 of 8</div>
+    <h1 class="lesson-title">Investor Relations: <em>The Communication That Keeps Capital</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 14 min</span><span class="lmeta">📊 IR framework</span><span class="lmeta">🧠 Quiz included</span></div>
+    <p class="lesson-intro">Raising capital is the beginning. Keeping it requires a consistent, transparent, and professional investor relations programme. More funds lose capital to poor communication than to poor performance. How you communicate during difficult periods often determines whether you survive them.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The IR Calendar — What Investors Expect</h2>
+    <p class="ls-body">Investor relations is not just about sending monthly performance reports. It is a systematic programme of communication designed to give investors confidence in both the investment process and the fund's governance. The standard expectation at institutional level:</p>
+    <div class="chart-wrap">
+      <div class="chart-title">📅 Institutional IR Calendar — Minimum Standards</div>
+      <table class="data-table">
+        <thead><tr><th>Frequency</th><th>Communication</th><th>Content</th><th>Deadline</th></tr></thead>
+        <tbody>
+          <tr><td>Monthly</td><td>Performance Report</td><td>Net return, attribution by strategy/sector, top positions (optional), risk metrics</td><td>Within 10 business days of month end</td></tr>
+          <tr class="hl"><td>Quarterly</td><td>Investor Letter</td><td>Portfolio review, market outlook, positioning changes, key risks, Q&A on top positions</td><td>Within 20 business days of quarter end</td></tr>
+          <tr><td>Annual</td><td>Annual Report + Audit</td><td>Audited financial statements, full year attribution, strategy review, operational update</td><td>Within 90 days of year end</td></tr>
+          <tr><td>Annual</td><td>Annual Investor Meeting</td><td>In-person or virtual presentation: year review, outlook, team updates, Q&A</td><td>Q1 following year</td></tr>
+          <tr><td>Ad Hoc</td><td>Material Event Notice</td><td>Significant drawdown, key person departure, strategy change, regulatory issue</td><td>Within 24–48 hours</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">How to Communicate During a Drawdown</h2>
+    <p class="ls-body">Drawdowns are the moment of truth for investor relations. Most investors intellectually understand that all funds have bad periods. What they cannot tolerate is being surprised, left uninformed, or given evasive explanations. The managers who retain capital through drawdowns are the ones who communicate proactively, honestly, and specifically — explaining exactly what happened, whether the process worked as intended, and what if anything they are changing.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Five Rules of Drawdown Communication</div>
+      <p><strong>1. Communicate first, before investors call you.</strong> Proactive communication signals control and confidence.<br>
+      <strong>2. Explain specifically what drove the loss.</strong> "Markets were difficult" is not an explanation.<br>
+      <strong>3. Distinguish between process failure and bad outcomes.</strong> Good process can produce bad outcomes temporarily — be clear about which this is.<br>
+      <strong>4. Tell investors what you are doing differently, if anything.</strong> Don't change strategy just to signal action — but be honest about what you're monitoring.<br>
+      <strong>5. Never minimise or spin.</strong> Investors will forgive losses. They will not forgive dishonesty or spin.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">📝</div><div><div class="cs-meta">Case Study · Howard Marks' Investor Letters</div><div class="cs-title">How Writing Made Oaktree $170 Billion</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Howard Marks has been writing detailed investment memos to Oaktree's clients since 1990. These memos are not performance reports — they are extended essays on market cycles, risk, value, and investment philosophy. They are written with intellectual honesty, clear reasoning, and a willingness to admit uncertainty and past errors.</p>
+        <p style="margin-bottom:.75rem">The memos became so respected that investors forwarded them to other institutions — creating a viral distribution that built Oaktree's reputation far beyond its AUM. Seth Klarman, Warren Buffett, and other legendary investors have publicly cited Marks' memos as among the most valuable investment writing available. The memos attracted capital directly.</p>
+        <p>The lesson: exceptional investor communication is not a cost centre — it is a capital raising tool. Marks' memos built trust, demonstrated process, attracted new investors, and retained existing ones through difficult periods. They are the best example in modern investing of how quality IR creates a genuine competitive advantage.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Oaktree AUM: $170B+</span><span class="cs-stat">Memos started: 1990</span><span class="cs-stat">Distribution: viral via clients</span><span class="cs-stat">Effect: reputation-building, capital raising</span></div>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 7</div>
+    <ul>
+      <li>Minimum IR calendar: monthly performance reports, quarterly letters, annual audit and investor meeting, ad hoc material event notices.</li>
+      <li>More funds lose capital to poor communication than poor performance — how you communicate in difficult periods determines survival.</li>
+      <li>Drawdown communication: proactive, specific, honest, and process-focused. Never minimize or spin.</li>
+      <li>Marks' memos: exceptional investor writing is a capital-raising tool that builds reputation and trust over decades.</li>
+      <li>The standard: communicate before investors call you. Proactive communication signals control; reactive communication signals panic.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-6">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Knowledge Check — Lesson 7</div><div class="kcheck-sub">3 questions</div></div></div>
+    <div class="kq" id="kq-6-0">
+      <div class="kq-text">1. Your fund is down 12% in a difficult month. When should you communicate with investors?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,0,0,0)">A. Wait until the fund has recovered before communicating — no need to alarm investors unnecessarily</button>
+        <button class="kq-opt" onclick="answerQ(6,0,1,1)">B. Proactively, before investors call you — with a specific explanation of what drove the loss and whether the process worked as intended</button>
+        <button class="kq-opt" onclick="answerQ(6,0,2,0)">C. Only if investors ask — unsolicited communication about losses creates anxiety</button>
+        <button class="kq-opt" onclick="answerQ(6,0,3,0)">D. At the standard monthly reporting date — maintaining the regular cadence signals stability</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-0"></div>
+    </div>
+    <div class="kq" id="kq-6-1">
+      <div class="kq-text">2. Howard Marks' investor memos became a capital-raising tool primarily because:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,1,0,0)">A. They always contained specific stock recommendations that outperformed</button>
+        <button class="kq-opt" onclick="answerQ(6,1,1,1)">B. They demonstrated investment process, intellectual honesty, and framework quality — building trust and reputation that attracted new investors who had never heard of Oaktree</button>
+        <button class="kq-opt" onclick="answerQ(6,1,2,0)">C. They were legally required as part of Oaktree's RIA registration</button>
+        <button class="kq-opt" onclick="answerQ(6,1,3,0)">D. They were shorter and more readable than competitors' reports</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-1"></div>
+    </div>
+    <div class="kq" id="kq-6-2">
+      <div class="kq-text">3. When explaining a drawdown to investors, what is most important to communicate?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(6,2,0,0)">A. That external market factors beyond your control caused the loss</button>
+        <button class="kq-opt" onclick="answerQ(6,2,1,0)">B. A comparison to peers showing you performed relatively better</button>
+        <button class="kq-opt" onclick="answerQ(6,2,2,1)">C. Specifically what drove the loss, whether the investment process worked as designed, and what if anything you are changing — with complete honesty</button>
+        <button class="kq-opt" onclick="answerQ(6,2,3,0)">D. The fund's long-term track record to put the drawdown in context</button>
+      </div>
+      <div class="kq-feedback" id="kqf-6-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-6"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(5)">← Lesson 6</button>
+    <div class="lnav-mid" id="lnav-mid-6">Complete the quiz to continue</div>
+    <button class="btn-lnav btn-next" id="next-btn-6" disabled onclick="goLesson(7)">Lesson 8: Scaling the Business →</button>
+  </div>
+</div>
+
+<!-- ═══ L8: SCALING ═══ -->
+<div class="lesson-panel" id="lesson-7">
+  <div class="lesson-hero">
+    <div class="lesson-eyebrow">Phase 5 · Lesson 8 of 8</div>
+    <h1 class="lesson-title">Scaling the Business: <em>From Startup to Institution</em></h1>
+    <div class="lesson-meta"><span class="lmeta">⏱ 15 min</span><span class="lmeta">📊 Scaling roadmap</span><span class="lmeta">🧠 Final knowledge check</span></div>
+    <p class="lesson-intro">Growing from $50M to $500M to $5B requires different skills, structures, and decisions at each stage. Most funds that fail do so not because of poor performance but because they fail to adapt their business model as capital grows — falling into the capacity trap, the key person trap, or the culture decay trap.</p>
+  </div>
+  <div class="lesson-section">
+    <h2 class="ls-heading">The Three Growth Stages</h2>
+    <div class="chart-wrap">
+      <div class="chart-title">🏗️ Fund Evolution — What Changes at Each Stage</div>
+      <table class="data-table">
+        <thead><tr><th>Stage</th><th>AUM</th><th>Team</th><th>Primary Challenge</th><th>Key Decision</th></tr></thead>
+        <tbody>
+          <tr><td>Startup</td><td>$0–$100M</td><td>1–3 people</td><td>Survival — covering operational costs, building track record</td><td>When to hire first dedicated COO/CFO</td></tr>
+          <tr class="hl"><td>Growth</td><td>$100M–$500M</td><td>5–15 people</td><td>Scaling investment process without diluting alpha</td><td>How much AUM is too much for the strategy's capacity</td></tr>
+          <tr><td>Institutional</td><td>$500M–$2B</td><td>15–40 people</td><td>Maintaining culture and agility while institutionalising processes</td><td>Platform model vs single-strategy continuation</td></tr>
+          <tr><td>Scale</td><td>$2B+</td><td>40–200+ people</td><td>Alpha decay from AUM capacity constraints; business vs investment focus balance</td><td>Hard close to new capital to preserve strategy returns</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h2 class="ls-heading">The Capacity Problem — When Your Strategy Becomes Its Own Enemy</h2>
+    <p class="ls-body"><span class="def" data-word="Strategy Capacity" data-def="The maximum AUM a strategy can deploy before the fund's own trading begins to move market prices against itself, reducing returns. Small-cap and illiquid strategies have lower capacity (often $500M–$2B). Large-cap liquid strategies can often scale to $10B+." data-ex="Example: A small-cap fund running $200M can buy and sell positions without affecting prices significantly. The same fund at $5B would own such large percentages of its target companies that buying drives prices up and selling drives them down — destroying the return profile of the strategy.">Strategy capacity</span> is the invisible ceiling that destroys many great funds. A small-cap strategy that returned 25%/year at $100M may return 15% at $500M and 8% at $2B — because the fund's own trading increasingly moves the market against itself. The best fund managers close to new capital when they approach capacity — accepting lower AUM (and lower management fees) to preserve returns for existing investors.</p>
+    <div class="callout gold">
+      <div class="callout-title">💡 The Hard Close Decision</div>
+      <p>Closing a fund to new capital is one of the most counter-intuitive — and manager-friendly — decisions in the industry. It signals: (1) the manager prioritises investor returns over fee revenue, (2) the strategy has proven capacity constraints, (3) the manager has the discipline to forgo short-term income for long-term performance. Funds that close hard (Medallion, Baupost, many Tiger descendants) are considered among the highest quality — and often have the longest waiting lists when they eventually reopen.</p>
+    </div>
+    <div class="case-study">
+      <div class="cs-header"><div class="cs-icon">🏆</div><div><div class="cs-meta">Case Study · Seth Klarman and Baupost Group</div><div class="cs-title">Building a $30B Institution With a 30-Year Track Record</div></div></div>
+      <div class="cs-body">
+        <p style="margin-bottom:.75rem">Seth Klarman founded Baupost Group in 1983 with $27M. By 2023, Baupost had grown to approximately $30B in AUM — but has returned capital to investors on multiple occasions when opportunities were insufficient to deploy it attractively. Klarman's philosophy: return capital when you can't find good opportunities; ask for it back when you can.</p>
+        <p style="margin-bottom:.75rem">Baupost's annualised return since inception: approximately 20% net of fees over 40 years. Klarman's book "Margin of Safety" (1991) sold out of print and now trades for thousands of dollars secondhand — demonstrating the same principle as Howard Marks' memos: exceptional writing and thinking attract capital independently of performance marketing.</p>
+        <p>The Baupost model of growth: selective, deliberate, with the investor's interest genuinely first. Never raised more capital than the strategy could deploy. Returned capital when opportunities dried up. Built an institution from a single founder's investment philosophy over 40 years. This is the long-term model for any fund that aspires to last.</p>
+      </div>
+      <div style="margin-top:.75rem"><span class="cs-stat">Founded: 1983 with $27M</span><span class="cs-stat">Current AUM: ~$30B</span><span class="cs-stat">40-year return: ~20%/yr net</span><span class="cs-stat">Book: "Margin of Safety" — now priceless</span></div>
+    </div>
+    <div class="callout green">
+      <div class="callout-title">🎓 Course Complete — What You've Mastered</div>
+      <p>You have completed the Investor's Academy. You understand why money grows, how every asset class works, how to read financial statements, value companies, build and manage portfolios, understand hedge fund strategies, and now how to build an investment firm. You are not just an investor — you are a student of markets, capital, and the human behaviour that drives both. The real education starts now: reading, investing, making mistakes, learning from them, and compounding knowledge the same way great portfolios compound capital. Keep going. 🚀</p>
+    </div>
+  </div>
+  <div class="takeaways">
+    <div class="takeaways-title">✦ Key Takeaways — Lesson 8 & Course Complete 🎓</div>
+    <ul>
+      <li>Three growth stages: Startup ($0–100M), Growth ($100M–500M), Institutional ($500M–2B) — each requires different skills and structures.</li>
+      <li>Strategy capacity is the invisible ceiling — many great strategies cannot scale beyond $500M–2B without destroying returns.</li>
+      <li>The hard close decision — refusing new capital to preserve returns — signals quality and integrity over short-term fee maximisation.</li>
+      <li>Baupost: 40 years, 20%/yr net, returned capital when opportunities dried up — the gold standard for long-term institutional fund building.</li>
+      <li>The long-term model: selective growth, investor interests first, never take more capital than the strategy can deploy well.</li>
+    </ul>
+  </div>
+  <div class="kcheck" id="kcheck-7">
+    <div class="kcheck-header"><div class="kcheck-icon">🧠</div><div><div class="kcheck-title">Final Knowledge Check — Lesson 8</div><div class="kcheck-sub">3 questions · Complete Phase 5 & the entire course</div></div></div>
+    <div class="kq" id="kq-7-0">
+      <div class="kq-text">1. A small-cap fund returns 25%/year at $100M AUM. As it grows to $3B, returns fall to 8%. The most likely cause is:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,0,0,0)">A. Management became less focused as AUM grew</button>
+        <button class="kq-opt" onclick="answerQ(7,0,1,1)">B. Strategy capacity — the fund's own trading now moves market prices against itself, destroying the return profile that worked at smaller scale</button>
+        <button class="kq-opt" onclick="answerQ(7,0,2,0)">C. Higher fees charged as AUM grew reduced net returns</button>
+        <button class="kq-opt" onclick="answerQ(7,0,3,0)">D. Market conditions changed — small-cap no longer outperforms</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-0"></div>
+    </div>
+    <div class="kq" id="kq-7-1">
+      <div class="kq-text">2. A top hedge fund manager decides to close the fund to new capital despite strong investor demand. What does this signal?</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,1,0,0)">A. The manager is planning to shut down the fund entirely</button>
+        <button class="kq-opt" onclick="answerQ(7,1,1,1)">B. The manager prioritises investor returns over management fee income — a high-quality signal that the strategy has capacity constraints they refuse to breach</button>
+        <button class="kq-opt" onclick="answerQ(7,1,2,0)">C. The fund has regulatory problems limiting its ability to accept new investors</button>
+        <button class="kq-opt" onclick="answerQ(7,1,3,0)">D. Performance has been poor and they want to avoid scrutiny</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-1"></div>
+    </div>
+    <div class="kq" id="kq-7-2">
+      <div class="kq-text">3. Seth Klarman's practice of returning capital to investors when opportunities are scarce demonstrates:</div>
+      <div class="kq-opts">
+        <button class="kq-opt" onclick="answerQ(7,2,0,0)">A. Poor capital allocation — returning cash destroys the compounding effect</button>
+        <button class="kq-opt" onclick="answerQ(7,2,1,0)">B. Lack of conviction in the investment strategy</button>
+        <button class="kq-opt" onclick="answerQ(7,2,2,1)">C. Genuine alignment with investor interests — managing money only when it can be deployed well, not to maximise fee income when opportunities are insufficient</button>
+        <button class="kq-opt" onclick="answerQ(7,2,3,0)">D. A tax-efficient way to reduce the fund's AUM without triggering redemption fees</button>
+      </div>
+      <div class="kq-feedback" id="kqf-7-2"></div>
+    </div>
+    <div class="kcheck-result" id="kcheck-result-7"></div>
+  </div>
+  <div class="lesson-nav">
+    <button class="btn-lnav btn-prev" onclick="goLesson(6)">← Lesson 7</button>
+    <div class="lnav-mid" id="lnav-mid-7">Complete the final quiz — you've earned it!</div>
+    <button class="btn-lnav btn-next" id="next-btn-7" disabled onclick="window.location='investing-course.html'">🏆 Back to Course Home</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.def').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    document.getElementById('dict-word').textContent=el.dataset.word;
+    document.getElementById('dict-def').textContent=el.dataset.def;
+    document.getElementById('dict-example').textContent=el.dataset.ex||'';
+    const rect=el.getBoundingClientRect();
+    let top=rect.bottom+8+window.scrollY,left=rect.left;
+    if(left+320>window.innerWidth)left=window.innerWidth-325;
+    if(left<8)left=8;
+    const p=document.getElementById('dict-popup');
+    p.style.top=top+'px';p.style.left=left+'px';
+    p.classList.add('visible');
+    document.getElementById('dict-overlay').classList.add('visible');
+  });
+});
+document.getElementById('dict-close').onclick=closeDict;
+document.getElementById('dict-overlay').onclick=closeDict;
+function closeDict(){
+  document.getElementById('dict-popup').classList.remove('visible');
+  document.getElementById('dict-overlay').classList.remove('visible');
+}
+
+const answers={
+  '0-0':{c:1,e:{0:"2 years is below the 3-year minimum most institutional investors require. Even strong 2-year returns don't compensate for insufficient track record length in institutional due diligence.",1:"Correct! Institutional allocators (pension funds, endowments, fund of funds) have fiduciary duties requiring them to follow strict due diligence standards. Most require a minimum 3-year audited track record, existing relationships with the manager or credible references, and evidence that the strategy can scale. 2 years is simply insufficient in most cases — the due diligence process alone takes 6–18 months.",2:"High returns over 2 years are more likely to attract scepticism than acceptance — they raise questions about whether the performance is luck, leverage, or unsustainable concentration rather than demonstrated repeatable skill.",3:"Institutional investors are not generally seeking risk — they are seeking risk-adjusted returns with appropriate governance. They are highly selective, not indiscriminate."}},
+  '0-1':{c:1,e:{0:"Past returns are necessary but not sufficient. Research consistently shows past returns have limited predictive power. Allocators want to understand WHY the returns happened — which requires understanding edge and process.",1:"Correct! Allocators have learned — often painfully — that good past returns don't predict future returns without understanding the source. Edge (is there a real, durable advantage?), Process (can it be consistently implemented?), and Trust (will the manager act in our interest?) are the three pillars that actually predict whether an allocation will succeed over the long term.",2:"AUM size is often inversely correlated with returns (larger funds = harder to deploy capital efficiently). Small emerging managers are often sought precisely because smaller AUM allows more nimble implementation of high-return strategies.",3:"Brand and media presence can raise awareness but are not what allocators are buying. Many of the best managers are almost entirely unknown to the general public."}},
+  '0-2':{c:2,e:{0:"$10M × 2% management fee = $200k. This covers almost nothing — not even a single analyst salary, compliance, technology, and audit combined.",1:"$500M is too high — management fee economics are positive well before this level. Most lean single-strategy funds can operate sustainably from $50–100M AUM.",2:"Correct! 2% of $50M = $1M annually. A very lean operation with 2–3 people, outsourced compliance, and basic technology can run for approximately $500k–$1M/year. At $50M AUM, the management fee just barely covers these costs, meaning the fund can survive without being dependent on performance fees. The fund 'works' economically from approximately $50M.",3:"Institutional prime brokerage (Goldman, Morgan Stanley) often does require minimum AUM thresholds, but $200M is not a hard minimum — mid-tier prime brokers serve funds from $25M+."}},
+  '1-0':{c:1,e:{0:"Limited Partners provide capital, but their liability is explicitly LIMITED to the amount they invest. They cannot lose more than they put in — this limited liability protection is the primary reason investors use the LP structure.",1:"Correct! The General Partner controls the fund, makes all investment decisions, and in exchange bears unlimited personal liability for the fund's legal obligations. In practice, the GP is structured as an LLC which provides personal liability protection for the individuals — but the GP entity itself has unlimited liability. This is why GP structuring and insurance are important legal considerations at launch.",2:"Prime brokers hold assets in custody but are a service provider — they don't have liability for the fund's investment decisions or legal obligations.",3:"The GP entity has unlimited liability by design in a limited partnership structure. That's the legal foundation of the GP/LP split — GP controls and bears liability; LP invests and is protected."}},
+  '1-1':{c:1,e:{0:"Offshore fund structures are completely transparent to regulators — Cayman Islands funds are well-regulated and the primary reason for their use is tax efficiency for specific investor categories, not regulatory opacity.",1:"Correct! US taxable investors (individuals, taxable corporations) use the Delaware LP onshore vehicle because it provides pass-through tax treatment suitable for their US tax returns. Non-US investors and US tax-exempt investors (pension funds, endowments, foundations) use the Cayman Islands offshore vehicle — which avoids creating US taxable income for them through a structure called UBTI (Unrelated Business Taxable Income) exemption. Running both vehicles simultaneously through a master fund allows identical investment management for both pools.",2:"Offshore vehicles don't generate higher returns — the investment portfolio is managed identically through the master fund structure. The difference is purely in the legal and tax wrapper.",3:"There is no SEC requirement for offshore vehicles. The decision to run offshore is driven by investor needs, not regulatory mandate."}},
+  '1-2':{c:1,e:{0:"Carried interest doesn't allow the GP to take more than agreed — the 20% performance fee is the agreed amount. The controversy is about the tax rate applied to that agreed amount, not the size.",1:"Correct! The controversy: fund managers earning $50M+ in performance fees pay approximately 20% tax (long-term capital gains rate) rather than 37–45% ordinary income rates. Critics argue: this is compensation for services rendered, not a genuine capital gain — it should be taxed as ordinary income. Defenders argue: the GP co-invests alongside LPs and has genuine capital at risk, making the carry a legitimate return on invested capital. This debate has been ongoing in US and UK policy discussions for decades without full resolution.",2:"Carried interest creates alignment of interests (GP earns when LPs earn) — this is the opposite of a conflict of interest.",3:"Performance fees are paid on realised returns at the end of accounting periods, not upfront. High water marks ensure investors must be profitable before any performance fee is charged."}},
+  '2-0':{c:0,e:{0:"Correct! Personal accounts have four critical weaknesses for institutional evaluation: (1) Cherry-picking — the manager chooses which period to show, potentially selecting only their best years; (2) No audit — returns are self-reported with no independent verification; (3) Capacity — managing $500k in a personal account says nothing about ability to manage $100M without market impact; (4) Governance — no compliance framework, no risk management process, no independent oversight.",1:"Personal accounts don't structurally generate different returns — the issue is verifiability, governance, and capacity demonstration, not return level differences.",2:"Tax treatment of personal vs institutional accounts is a minor consideration. The primary issues are verifiability and governance.",3:"SEC rules do restrict what performance you can use in marketing materials, but the concern allocators have is deeper than regulatory compliance — it's about the quality of evidence the track record provides."}},
+  '2-1':{c:1,e:{0:"SMAs don't structurally generate higher returns — the investment strategy is identical to what you'd run in a fund. The advantage is purely the verification and governance structure.",1:"Correct! When managing an SMA, the client owns the securities directly in their own brokerage account. They can see every trade, verify every position, and confirm the performance independently. There is no 'trust the manager's reported returns' problem — the returns are verifiable directly from brokerage statements. This creates a track record that is as close to audited fund performance as possible without the full fund infrastructure cost.",2:"SMAs are regulated — they are discretionary investment management agreements subject to investment adviser regulations. They are not exempt from regulatory oversight.",3:"SMA performance cannot simply be presented as 'fund performance' — it must be disclosed as SMA or managed account performance. But it is considered verifiable and credible by most institutional allocators if properly documented."}},
+  '2-2':{c:2,e:{0:"Dalio's memos are explicitly not trading recommendations — they discuss investment philosophy, market cycles, and economic analysis at a conceptual level, not specific trade ideas.",1:"Dalio's memos are notable for acknowledging errors and uncertainty — he famously wrote about his 1982 mistake where he predicted a US depression that didn't materialise. Being right all the time is not what made the memos valuable.",2:"Correct! The memos allowed allocators to understand Dalio's investment framework, his thinking process, his intellectual honesty, and his economic analysis — independent of his actual returns. Allocators who read them could evaluate whether they agreed with the framework and trusted the process. This process credibility attracted capital from investors who would never have found Bridgewater through traditional sales channels.",3:"Investor memos are marketing communications and subject to certain regulatory requirements, but they are not required to satisfy any specific SEC/FCA obligations that drove their format or frequency."}},
+  '3-0':{c:1,e:{0:"Family offices' largest tickets are $50M at the top end — far less than pension funds ($500M+). Their advantage is process speed and relationship orientation, not ticket size.",1:"Correct! The institutional capital-raising spectrum runs from most accessible (family offices) to least accessible (pension funds/endowments). Family offices make faster decisions because a single individual (the family's CIO or patriarch) often has full authority. They are more relationship-driven — a warm introduction matters more than a 5-year track record. And they have lower bureaucratic requirements than pension funds, which must satisfy investment committees, consultant approval, and trustees before committing.",2:"Family offices don't inherently have lower return expectations — many are sophisticated and demanding. Their advantage is process accessibility, not performance leniency.",3:"The 3-year track record is a strong preference, not an absolute rule for family offices. Some family offices will invest in managers they know personally at earlier stages — which is one reason the manager network matters so much."}},
+  '3-1':{c:1,e:{0:"Seed deals are not loans in the traditional sense — the seeder is making an investment in exchange for revenue sharing, not principal repayment. The $50M is invested in the fund as LP capital.",1:"Correct! The revenue share is calculated on total fee revenue, not just management fees. $3M total fees × 30% revenue share = $900k to the seeder. Over 4 years, if the fund's fees grow as AUM grows, the seeder might receive $3–5M total — not bad for providing $50M of capital and operational support. The manager retains $2.1M in Year 1 after the revenue share, gradually keeping more as the percentage share reduces or eventually ends.",2:"Revenue sharing is based on the agreed percentage (30%) of total fees, not the seeder's capital percentage (which would be 50% if $50M/$100M total AUM). These are two different calculations.",3:"Revenue sharing typically begins immediately upon launch and applies to all fee revenue from Day 1. There are no typical grace periods."}},
+  '3-2':{c:2,e:{0:"Pension funds and endowments are among the most risk-averse institutional investors — they are almost never first movers on emerging manager allocations. Their fiduciary duties and governance structures require extensive due diligence that takes 12–24 months.",1:"One quarter of performance (3 months) is statistically meaningless for evaluating investment skill. No serious pension fund would invest after one quarterly report.",2:"Correct! Pension funds have strict fiduciary duties and typically require: 3-year audited track record, institutional-quality operations, approval from investment consultants, sign-off from investment committees, and often trustee board approval. This process takes 12–24 months minimum. Year 3 is typically the earliest any pension fund would seriously consider an emerging manager, and many require 5 years. This is why capital raising starts with individuals and family offices — they are the bridge to institutional capital.",3:"$1B AUM is not a universal threshold for pension fund investment — many pension funds actively seek smaller ($200–500M) emerging managers for better return potential, but the track record and governance requirements still apply."}},
+  '4-0':{c:1,e:{0:"$10M is far too low — small funds under $25–50M don't need SEC registration and typically use state-level investment adviser registration instead.",1:"Correct! The Investment Advisers Act of 1940 requires advisers with $100M+ in AUM to register with the SEC as Registered Investment Advisers (RIAs). Funds below $100M typically register with their home state securities regulator (e.g. California DFI, New York DFS) under state investment adviser statutes. At $100M, the fund transitions to federal SEC oversight with more extensive ongoing reporting requirements.",2:"$1B is the threshold for some more intensive SEC reporting requirements (Form PF detailed reporting), but $100M is the basic RIA registration threshold.",3:"SEC registration is not optional for advisers above the threshold — it is mandatory, and operating as an unregistered adviser above $100M is a serious regulatory violation."}},
+  '4-1':{c:1,e:{0:"Trading volume does make patterns more visible, but the primary vulnerability is the network exposure — not trading patterns per se.",1:"Correct! Hedge fund managers attend industry conferences, sit on corporate boards, talk to management teams, interact with investment bankers working on deals, and have colleagues who work at companies they analyse. This rich information environment creates constant exposure to information that may be material and non-public. Unlike a retail investor with no corporate connections, a hedge fund manager has dozens of potential MNPI touchpoints monthly — making clear policies, training, and monitoring essential.",2:"All investors are subject to the same insider trading laws — hedge funds are not subject to different rules, only potentially higher scrutiny due to their scale and sophistication.",3:"Fund managers are personally liable for their own trading on inside information, but LP investors in a fund are generally not personally liable for the manager's violations — that's borne by the fund and manager entities."}},
+  '4-2':{c:2,e:{0:"Unusual trading patterns were one red flag, but they alone were insufficient for criminal prosecution. The FBI needed direct evidence of the information exchange.",1:"Competitor tips may have contributed to the investigation's initiation, but wiretap evidence was the definitive prosecutorial tool.",2:"Correct! In 2008, the FBI obtained court authorisation to wiretap Rajaratnam's phone — the first time wiretaps had been used in a securities fraud investigation in the US. The recordings captured Rajaratnam receiving calls from corporate insiders sharing earnings results, merger plans, and other material non-public information minutes before trades were made. This direct audio evidence of the information exchange made prosecution straightforward. The case established that the FBI was willing and capable of using law enforcement techniques from organised crime investigations in financial fraud cases.",3:"Prime broker records show trades but not the decision-making process behind them. The FBI needed evidence of the information exchange itself, not just the trading outcomes."}},
+  '5-0':{c:1,e:{0:"Legal requirements for independent administration vary by jurisdiction — some require it, some don't. But the investor protection rationale goes beyond legal compliance.",1:"Correct! Madoff's fraud survived for 20+ years partly because he served as his own administrator — calculating his own NAV without independent verification. An independent administrator is a third party with no financial interest in overstating performance. They independently calculate NAV from position data verified against prime broker records. This is the single most important operational safeguard against performance fabrication. Even where not legally required, it is considered industry-standard minimum practice.",2:"Fund administrators use similar accounting software to in-house teams — the value is independence, not technology superiority.",3:"Independent administration adds cost to the fund — it is typically a cost centre, not a savings generator."}},
+  '5-1':{c:1,e:{0:"Prime brokers do not guarantee returns — they are service providers, not return guarantors.",1:"Correct! Top-tier prime brokers like Goldman Sachs operate significant Capital Introduction teams whose explicit function is introducing their hedge fund clients to institutional investors seeking new manager allocations. Being a Goldman PB client signals institutional quality (Goldman is selective about who they take on) and provides access to their investor network. For emerging managers, a Goldman relationship can catalyse introductions that would otherwise take years to arrange independently.",2:"Bloomberg Terminals are paid by the fund as a separate subscription — not provided by the prime broker.",3:"Compliance advisory is a separate service category — prime brokers provide execution and custody infrastructure, not legal compliance advice."}},
+  '5-2':{c:1,e:{0:"$5M × 2% = $100k — covering perhaps a single junior analyst's salary. Nowhere near sufficient for minimum operational infrastructure.",1:"Correct! 2% of $20M = $400k annually. A minimal operation running on outsourced administration, basic technology, and 1–2 people can just about survive at this level. Below $20M, the management fee doesn't cover costs and the manager is personally subsidising the business. This is why the $25–50M first close target matters — below it, the economics don't work without personal cash infusion.",2:"Operational costs don't scale linearly with AUM — they scale with complexity and headcount, not portfolio size. A $500M fund is not 25× more expensive to run than a $20M fund.",3:"Management fees only become pure profit after operational costs are covered. Below breakeven AUM, management fees are partial cost offset, not profit."}},
+  '6-0':{c:1,e:{0:"Waiting until recovery before communicating is exactly the wrong approach. If investors discover the drawdown independently (through their own pricing or other sources) before you tell them, the trust damage is far worse than the drawdown itself.",1:"Correct! Proactive communication is the single most important principle in drawdown investor relations. When investors hear from you first — before they've had to chase you — it signals: you are in control, you are monitoring the situation, you respect their right to information, and you are not hiding anything. The 12% drawdown is bad; investors finding out through their own means rather than from you is worse. Contact investors within 24–48 hours of a significant adverse event.",2:"Unsolicited communication about losses demonstrates professional management, not alarm. Investors who don't hear from their manager during difficult periods become anxious precisely because of the silence.",3:"The monthly report is the minimum communication — it is not sufficient for a significant drawdown. Waiting 10–20 business days for the monthly report after a 12% loss is unacceptable at institutional standards."}},
+  '6-1':{c:1,e:{0:"The memos explicitly do not contain specific stock recommendations — Marks writes about investment philosophy and market cycles, not actionable trade ideas.",1:"Correct! The memos built Oaktree's reputation by demonstrating Marks' investment framework, his thinking about market cycles and risk, his intellectual honesty (acknowledging when he didn't know something), and his ability to articulate complex ideas clearly. Investors who read them gained confidence in the quality of thinking behind Oaktree's investment process — independently of returns. This confidence attracted capital from institutions who had not worked with Oaktree before, based purely on the quality of the written work.",2:"Oaktree's memos are marketing-adjacent communications but they are not a legal regulatory requirement — they are a deliberate strategic choice.",3:"Length and readability are minor attributes. The value was intellectual quality and integrity, not formatting choices."}},
+  '6-2':{c:2,e:{0:"'External factors' is the most common and least satisfying explanation a manager can give. Every manager faces external factors — the question is how your process handled them.",1:"Peer comparison can provide context but should be secondary. Leading with 'we lost less than others' sounds defensive and shifts focus from accountability to relativism.",2:"Correct! The three critical elements of drawdown communication: (1) Specifically what caused the loss — name the positions, the thesis errors, the market dynamics that drove performance; (2) Whether the process worked as designed — sometimes good process produces bad outcomes temporarily, and explaining this distinction is crucial; (3) What if anything you are changing — don't change strategy just to signal action, but be honest about what you're monitoring more closely. Honesty about all three builds lasting trust.",3:"Long-term context is useful but insufficient on its own. Investors know the long-term record — they need explanation of this specific period to maintain confidence in the forward outlook."}},
+  '7-0':{c:1,e:{0:"Management focus is a legitimate concern at larger AUM but is not the primary mechanical explanation for return degradation in a small-cap strategy.",1:"Correct! Small-cap strategy capacity is a well-documented phenomenon. At $100M, a fund can buy 1–2% of a $50M market cap company without meaningfully moving the price. At $3B, to maintain the same concentration requires either buying into large-cap stocks (where the edge doesn't apply) or buying larger stakes in small companies — which moves the price up on purchase and down on sale. The fund's own trading becomes its biggest headwind. This is why the best small-cap managers hard-close at relatively modest AUM levels.",2:"Management fees don't change mechanically as AUM grows — the 2% fee would actually increase absolute revenue as AUM grows. Fees are not the cause of return decay.",3:"Small-cap factors have been persistent across market cycles. The return decay is specifically related to this fund's capacity constraints, not a general failure of small-cap as a strategy."}},
+  '7-1':{c:1,e:{0:"Closing to new capital is a business decision about the fund's current strategy, not a signal about the fund's long-term continuation. Closed funds are often permanently operating — just not accepting new money.",1:"Correct! Hard closing is one of the highest-quality signals a fund manager can send. It says: I care more about generating good returns for existing investors than about growing my AUM and management fee income. At $1B+ AUM, a 2% management fee generates $20M+ annually — a manager who closes despite this revenue opportunity is demonstrating genuine alignment with investors. This is why funds that close (Medallion, Baupost, Tiger-descendant funds at various times) are the most sought-after — when they eventually reopen, waiting lists form immediately.",2:"Compliance issues would be a serious negative signal, not an ambiguous one. A clean fund closure to new capital is unambiguously positive.",3:"Closing to new capital has no relationship to poor performance — it is typically done by funds with the best performance who face genuine capacity constraints."}},
+  '7-2':{c:2,e:{0:"Returning cash does temporarily reduce compounding, but the logic is: it's better to earn 20% on $20B of genuinely deployable capital than 8% on $30B of overcrowded capital. Selective deployment maximises long-run compounding.",1:"Returning capital when opportunities are scarce is the highest expression of investment conviction: conviction that getting the right returns matters more than appearing fully invested. Keeping capital during poor opportunity environments and deploying it when exceptional opportunities arise is exactly the right process.",2:"Correct! Klarman's practice demonstrates what genuine investor alignment looks like: when he couldn't find enough attractive opportunities to deploy capital at target returns, he returned it rather than investing in mediocre ideas just to stay fully invested or to earn management fees. This is the opposite of what maximises fee income — it is what maximises investor returns. The result over 40 years: 20% annualised, $30B in AUM from $27M, and a reputation as one of the most trusted fund managers in institutional investment history.",3:"Returning capital to investors typically triggers capital gains taxes for investors when they receive the distributions — it is not generally a tax-efficient strategy for LPs."}}
+};
+
+const quizState={};
+function answerQ(L,Q,opt,isC){
+  const qId=`kq-${L}-${Q}`,fbId=`kqf-${L}-${Q}`;
+  document.querySelectorAll(`#${qId} .kq-opt`).forEach((b,i)=>{
+    b.classList.add('locked');b.onclick=null;
+    if(i===answers[`${L}-${Q}`].c)b.classList.add('correct');
+    else if(i===opt&&!isC)b.classList.add('wrong');
+  });
+  const fb=document.getElementById(fbId);
+  fb.textContent=(answers[`${L}-${Q}`].e||{})[opt]||(isC?'✓ Correct!':'✗ Incorrect.');
+  fb.className='kq-feedback show '+(isC?'ok':'bad');
+  if(!quizState[L])quizState[L]={answered:0,correct:0,total:3};
+  if(!quizState[L][Q]){
+    quizState[L][Q]=true;quizState[L].answered++;
+    if(isC)quizState[L].correct++;
+    checkDone(L);
+  }
+}
+function checkDone(L){
+  const s=quizState[L];
+  if(s.answered<s.total)return;
+  const pass=s.correct>=2;
+  const r=document.getElementById(`kcheck-result-${L}`);
+  r.textContent=pass?`🎉 ${s.correct}/${s.total} correct — ${L===7?'🏆 Course Complete!':'Next lesson unlocked!'}`:`${s.correct}/${s.total} — Review the lesson and continue when ready.`;
+  r.className='kcheck-result show '+(pass?'pass':'fail');
+  const nb=document.getElementById(`next-btn-${L}`);
+  if(nb)nb.disabled=false;
+  const mid=document.getElementById(`lnav-mid-${L}`);
+  if(mid)mid.textContent=pass?(L===7?'🏆 Investor\'s Academy Complete!':'✓ Passed!'):'📖 Complete — continue when ready';
+  document.querySelectorAll('.sb-item')[L]?.classList.add('done');
+  updateProgress(L+1);
+}
+function goLesson(i){
+  document.querySelectorAll('.lesson-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`lesson-${i}`).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach((el,j)=>{
+    el.classList.remove('active');if(j===i)el.classList.add('active');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateProgress(i);
+}
+function updateProgress(n){
+  const pct=Math.max(Math.round((n/8)*100),12);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=`${n} / 8 lessons`;
+}
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(b=>{
+        const w=b.style.width;b.style.width='0';
+        setTimeout(()=>b.style.width=w,100);
+      });
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:.2});
+document.querySelectorAll('.chart-wrap').forEach(c=>obs.observe(c));
+</script>
+<!-- ═══ STUDYCOACH AI ASSISTANT ═══ -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+#sc-assistant-btn{position:fixed;bottom:24px;right:24px;z-index:9000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(168,85,247,.5);display:flex;align-items:center;justify-content:center;transition:transform .2s,box-shadow .2s;font-size:1.4rem}
+#sc-assistant-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(168,85,247,.7)}
+.sc-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#00d4a0;border-radius:50%;border:2px solid #070709}
+#sc-chat-panel{position:fixed;bottom:90px;right:24px;z-index:9000;width:360px;max-height:520px;background:#0e0e12;border:1px solid #1e1e2e;border-radius:16px;box-shadow:0 16px 60px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .25s cubic-bezier(.34,1.56,.64,1);font-family:'DM Sans',sans-serif}
+#sc-chat-panel.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.sc-header{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;background:#13131a;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#4f8cff);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.sc-hname{font-weight:600;font-size:.88rem;color:#e8e8f0}
+.sc-hstatus{font-size:.72rem;color:#00d4a0}
+.sc-close{background:none;border:none;color:#7a7a9a;cursor:pointer;font-size:1rem;padding:.2rem;line-height:1;margin-left:auto}
+.sc-close:hover{color:#e8e8f0}
+.sc-ctx{padding:.5rem 1rem;background:#070709;border-bottom:1px solid #1e1e2e;flex-shrink:0}
+.sc-ctx-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);border-radius:20px;padding:.25rem .7rem;font-size:.72rem;color:#a855f7;font-family:'DM Mono',monospace}
+.sc-msgs{flex:1;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.sc-msgs::-webkit-scrollbar{width:4px}.sc-msgs::-webkit-scrollbar-thumb{background:#1e1e2e;border-radius:2px}
+.sc-m{max-width:85%;display:flex;flex-direction:column;gap:.2rem}
+.sc-m.u{align-self:flex-end;align-items:flex-end}.sc-m.a{align-self:flex-start;align-items:flex-start}
+.sc-b{padding:.6rem .85rem;border-radius:12px;font-size:.84rem;line-height:1.55}
+.sc-m.u .sc-b{background:linear-gradient(135deg,#a855f7,#7c4dff);color:#fff;border-radius:12px 12px 2px 12px}
+.sc-m.a .sc-b{background:#13131a;color:#e8e8f0;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px}
+.sc-t{font-size:.65rem;color:#7a7a9a;font-family:'DM Mono',monospace}
+.sc-typing{display:flex;gap:.3rem;padding:.6rem .85rem;background:#13131a;border:1px solid #1e1e2e;border-radius:2px 12px 12px 12px;width:fit-content}
+.sc-typing span{width:6px;height:6px;border-radius:50%;background:#a855f7;animation:scB 1.2s infinite}
+.sc-typing span:nth-child(2){animation-delay:.2s}.sc-typing span:nth-child(3){animation-delay:.4s}
+@keyframes scB{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.sc-sugg{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem;flex-shrink:0;border-top:1px solid #1e1e2e}
+.sc-s{background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.2);border-radius:20px;padding:.3rem .75rem;font-size:.75rem;color:#4f8cff;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sc-s:hover{background:rgba(79,140,255,.18)}
+.sc-row{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid #1e1e2e;flex-shrink:0;background:#13131a}
+.sc-in{flex:1;background:#0e0e12;border:1px solid #1e1e2e;border-radius:8px;padding:.55rem .85rem;color:#e8e8f0;font-size:.84rem;font-family:'DM Sans',sans-serif;resize:none;outline:none;transition:border-color .2s;min-height:36px;max-height:100px;line-height:1.4}
+.sc-in::placeholder{color:#7a7a9a}.sc-in:focus{border-color:#a855f7}
+.sc-send{background:#a855f7;border:none;border-radius:8px;width:36px;height:36px;cursor:pointer;color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.sc-send:hover{opacity:.85}.sc-send:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:480px){#sc-chat-panel{width:calc(100vw - 20px);right:10px;bottom:80px}#sc-assistant-btn{right:16px;bottom:16px}}
+</style>
+<button id="sc-assistant-btn" onclick="scToggle()" title="Ask your AI tutor">🎓<div class="sc-badge"></div></button>
+<div id="sc-chat-panel">
+  <div class="sc-header"><div class="sc-avatar">🎓</div><div><div class="sc-hname">StudyCoach AI</div><div class="sc-hstatus">● Online</div></div><button class="sc-close" onclick="scToggle()">✕</button></div>
+  <div class="sc-ctx"><div class="sc-ctx-pill" id="sc-pill">📚 Investor's Academy</div></div>
+  <div class="sc-msgs" id="sc-msgs"><div class="sc-m a"><div class="sc-b">Hi! I'm your AI tutor 👋 Ask me anything about the course — concepts, examples, or quiz help!</div><div class="sc-t">Now</div></div></div>
+  <div class="sc-sugg" id="sc-sugg"><button class="sc-s" onclick="scSug(this)">Explain this simply</button><button class="sc-s" onclick="scSug(this)">Real-world example</button><button class="sc-s" onclick="scSug(this)">Quiz me</button></div>
+  <div class="sc-row"><textarea class="sc-in" id="sc-in" placeholder="Ask anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();scSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea><button class="sc-send" id="sc-btn" onclick="scSend()">↑</button></div>
+</div>
+<script>
+(function(){
+  let open=false,hist=[],busy=false;
+  const sys=`You are a friendly expert tutor for StudyCoach Academy, an investment education platform. Answer questions clearly as a knowledgeable friend — use real examples, keep responses concise (2-4 sentences for simple questions), and make learning enjoyable. Current lesson context: the student is studying investing and financial markets. Never give personal investment advice — keep it educational.`;
+  window.scToggle=function(){open=!open;document.getElementById('sc-chat-panel').classList.toggle('open',open);if(open){const ey=document.querySelector('.lesson-eyebrow');if(ey)document.getElementById('sc-pill').textContent='📚 '+ey.textContent.trim();document.getElementById('sc-in').focus();}};
+  window.scSug=function(b){document.getElementById('sc-in').value=b.textContent;document.getElementById('sc-sugg').style.display='none';scSend();};
+  window.scSend=async function(){
+    const inp=document.getElementById('sc-in'),txt=inp.value.trim();
+    if(!txt||busy)return;
+    inp.value='';inp.style.height='auto';
+    document.getElementById('sc-sugg').style.display='none';
+    scMsg('u',txt);hist.push({role:'user',content:txt});
+    busy=true;document.getElementById('sc-btn').disabled=true;
+    const msgs=document.getElementById('sc-msgs');
+    const typ=document.createElement('div');typ.className='sc-m a';
+    typ.innerHTML='<div class="sc-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(typ);msgs.scrollTop=msgs.scrollHeight;
+    try{
+      const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:hist})});
+      const d=await r.json();typ.remove();
+      const reply=d.content?.[0]?.text||'Sorry, try again!';
+      scMsg('a',reply);hist.push({role:'assistant',content:reply});
+      if(hist.length>20)hist=hist.slice(-16);
+    }catch(e){typ.remove();scMsg('a','Connection issue — please try again.');}
+    busy=false;document.getElementById('sc-btn').disabled=false;document.getElementById('sc-in').focus();
+  };
+  function scMsg(role,text){
+    const c=document.getElementById('sc-msgs'),now=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');el.className='sc-m '+role;
+    const fmt=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,.15);padding:.1rem .3rem;border-radius:3px;font-size:.8em">$1</code>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+    el.innerHTML=`<div class="sc-b">${fmt}</div><div class="sc-t">${now}</div>`;
+    c.appendChild(el);c.scrollTop=c.scrollHeight;
+  }
+})();
+</script>
+
+</body>
+</html>
